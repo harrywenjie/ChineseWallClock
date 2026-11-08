@@ -13,7 +13,7 @@
 - The source is a user-provided Codex session log; the deployment date is **2026-07-23**, inferred from the build artifacts. The chat excerpt shows a shell timestamp of 14:52 but no date.
 - The log covers the pre-flash audit, build, approval, esptool write, automatic + independent verification, first boot, web UI, configuration change and Wi-Fi preservation.
 - The raw chat log is not committed. The public record is [2026-07-23 K4-03 deployment](../evidence/2026-07-23-k4-03-deployment.md).
-- Private values omitted from the public record: MAC address, SSID, LAN addresses, AP chip suffix and the private backup path. The K4-03 factory backup itself contains Wi-Fi credentials and must never enter Git.
+- Private values omitted from the public record: MAC address, SSID, LAN addresses, AP chip suffix and the private backup path. The K4-03 factory backup contains the saved Wi-Fi configuration (SSID confirmed in the SDK region) and must never enter Git.
 - Retained values: the actual unit is a **K4-03**; ESP8266EX, 26 MHz, 4 MB; CP210x on `COM3`; backup 4,194,304 bytes, SHA-256 `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E`; flashed image 485,280 bytes, SHA-256 `5E4F281421DCE894FED3F03DD9599AF8A690218A85C70B6A5A5DB466748D3D1D`; esptool 5.3.1; offset `0x000000`; no full erase; verification passed.
 
 ## 3. Mapping and disposition
@@ -59,3 +59,4 @@
 - Do not treat the upstream K2-02 factory image as a K4-03 restore image.
 - **Next task:** `VAL-2026-11` — hardware checklist on the deployed unit; this is a record, not execution authorisation.
 - **Delivery:** the deployment record was committed as `ec6507f` and pushed to `origin/master` on 2026-11-08; this delivery note was corrected in a follow-up commit.
+- **Superseded details:** the confirmed date, hardware preparation, backup handling and human test results are updated in the [hardware and tests record](2026-11-08-k4-03-hardware-and-tests.md). The rest of this record remains historical.

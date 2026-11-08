@@ -49,6 +49,7 @@ The actual K4-03 deployment saved `Pacific/Auckland` and `nz.pool.ntp.org`; the 
 - NTP unreachable: `ntpClock.setup()` logs an error; `SystemClockLoop` is expected to use the DS3231 backup. The exact fallback timing is library behaviour and is **not verified on hardware** in this workspace.
 - DS3231 missing or battery dead: `dsClock.setup()` is not checked; the system may still run from NTP when the network is available, but the failure is not explicitly logged.
 - Both unavailable: the system clock may remain unset; the display will show whatever epoch-derived time results. The UI does not expose a “time not set” state.
+- On the actual K4-03, the maintainer reports automatic recovery after a network outage. That is a human observation, not an isolated RTC-only test; the RTC-vs-Wi-Fi path remains **not separately instrumented**.
 - Power loss: the DS3231 battery is intended to keep time; battery condition and drift are not measured here.
 
 ## 5. Test checklist

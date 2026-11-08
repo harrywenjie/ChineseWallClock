@@ -117,7 +117,7 @@ The portal was then used to save:
 | Auto brightness | on |
 | Brightness | 255 |
 
-The serial echo showed `clever` missing from the JSON because of the defect in §6; the saved file still loaded correctly with the default `true`. Syslog is UDP 514; an empty server disables the client. Wi-Fi credentials are not in `/halclock.conf`; they live in the ESP8266 SDK flash region and were preserved by the sketch-only flash. See [the deployment record](../../evidence/2026-07-23-k4-03-deployment.md).
+The serial echo showed `clever` missing from the JSON because of the defect in §6; the saved file still loaded correctly with the default `true`. Syslog is UDP 514; an empty server disables the client. Wi-Fi configuration is not in `/halclock.conf`; it lives in the ESP8266 SDK flash region and was preserved by the sketch-only flash. Later the maintainer found auto brightness too dark and switched to fixed manual brightness; the exact value/time is not recorded. See [the deployment record](../../evidence/2026-07-23-k4-03-deployment.md).
 
 ## 10. UI reference
 

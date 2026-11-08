@@ -2,13 +2,14 @@
 
 This page records what the fork actually did after cloning the upstream project. The tracked source has no fork changes; fork commits are documentation only. The fork-local evidence is a mix of the ignored `temp/` build records and a user-provided Codex deployment log, curated in `docs/evidence/`.
 
-Times below are workspace local time (UTC+12 in July 2026), reconstructed from the clone reflog, file modification times and the chat excerpt. They are not a formal session log; the deployment date is inferred from the build artifacts.
+Times below are workspace local time (UTC+12 in July 2026), reconstructed from the clone reflog, file modification times and the chat excerpt. They are not a formal session log; the deployment date is confirmed by the maintainer as **2026-07-23**.
 
 ## 1. Timeline
 
 | Time | Operation | Evidence |
 |---|---|---|
 | 2026-01-27 20:03 UTC | Fork `harrywenjie/ChineseWallClock` created from `halacs/wallclock` | GitHub API metadata |
+| 2026-07-23 (time not recorded) | Soldering/serial/GND troubleshooting; two full factory reads; backup verified | [hardware preparation](../evidence/2026-07-23-k4-03-hardware-preparation.md) |
 | 2026-07-23 14:08:33 +12 | Local clone from the fork remote, HEAD `d55188e` | `.git` reflog, `git status` |
 | 2026-07-23 ~14:22–14:26 | Downloaded Arduino CLI 0.35.3 and 1.5.1, Arduino IDE 2.3.2 source; created a local CLI config; installed ESP8266 core 3.1.2; extracted the bundled libraries; created a PDF virtualenv and rendered the schematic | `temp/downloads/`, `temp/toolchain/`, `temp/arduino-cli.yaml`, `temp/arduino-data/`, `temp/bundled/`, `temp/pdf-venv/`, `temp/pdfs/` |
 | 2026-07-23 14:27 | `default` build | `temp/logs/build-default.log`, `temp/artifacts/default/` |
@@ -22,8 +23,8 @@ Times below are workspace local time (UTC+12 in July 2026), reconstructed from t
 
 There are **no tracked firmware-source changes** in the fork: the build-time copied `.cpp` files match the upstream source after the generated `#line` directive, and the tracked source is still upstream `d55188e`. The fork-local work is documentation plus the uncommitted `temp/` build environment and the deployment itself.
 
-- **Actual unit:** BAIYANGSHU **K4-03**, not the upstream K2-02. ESP8266EX, 26 MHz, 4 MB flash. The upstream K2-02 schematic was used as the wiring reference, but electrical equivalence is not proven.
-- **Factory backup:** full 4 MiB read twice; both 4,194,304-byte copies matched SHA-256 `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E`. The backup is private, contains Wi-Fi credentials, and must never enter Git.
+- **Actual unit:** BAIYANGSHU **K4-03**, not the upstream K2-02. ESP8266EX, 26 MHz, 4 MB flash. The upstream K2-02 schematic was used as the wiring reference, but electrical equivalence is not proven. Physical preparation and pin confirmations: [hardware preparation](../evidence/2026-07-23-k4-03-hardware-preparation.md).
+- **Factory backup:** full 4 MiB read twice; both 4,194,304-byte copies matched SHA-256 `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E`. The backup is private, contains the saved Wi-Fi configuration (not just firmware), and must never enter Git. [Backup manifest](../evidence/2026-07-23-k4-03-backup-manifest.md).
 - **Arduino CLI:** 0.35.3 was used; 1.5.1 was also downloaded. Both Windows 64-bit archives are in `temp/downloads/`.
 - **Arduino IDE:** 2.3.2 source archive (`arduino-ide-2.3.2-source.zip`, 3,326,414 bytes) was downloaded, apparently to inspect or reproduce the IDE's build options.
 - **ESP8266 core:** `esp8266:esp8266` **3.1.2**, installed under `temp/arduino-data/packages/esp8266/hardware/esp8266/3.1.2`.
@@ -63,15 +64,16 @@ The deployment is recorded in detail in [2026-07-23 K4-03 deployment](../evidenc
 - First boot: LittleFS mounted, no config file, defaults loaded; the preserved SDK Wi-Fi credentials reconnected the device; the web UI was reachable.
 - The portal then saved `Pacific/Auckland`, `nz.pool.ntp.org`, empty syslog and the display options; the second boot read the config back and used `REASON_SOFT_RESTART`.
 - Only `0x000000–0x076FFF` was written, so the SDK Wi-Fi parameter region was preserved.
+- Human feedback: Wi-Fi was reused, the configuration AP is closed, and the clock automatically recovers after a network outage. Auto brightness was too dark; the maintainer switched to fixed manual brightness.
 
-This is a **software/deployment pass**, not a full hardware-compatibility qualification.
+This is a **software/deployment pass**, not a full hardware-compatibility qualification. Display segment details and the auto-brightness cause remain partial.
 
 ## 5. What is still missing
 
-- Detailed display segment/ghosting, second-LED, RTC offline-retention and automatic-brightness results. The maintainer reported the device looked normal, but no detailed test record was supplied.
-- Exact deployment date/time; the chat excerpt shows only 14:52 and the date is inferred from the build artifacts.
-- The raw Codex chat log is not committed; the curated record is the public source. Private values (MAC, SSID, LAN IP, AP suffix, backup path) are deliberately omitted.
-- OTA upload, web-UI firmware upload, watchdog under network loss, power-cycle persistence, corrupt-config recovery and long-term drift remain unverified.
+- Detailed display segment/ghosting and second-LED results. The maintainer reported the device looked normal, but no detailed test record was supplied.
+- The exact auto-brightness cause and A0/PWM measurements. The maintainer reports network-loss recovery, but the RTC-only path was not isolated.
+- The raw Codex chat logs are not committed; the curated records are the public source. Private values (MAC, SSID, LAN IP, AP suffix, backup path) are deliberately omitted.
+- OTA upload, web-UI firmware upload, watchdog under network loss, power-cycle persistence, corrupt-config recovery and long-term Wi-Fi stability remain unverified.
 - The K2-02 vs K4-03 electrical differences are not documented; only the K2-02 schematic and the actual K4-03 boot behaviour are available.
 
 ## 6. Relation to upstream
@@ -81,6 +83,8 @@ The fork's tracked source is upstream `d55188e`; documentation commits do not ch
 ## 7. Preserved evidence
 
 - [2026-07-23 K4-03 deployment](../evidence/2026-07-23-k4-03-deployment.md) — actual build, backup, flash, verification, boot logs and config.
+- [2026-07-23 hardware preparation](../evidence/2026-07-23-k4-03-hardware-preparation.md) — soldering, serial/GND troubleshooting, pin confirmations, auto-brightness finding.
+- [2026-07-23 backup manifest](../evidence/2026-07-23-k4-03-backup-manifest.md) — private full-flash backup and restore plan (raw image not in repo).
 - [2026-07-23 fork build](../evidence/2026-07-23-fork-build/README.md) — tool versions, build variants, logs, config/script copies, artifact hashes.
 - [2026-11-08 local build](../evidence/2026-11-08-local-build.md) — independent compile verification.
 - [Validation](../VALIDATION.md) — what the evidence does and does not qualify.

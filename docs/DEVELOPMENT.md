@@ -8,13 +8,13 @@ This is the only current-state and next-task entry. Read §1, §2, §5 and §7 f
 
 **Non-goals:** firmware changes, dependency upgrades, opening/flashing the clock, merging upstream, publishing a release.
 
-**Focus:** `DOC-2026-11-08` — documentation baseline plus the actual K4-03 deployment record.
+**Focus:** `DOC-2026-11-08` — documentation baseline plus the K4-03 deployment record.
 
-**Latest validation:** 2026-07-23 K4-03 deployment **PASS** (build/flash/verify/boot/config/Wi-Fi) — [record](evidence/2026-07-23-k4-03-deployment.md); 2026-11-08 compile **PASS** (485,280 bytes, IRAM 95 %) — [build](evidence/2026-11-08-local-build.md). Display/RTC/brightness details partial.
+**Latest validation:** 2026-07-23 K4-03 deployment **PASS** (build/flash/verify/boot/config/Wi-Fi/AP; recovery reported) — [record](evidence/2026-07-23-k4-03-deployment.md); 2026-11-08 compile **PASS** (485,280 bytes, IRAM 95 %) — [build](evidence/2026-11-08-local-build.md). Auto brightness too dark; fixed workaround. Detailed display/RTC still partial.
 
 **Deployment baseline:** actual K4-03, 2026-07-23; firmware `5E4F…` (485,280 B), esptool 5.3.1, `0x000000`, verified; inherited v1.1 (485,248 B) is upstream.
 
-**Blockers:** no recorded detailed hardware-test results for display segments, RTC retention and auto brightness.
+**Blockers:** detailed display/RTC results and the auto-brightness cause are not recorded.
 
 ## 2. Authoritative sources and reading conditions
 
@@ -22,7 +22,7 @@ This is the only current-state and next-task entry. Read §1, §2, §5 and §7 f
 |---|---|---|
 | Upstream intent, inherited releases/factory artifacts | [`README.md`](../README.md), [`history/README.md`](history/README.md) | Provenance or original intent |
 | Fork-local operations and build evidence | [`history/fork-operations.md`](history/fork-operations.md), [`2026-07-23 build`](evidence/2026-07-23-fork-build/README.md) | Reconstructing what was built |
-| Actual K4-03 deployment | [`2026-07-23 deployment`](evidence/2026-07-23-k4-03-deployment.md) | Reproducing the real flash, boot and config |
+| Actual K4-03 deployment | [`2026-07-23 deployment`](evidence/2026-07-23-k4-03-deployment.md) | Reproducing flash/boot/config |
 | Firmware behaviour | [`modules/firmware/README.md`](modules/firmware/README.md) | Before changing firmware |
 | Hardware, pinout, schematic, datasheets | [`modules/hardware/README.md`](modules/hardware/README.md) | Before wiring, flashing or restoring |
 | Build, images, offsets, OTA | [`modules/build-and-flash/README.md`](modules/build-and-flash/README.md) | Before compiling/flashing |
@@ -51,7 +51,7 @@ This is the only current-state and next-task entry. Read §1, §2, §5 and §7 f
 
 | Item | Status, impact and next step | Detail |
 |---|---|---|
-| K4-03 hardware compatibility | **PARTIAL** — software path passed; detailed display/RTC/auto-brightness tests not recorded. Next: run the hardware checklist. | [deployment record](evidence/2026-07-23-k4-03-deployment.md) |
+| K4-03 hardware compatibility | **PARTIAL** — software/network pass; display details and auto-brightness cause not recorded; fixed-brightness workaround. Next: verify. | [deployment record](evidence/2026-07-23-k4-03-deployment.md) |
 | Web-UI firmware upload | **OPEN** — upstream reports broken; not reproduced here. Reproduce, then fix or document serial/OTA. | [firmware notes](modules/firmware/README.md#known-implementation-notes) |
 | Persistence defects | **OPEN** — `clever` not saved; parse/mount failure leaves zeroed config. Verify on hardware. | [configuration](modules/firmware/configuration.md#known-persistence-defects) |
 | Exact v1.1 rebuild | **UNKNOWN** — current source is reproducible with a fixed epoch, but 485,280 B vs v1.1 485,248 B; no byte-identical claim. | [validation](VALIDATION.md#release-rebuild) |

@@ -13,22 +13,22 @@ This page records the inherited upstream factory-firmware backup, the actual K4-
 | Origin | Upstream author's device, added in the 2024-03-23 documentation commit |
 | Form | Partial full-flash dump, not an Arduino app image |
 
-The filename is approximate. A full 4 MiB flash is `0x400000` = 4,194,304 bytes; this file stops 194,304 bytes short. Do not treat it as a complete per-unit backup, and do not restore it to a different clock.
+A full 4 MiB flash is `0x400000` = 4,194,304 bytes; this file stops 194,304 bytes short. Do not restore it to another clock.
 
 ### Actual K4-03 per-unit backup (this fork)
 
-The actual fork unit is a **K4-03**, not the upstream K2-02. Its factory flash was read twice before flashing:
+The actual unit is a **K4-03**; its factory flash was read twice before flashing:
 
 | Property | Value |
 |---|---|
 | Size (each) | **4,194,304 bytes** (`0x400000`) |
 | SHA-256 (both copies) | `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E` |
-| Copies | `K4-03_factory_1.bin`, `K4-03_factory_2.bin` in a private backup directory |
+| Files | Historical `_1`/`_2`; current `K4-03_FACTORY_VERIFIED.bin` (private) |
 | Verification | Both reads matched; recorded as `BACKUP VERIFIED` |
 
-The backup contains the ESP8266 SDK Wi-Fi credentials. It must never be committed, copied into `temp/`, attached to an issue or shared publicly. Restore only from this per-unit backup, not from `factory_firmware/image4M.bin`.
+It contains the saved ESP8266 SDK Wi-Fi configuration (SSID confirmed in the SDK region). It must never be committed, copied into `temp/`, attached to an issue or shared publicly. Restore only from this backup, not `factory_firmware/image4M.bin`. See the [backup manifest](../../evidence/2026-07-23-k4-03-backup-manifest.md).
 
-Restore is a full 4 MB write at `0x000000`:
+Restore: full 4 MB at `0x000000`:
 
 ```powershell
 py -m esptool --chip esp8266 --port COM3 --baud 115200 `
@@ -37,7 +37,7 @@ py -m esptool --chip esp8266 --port COM3 --baud 115200 `
   <private-backup-dir>\K4-03_factory_1.bin
 ```
 
-Do not run it without a fresh hash check and explicit approval. See [the deployment record](../../evidence/2026-07-23-k4-03-deployment.md).
+Do not run it without a fresh hash check and explicit approval. See [the deployment record](../../evidence/2026-07-23-k4-03-deployment.md) and [backup manifest](../../evidence/2026-07-23-k4-03-backup-manifest.md).
 
 ## 2. How it was extracted
 
@@ -93,11 +93,11 @@ The replacement adds a web UI, NTP + DS3231 timekeeping with timezone/DST, optio
 
 - The upstream dump is a **partial full-flash** image: writing it at `0x000000` restores 4,000,000 bytes and leaves the tail untouched. That may be enough if the tail is erased, but it is not a verified full restore.
 - The upstream dump came from the K2-02 author's device. Restoring it to a K4-03 can clone the wrong MAC/calibration/configuration and is not a per-unit recovery.
-- The actual K4-03 backup is complete (4,194,304 bytes) and is the only valid per-unit restore for this fork's clock. Its hash is in §1; protect it because it contains Wi-Fi credentials.
+- The K4-03 backup is complete (4,194,304 bytes); it is the only valid per-unit restore for this clock. Its hash is in §1; protect it because it contains the saved Wi-Fi configuration.
 - The factory image is not an Arduino app-only image. Do not write it at `0x1000`.
 - Before any restore, re-check the private backup hash and size. Do not erase the chip first; the full-image write covers the flash.
 - Restore has not been verified in this workspace; treat it as **NOT_RUN** until a device test is recorded.
 
 ## 7. Provenance
 
-Inherited upstream artifacts plus the K4-03 backup; no fork factory-firmware change. The 2024-03-14 screenshot is the upstream extraction session, not the fork deployment date. Actual K4-03 deployment: [2026-07-23 K4-03](../../evidence/2026-07-23-k4-03-deployment.md).
+Inherited upstream artifacts plus the K4-03 backup; no fork factory-firmware change. The 2024-03-14 screenshot is the upstream extraction, not the fork deployment. [K4-03 deployment](../../evidence/2026-07-23-k4-03-deployment.md).

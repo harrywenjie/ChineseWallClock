@@ -9,7 +9,7 @@ This file holds project-specific, stable constraints. Generic DSH documentation,
 - The tracked source is upstream source at `d55188e` (2025-07-25). Fork commits are documentation only; there is no fork firmware-source change.
 - Treat `releases/`, `factory_firmware/`, `docs/images/`, `docs/display/`, `docs/datasheets/`, and `KiCad/` as inherited upstream artifacts unless a record explicitly says otherwise.
 - Fork-local build records are preserved in `docs/evidence/2026-07-23-fork-build/`; the actual K4-03 deployment is recorded in `docs/evidence/2026-07-23-k4-03-deployment.md`.
-- The K4-03 deployment passed the software path (build, flash, verify, boot, config, Wi-Fi preservation). Detailed display/RTC/brightness tests remain partial; do not invent results.
+- The K4-03 deployment passed the software path (build, flash, verify, boot, config, Wi-Fi preservation, AP closure, network-loss recovery reported). Display detail and the auto-brightness cause remain partial; auto brightness was too dark and fixed brightness is the workaround. Do not invent results.
 
 ## Reading card
 
@@ -18,7 +18,7 @@ This file holds project-specific, stable constraints. Generic DSH documentation,
 | Any round | `README.md`, `docs/DEVELOPMENT.md` §1–2, §5, §7 | The task's direct contract below |
 | Firmware behaviour | `docs/ENGINEERING_DESIGN.md`, `docs/modules/firmware/README.md` | The focused firmware topic file |
 | Build or flash | `docs/modules/build-and-flash/README.md` | `docs/evidence/2026-07-23-k4-03-deployment.md`, `docs/evidence/2026-11-08-local-build.md` |
-| Deploy a similar clock | `docs/modules/deployment/README.md` | `docs/modules/hardware/README.md`, `docs/modules/factory-firmware/README.md` |
+| Deploy a similar clock | `docs/modules/deployment/README.md` | `docs/evidence/2026-07-23-k4-03-hardware-preparation.md`, `docs/modules/hardware/README.md`, `docs/modules/factory-firmware/README.md` |
 | Hardware or schematic | `docs/modules/hardware/README.md` | The linked datasheet or `KiCad/schematic.pdf` |
 | Historical or provenance question | `docs/history/README.md` | `docs/history/fork-operations.md` |
 | Documentation maintenance | `AGENTS.md` (this file), `docs/DEVELOPMENT.md` §4 | `docs/maintenance/` records |
@@ -43,7 +43,7 @@ Do not load all module docs by default. Follow the direct dependency first; load
 - `libraries/libraries.zip` is the pinned library snapshot. Extract it to a libraries folder; do not upgrade, patch, or “clean up” libraries in place without a recorded build and hardware check.
 - Build from the repository root with the extracted libraries on `--libraries`. Keep build directories and toolchains under `temp/`; do not commit them.
 - Reproducible deployment build: `SOURCE_DATE_EPOCH=1711661163`, Arduino CLI 0.35.3, core 3.1.2; two clean builds produced the 485,280-byte image with SHA-256 `5E4F281421DCE894FED3F03DD9599AF8A690218A85C70B6A5A5DB466748D3D1D`. Keep this epoch for comparisons.
-- The actual K4-03 factory backup is **4,194,304 bytes** with SHA-256 `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E`, stored outside the repository. It contains Wi-Fi credentials; never commit, copy or attach it.
+- The actual K4-03 factory backup is **4,194,304 bytes** with SHA-256 `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E`, stored privately outside the repository. It contains the saved Wi-Fi configuration (SSID confirmed in the SDK region), not just firmware; never commit, push or attach it. The raw image is not copied into the repo; the maintainer backs it up manually.
 - `releases/` and `factory_firmware/` are inherited upstream artifacts. Do not overwrite them. A new release needs a new dated directory and maintainer approval.
 - `factory_firmware/image4M.bin` is **4,000,000 bytes** (`0x3D0900`), not a full 4 MiB (`0x400000`) dump, and it came from the upstream author's device. Never treat it as a per-unit backup for this fork's clock.
 - Flash with esptool **5.3.1** (or a compatible version), `--before no-reset --after no-reset`, GPIO0 low, no full-chip erase for a sketch-only update, and verify both automatically and independently. Record the exact image hash/offset.

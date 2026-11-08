@@ -21,6 +21,8 @@ This repository is a fork of [`halacs/wallclock`](https://github.com/halacs/wall
 - **[History and provenance](docs/history/README.md)** — upstream baseline vs fork-local operations and the preserved 2026 build evidence.
 - **[Validation](docs/VALIDATION.md)** — what is proven, what is not, and the evidence boundaries.
 - **[Actual K4-03 deployment](docs/evidence/2026-07-23-k4-03-deployment.md)** — the real flash, verification, first boot and configuration record (private identifiers redacted).
+- **[K4-03 hardware preparation](docs/evidence/2026-07-23-k4-03-hardware-preparation.md)** — soldering, serial/GND troubleshooting, pin confirmations and download mode.
+- **[K4-03 backup manifest](docs/evidence/2026-07-23-k4-03-backup-manifest.md)** — private full-flash backup and restore plan (raw image not in repo).
 
 ## Releases and hardware files
 

@@ -80,7 +80,7 @@ The function name `sensorBridghtness` contains a typo; it is internal and harmle
 - `show()` calls `enableDisplay(true)` on every refresh; brightness PWM is re-applied every 500 ms.
 - The scheduler is not aligned to the RTC second boundary; the blink phase is based on `millis()`.
 - `convert()` rejects values outside 0–99, but the byte parameter in `sendByte()` makes the `< 0` check ineffective; invalid values become dashes by the `> 9` branch.
-- K4-03: the initial boot/visual check looked normal, but detailed segment/ghosting tests were not recorded. GPIO15/OE may show random segments briefly at reset.
+- K4-03: initial visual normal; auto brightness too dark, so fixed brightness is used; detailed segment/ghosting not recorded. GPIO15/OE may show random segments at reset.
 
 ## 6. Test checklist
 

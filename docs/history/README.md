@@ -25,6 +25,8 @@ The tracked source is upstream work. `releases/`, `factory_firmware/`, `docs/ima
 | [Fork operations](fork-operations.md) | 2026-07-23 build/deployment session and 2026-11-08 documentation round | Reconstructing what the fork actually did |
 | [2026-07-23 build evidence](../evidence/2026-07-23-fork-build/README.md) | Tool versions, build variants, artifacts, logs | Auditing the fork build |
 | [2026-07-23 K4-03 deployment](../evidence/2026-07-23-k4-03-deployment.md) | Actual flash, verification, first boot, config, Wi-Fi preservation | Reproducing or auditing the deployment |
+| [2026-07-23 hardware preparation](../evidence/2026-07-23-k4-03-hardware-preparation.md) | Soldering, serial/GND troubleshooting, pin confirmations, download mode | Preparing another unit |
+| [2026-07-23 backup manifest](../evidence/2026-07-23-k4-03-backup-manifest.md) | Private full-flash backup and restore plan (raw image not in repo) | Before restoring or discussing the backup |
 | [2026-11-08 local build](../evidence/2026-11-08-local-build.md) | Current compile verification | Checking the latest build |
 | [Deployment runbook](../modules/deployment/README.md) | Future deployment procedure and record template | Preparing a similar clock |
 | [Factory firmware](../modules/factory-firmware/README.md) | Inherited factory dump and original UI | Before restoring or replacing factory firmware |

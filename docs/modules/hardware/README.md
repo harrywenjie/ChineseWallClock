@@ -31,19 +31,19 @@ Actual K4-03 header:
 | 1 | `FLASH` / GPIO0 | Pull to GND for the bootloader |
 | 2 | likely `RST` | Not connected to the CP210x in the deployment |
 | 3 | `GND` | Common ground |
-| 4/5 | `RXD0` / `TXD0` | UART crossed to the CP210x |
+| 4/5 | `RXD0` / `TXD0` pair | Communication confirmed; exact pin direction not finalized in the text |
 | 6 | `+5V` | Clock power; not used to power the CP210x |
 
 The upstream README lists the same order (with `RDX0` as a typo for `RXD0`) and says the sixth pin is closest to the ESP-12F. Verify the physical orientation against the photo and continuity before applying power.
 
 ![Programming interface](../../images/programming_interface.jpg)
 
-Actual wiring: CP210x `GND` → board `GND`; CP210x `TXD` → board `RXD0`; CP210x `RXD` → board `TXD0`; CP210x `+5V`/`3V3` not connected; clock on its own USB-A supply. CP210x `RST`/`DTR`/`RTS` not connected, so there is no automatic reset. Boot mode: GPIO0 → GND, then repower; esptool needs `--before no-reset --after no-reset`.
+Actual wiring: CP210x `GND` → board `GND`; clock TX → CP210x RXD; clock RX ← CP210x TXD; CP210x `+5V`/`3V3` not connected; clock on its own USB-A supply. CP210x `RST`/`DTR`/`RTS` not connected, so there is no automatic reset. Boot mode: GPIO0 → GND, then repower; esptool needs `--before no-reset --after no-reset`.
 
 Cautions:
 
 - The ESP8266 is **3.3 V**. Use a 3.3 V USB-TTL adapter for `TXD0`/`RXD0`; the `+5V` pin does not make the I/O 5 V tolerant.
-- Soldering the unpopulated header is a physical modification. Photograph the board and record the wire order first.
+- Photograph the board and record the wire order before soldering the header.
 - Do not connect the clock's `+5V` to a programmer's 5 V supply without checking the board's power path.
 
 ## 4. Pin assignments used by the firmware
@@ -70,7 +70,7 @@ The digit mapping is board-specific. The authoritative tables are in `myDisplay.
 - `DIGIT_OFF`/`DIGIT_DASH` are indices 18/19.
 - The firmware sends digit1→digit4, LSB-first; the K2-02 cascade assumption is U4→U3→U2→U1.
 
-The K4-03 boot and initial visual check looked normal, but detailed segment/ghosting/second-LED tests were not recorded. If the display is wrong, establish the actual mapping from the unit.
+The K4-03 boot and initial visual check looked normal, but detailed segment/ghosting/second-LED tests were not recorded.
 
 ## 6. Reference documents
 
@@ -82,10 +82,10 @@ The K4-03 boot and initial visual check looked normal, but detailed segment/ghos
 - [ESP-12E pinout](../../datasheets/ESP-12F/ESP-12E-Pinout.jpg)
 - [Display numbering](../../display/digits%20on%20display.ods), [photo](../../display/IMG20240320232149.jpg)
 - [K4-03 deployment record](../../evidence/2026-07-23-k4-03-deployment.md)
+- [K4-03 hardware preparation](../../evidence/2026-07-23-k4-03-hardware-preparation.md), [backup manifest](../../evidence/2026-07-23-k4-03-backup-manifest.md)
 
 ## 7. Known and unknown
 
-- Known: K4-03, ESP8266EX, 26 MHz, 4 MB, CP210x on `COM3`; full 4,194,304-byte per-unit backup with SHA-256 `59FC…E37E`, stored privately. It contains Wi-Fi credentials and must never enter Git.
+- Known: K4-03, ESP8266EX, 26 MHz, 4 MB, CP210x on `COM3`; full 4,194,304-byte per-unit backup with SHA-256 `59FC…E37E`, stored privately. It contains the saved Wi-Fi configuration and must never enter Git.
 - The upstream `factory_firmware/image4M.bin` is a 4,000,000-byte K2-02 dump, **not** a K4-03 restore image.
 - Unknown: K2-02 vs K4-03 electrical differences, light-sensor polarity/response, detailed K4-03 display mapping, DS3231 detection logging, blue-LED behavior (not controlled by firmware).
-- The upstream schematic is the only board-level reference; verify K4-03 differences physically.
