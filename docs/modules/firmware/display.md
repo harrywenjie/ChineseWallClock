@@ -1,94 +1,96 @@
-# Display and Brightness
+# 显示与亮度
 
-This page covers the four-digit display, the shift-register protocol, digit mapping and brightness. The source of truth is `myDisplay.h` / `myDisplay.cpp`; the hardware reference is [hardware](../hardware/README.md).
+本页覆盖四位数字显示、shift register 协议、数字 mapping 和亮度。源码事实以 `myDisplay.h` / `myDisplay.cpp` 为准；硬件参考见 [hardware](../hardware/README.md)。
 
-## 1. Hardware path
+## 1. 硬件路径
 
-Four **74HC595D** shift registers drive the segments. The ESP-12F writes one bit at a time and latches the result:
+4 片 **74HC595D** shift register 驱动 segments。ESP-12F 逐 bit 写入再 latch：
 
-| Signal | GPIO | Purpose |
+| Signal | GPIO | 用途 |
 |---|---|---|
-| `SR_SER` | 13 | Serial data into the shift-register chain |
-| `SR_SRCLK` | 14 | Shift clock (SHCP) |
-| `SR_RCLK` | 12 | Storage/latch clock (STCP) |
-| `SR_OE` | 15 | Output enable, inverted; used for PWM brightness |
+| `SR_SER` | 13 | shift register chain 的 serial data |
+| `SR_SRCLK` | 14 | shift clock（SHCP） |
+| `SR_RCLK` | 12 | storage/latch clock（STCP） |
+| `SR_OE` | 15 | output enable，inverted；用于 PWM brightness |
 
-Segments are **active-low**: a `0` bit turns the related segment on. The original `docs/display/digits on display.ods` records the segment numbering and states “A segment is ON if related bit is ZERO.” The handwritten photo `docs/display/IMG20240320232149.jpg` shows the numbering used when the mapping was worked out: top 6, top-right 5, bottom-right 4, bottom 3, bottom-left 2, top-left 1, middle 0, plus a `sec` note.
+segments 是 **active-low**：`0` bit 点亮对应 segment。`docs/display/digits on display.ods` 记录 segment 编号并说明“A segment is ON if related bit is ZERO”。手写照片 `docs/display/IMG20240320232149.jpg` 记录了 reverse engineering 时的编号：top 6、top-right 5、bottom-right 4、bottom 3、bottom-left 2、top-left 1、middle 0，另有 `sec`。
 
-`myDisplay.h` contains two 20-entry tables:
+`myDisplay.h` 有两张 20 项表：
 
-- `mapping[]` — the standard glyph for digits 0–9, plus single-segment, full-on, full-off and dash entries (`DIGIT_OFF` = 18, `DIGIT_DASH` = 19).
-- `mappingClever[]` — identical to `mapping[]` except for digit `1`: it uses an alternate single-side glyph.
+- `mapping[]`：0–9 的标准 glyph，加 single-segment、full-on、full-off、dash（`DIGIT_OFF` = 18，`DIGIT_DASH` = 19）。
+- `mappingClever[]`：除 digit `1` 外与 `mapping[]` 相同；`1` 用 alternate single-side glyph。
 
-The tables are hardware-specific. Do not regenerate them from a generic seven-segment table without checking the physical wiring.
+表是 board-specific。没有检查实际接线时，不要用通用 seven-segment 表重新生成。
 
-## 2. Output path
+## 2. 输出路径
 
-`sendByte(digit, second, leadingDigit, clever)`:
+`sendByte(digit, second, leadingDigit, clever)`：
 
-1. Selects `mapping[]` or `mappingClever[]` for a digit, or the dash for invalid input.
-2. If this is a leading digit and `config.leading_zeros` is false, substitutes `DIGIT_OFF`.
-3. If second LEDs are enabled, clears bit 7 of the byte.
-4. Writes eight bits LSB-first with `storeBit()`.
-5. `allDigitsToStorageRegisters()` pulses `SR_RCLK` to latch all four bytes.
+1. 选 `mapping[]` 或 `mappingClever[]`；非法输入用 dash。
+2. 如果是 leading digit 且 `config.leading_zeros` 为 false，换成 `DIGIT_OFF`。
+3. 如果启用秒点，清掉 byte 的 bit 7。
+4. 用 `storeBit()` LSB-first 写 8 bit。
+5. `allDigitsToStorageRegisters()` 脉冲 `SR_RCLK`，latch 四个 byte。
 
-`show(digit1, digit2, digit3, digit4, second, clever)` writes the four digits, latches, and calls `enableDisplay(true)`.
+`show(digit1, digit2, digit3, digit4, second, clever)` 写四个 digit，latch，然后 `enableDisplay(true)`。
 
-## 3. What is displayed
+## 3. 显示内容
 
-`updateDisplay()` runs every 500 ms:
+`updateDisplay()` 每 500 ms 跑一次：
 
-1. `getLocalTime()` returns year/month/day/hour/minute/second.
-2. Hour and minute are split into two digits each with `convert()`; values outside 0–99 become dashes.
-3. `secondLedsOn` is always true when `config.second_blinking` is false; otherwise it is `(millis() % 1000) > 500`, i.e. a 500 ms on/off phase relative to boot, not the RTC second.
-4. `show(hourHi, hourLo, minuteHi, minuteLo, secondLedsOn, config.clever)`.
+1. `getLocalTime()` 返回 year/month/day/hour/minute/second。
+2. hour 和 minute 各用 `convert()` 拆成两位；超出 0–99 变成 dash。
+3. `config.second_blinking` 为 false 时 `secondLedsOn` 恒 true；否则 `(millis() % 1000) > 500`，即相对 boot 的 500 ms on/off 相位，不是 RTC 秒。
+4. `show(hourHi, hourLo, minuteHi, minuteLo, secondLedsOn, config.clever)`。
 
-Display format is `HH:MM`; there is no date, temperature or scrolling mode.
+格式是 `HH:MM`；没有日期、温度或滚动模式。
 
-### Leading zeros
+### 前导零
 
-`leadingDigit` is true only for the first digit of the hour and the first digit of the minute. With `config.leading_zeros == false`, a zero in either position is blanked. The second digit of each pair is never blanked. This matches the upstream commit “leading zero: only on the first digit but the 3rd”.
+`leadingDigit` 只对 hour 的第一位和 minute 的第一位为 true。`config.leading_zeros == false` 时，这两位中的 0 会被 blank；每对的第二位永远不 blank。这对应 upstream commit “leading zero: only on the first digit but the 3rd”。
 
 ### Clever `1`
 
-`show()` computes:
+`show()` 计算：
 
 - `doItSmart1 = clever && digit1 == 1 && digit2 != 1`
 - `doItSmart2 = clever && digit3 == 1 && digit4 != 1`
 
-The alternate glyph is used only for a leading `1` whose paired digit is not also `1`; the second digit of each pair always uses the standard glyph. If `config.clever` is false, both use the standard glyph.
+alternate glyph 只用于“paired digit 也不是 1”的 leading `1`；每对第二位始终 standard glyph。`config.clever` 为 false 时两者都用 standard glyph。
 
-### Second LEDs
+### 秒点 LED
 
-When `second` is true, bit 7 of every digit byte is cleared. The board uses that bit for the two second LEDs associated with digits 3 and 4; the code applies the mask to all four bytes. With blinking enabled, the LEDs toggle every 500 ms.
+`second` 为 true 时，每个 digit byte 的 bit 7 被清掉。板子把这个 bit 用于 digit 3/4 对应的两个秒点 LED；代码对四个 byte 都做 mask。开启 blink 时 LED 每 500 ms 切换。
 
-## 4. Brightness
+## 4. 亮度
 
-`enableDisplay(enabled)` chooses the PWM value:
+`enableDisplay(enabled)` 选 PWM 值：
 
-- Manual: `255 - config.brightness`. Because `SR_OE` is inverted, a higher `config.brightness` gives a brighter display; `255` is brightest and `1` is dimmest.
-- Automatic: `sensorBridghtness()` reads `A0`, divides by 4 and caps at `auto_brightness_minimum_light` (245). This value is written directly to `analogWrite()` and overrides the manual value. The light-sensor polarity depends on the board divider and is not documented here.
-- Disabled: writes 255 (display off).
+- Manual：`255 - config.brightness`。`SR_OE` inverted，所以 `config.brightness` 越大越亮；`255` 最亮，`1` 最暗。
+- Automatic：`sensorBridghtness()` 读 `A0`，除以 4，封顶 `auto_brightness_minimum_light`（245）。这个值直接写 `analogWrite()`，覆盖 manual。光敏 polarity 取决于板子分压，本文不推断。
+- Disabled：写 255（关显示）。
 
-The function name `sensorBridghtness` contains a typo; it is internal and harmless. `config.brightness` is loaded without clamping, while the web form clamps saves to 1–255. A zero loaded from a corrupt file would produce `255 - 0 = 255`, i.e. off.
+函数名 `sensorBridghtness` 有拼写错误；内部使用，无害。`config.brightness` load 不 clamp，Web form save clamp 1–255。损坏文件中的 0 会得到 `255 - 0 = 255`，即全暗。
 
-`displaySetup()` initialises the four pins, sets `SR_OE` high (off), and shows `2020` with the second LEDs on as a boot indication. The first 500 ms refresh replaces it with the current clock value; if the clock is not set, the display may show an unset/epoch-derived value.
+`displaySetup()` 初始化四个 pin，拉高 `SR_OE`（off），显示 `2020` 且秒点 LED 亮，作为 boot 提示。第一次 500 ms refresh 会替换成当前 clock 值；如果 clock 未设置，可能显示 epoch 派生值。
 
-## 5. Known quirks
+实际 K4-03 初次目视显示正常，但详细 segment/ghosting 测试未记录。自动亮度偏暗，maintainer 已改用固定 brightness；根因未确认。
 
-- `displaySetup()` is the only place that writes a fixed boot pattern; there is no “time not set” indicator.
-- `show()` calls `enableDisplay(true)` on every refresh; brightness PWM is re-applied every 500 ms.
-- The scheduler is not aligned to the RTC second boundary; the blink phase is based on `millis()`.
-- `convert()` rejects values outside 0–99, but the byte parameter in `sendByte()` makes the `< 0` check ineffective; invalid values become dashes by the `> 9` branch.
-- K4-03: initial visual normal; auto brightness too dark, so fixed brightness is used; detailed segment/ghosting not recorded. GPIO15/OE may show random segments at reset.
+## 5. 已知问题
 
-## 6. Test checklist
+- `displaySetup()` 是唯一固定 boot pattern；没有“time not set”提示。
+- `show()` 每次 refresh 都调 `enableDisplay(true)`；brightness PWM 每 500 ms 重写。
+- scheduler 不对齐 RTC 秒边界；blink 相位基于 `millis()`。
+- `convert()` 拒绝 0–99 以外的值，但 `sendByte()` 的参数是 byte，`< 0` 分支无效；非法值由 `> 9` 分支变成 dash。
+- K4-03：初次目视正常；自动亮度偏暗，已用固定亮度；详细 segment/ghosting 未记录。GPIO15/OE 可能在 reset 时短暂显示随机段。
 
-- All segments of each digit light correctly; no ghosting or shifted digits.
-- `HH:MM` ordering matches the physical digit order.
-- Leading-zero off blanks the hour tens and minute tens only; the ones digits keep zero.
-- Clever `1` changes the leading glyph only when the paired digit is not `1`.
-- Second LEDs are steady when blinking is off and toggle when it is on.
-- Manual brightness 1, 128 and 255 gives dim, medium and bright; automatic brightness overrides it.
-- Boot shows `2020` briefly, then the current time.
-- Power-cycle with the RTC battery removed (NTP unavailable) shows the fallback behaviour documented in [time](time.md).
+## 6. 测试检查单
+
+- 每个 digit 的所有 segment 正确点亮；没有 ghosting 或移位。
+- `HH:MM` 顺序与物理 digit 顺序一致。
+- leading-zero off 只 blank hour tens 和 minute tens；ones 位保留 0。
+- clever `1` 只在 paired digit 不是 `1` 时改 leading glyph。
+- 秒点 LED 在 blink off 时常亮，on 时切换。
+- manual brightness 1、128、255 分别暗、中、亮；auto brightness 覆盖 manual。
+- boot 短暂显示 `2020`，然后显示当前时间。
+- 拔掉 RTC 电池、NTP 不可用时，显示 [time](time.md) 记录的 fallback 行为。

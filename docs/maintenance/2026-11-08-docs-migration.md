@@ -1,76 +1,71 @@
-# 2026-11-08 Documentation Migration Record
+# 2026-11-08 文档迁移记录
 
-## 1. Scope and boundary
+## 1. 范围与边界
 
-- **Date:** 2026-11-08.
-- **Baseline:** fork `harrywenjie/ChineseWallClock` at `d55188e` (upstream HEAD, 2025-07-25); working tree clean before the migration; no fork commits or pushes.
-- **Trigger:** the repository had no unified development entry, no project `AGENTS.md`, and the fork-local build/deployment records existed only in ignored `temp/`. The maintainer asked for documentation normalisation and preservation of fork-local operation records.
-- **Scope:** README, `AGENTS.md`, `docs/DEVELOPMENT.md`, design/validation navigation, firmware/hardware/build/deployment/factory module pages, history and evidence, this maintenance record.
-- **Non-goals:** no firmware/code change, dependency upgrade, upstream merge, flashing, deployment or release publication.
+- **日期：** 2026-11-08。
+- **基线：** fork `harrywenjie/ChineseWallClock` 的 `d55188e`（upstream HEAD，2025-07-25）；迁移前 working tree clean；没有 fork commit/push。
+- **触发：** 仓库没有统一开发入口、没有项目 `AGENTS.md`；fork 本地 build/deployment 记录只在 ignored `temp/`。Maintainer 要求文档规范化和 fork 操作记录保存。
+- **范围：** README、`AGENTS.md`、`docs/DEVELOPMENT.md`、design/validation 导航、firmware/hardware/build/deployment/factory module、history 和 evidence、本维护记录。
+- **非目标：** 不改 firmware/code、不升级依赖、不 merge upstream、不刷写、不部署、不发布 release。
 
-## 2. Pre-migration state
+## 2. 迁移前状态
 
-- **Old entry:** none. `README.md` was the only narrative document and carried product summary, feature checklist, hardware, development environment, UI screenshots, factory firmware and contribution notes.
-- **Parallel current-state documents:** none (no TODO/ROADMAP/STATUS/HANDOFF files).
-- **Documentation assets:** `docs/datasheets/` (PDFs), `docs/display/` (ODS/photo), `docs/images/` (device, UI, factory-firmware screenshots), `KiCad/schematic.pdf`, `releases/`, `factory_firmware/`, `libraries/libraries.zip`.
-- **Fork-local records:** `temp/` (ignored) held the 2026-07-23 toolchain/build session, build logs, artifacts, a PDF virtualenv and rendered schematic pages.
-- **Unresolved items:** none formally tracked; the README's unchecked items and the missing deployment record were the de facto open list.
-- **Capacity baseline:** no entry/design/validation pages existed; README was 4,415 bytes.
+- **旧入口：** 无。`README.md` 是唯一叙述文档，承载产品摘要、功能 checklist、硬件、开发环境、UI 截图、factory firmware 和贡献说明。
+- **并行当前状态文档：** 无（没有 TODO/ROADMAP/STATUS/HANDOFF）。
+- **文档资产：** `docs/datasheets/`（PDF）、`docs/display/`（ODS/照片）、`docs/images/`（设备、UI、factory 截图）、`KiCad/schematic.pdf`、`releases/`、`factory_firmware/`、`libraries/libraries.zip`。
+- **Fork 本地记录：** `temp/`（ignored）有 2026-07-23 toolchain/build session、build log、artifact、PDF virtualenv 和 rendered schematic。
+- **未决项：** 未正式跟踪；README unchecked items 和缺失的 deployment record 是事实上的 open list。
+- **容量基线：** 没有 entry/design/validation 页面；README 4,415 bytes。
 
-## 3. Mapping and disposition
+## 3. 映射与处置
 
-| Original location | Classification | Disposition | New location |
+| 原位置 | 分类 | 处置 | 新位置 |
 |---|---|---|---|
-| README title, warranty, “Buy Me a Coffee”, blog link | Public navigation/introduction | Rewritten, links kept | `README.md` |
-| README “Summary” (why replace factory firmware) | Product intent | Moved | `README.md` intro; [factory firmware](../modules/factory-firmware/README.md) |
-| README feature checklist (`[x]`) | Current feature contract | Moved; no longer a README status list | [firmware overview](../modules/firmware/README.md) |
-| README unchecked items (`[ ]`) | Open product items | Moved to the single open-items table; not closed | `docs/DEVELOPMENT.md` §5 |
-| README “The Device” / “Hardware” | Design/hardware | Moved | [hardware](../modules/hardware/README.md) |
-| README programming header, AP name/password, first boot | Design/hardware/deployment | Moved | [hardware](../modules/hardware/README.md), [deployment](../modules/deployment/README.md), [configuration](../modules/firmware/configuration.md) |
-| README development environment | Build contract | Moved | [build and flash](../modules/build-and-flash/README.md) |
-| README UI screenshots (landing/setup/WiFi) | Reference media | Paths retained; linked from firmware/hardware docs | `docs/images/` |
-| README factory-firmware section and screenshots | Hardware/evidence | Moved | [factory firmware](../modules/factory-firmware/README.md) |
-| README contribution note | Navigation/constraints | Rewritten | `README.md`, `AGENTS.md`, `docs/DEVELOPMENT.md` §4 |
-| `docs/datasheets/`, `docs/display/`, `docs/images/`, `KiCad/` | Binary reference media | Retained at original paths; linked | Same paths |
-| `libraries/README.md`, `libraries/libraries.zip` | Build constraint/backup | Retained; linked | Same paths; [build and flash](../modules/build-and-flash/README.md) |
-| `releases/` | Inherited artifacts | Retained; documented with hashes | Same paths; [validation](../VALIDATION.md) |
-| `factory_firmware/image4M.bin` | Inherited evidence | Retained; caveats documented | Same path; [factory firmware](../modules/factory-firmware/README.md) |
-| `temp/logs/`, `temp/artifacts/`, `temp/arduino-cli.yaml`, `temp/render_schematic.py`, `temp/downloads/` checksums | Fork-local operations/evidence | Copied to evidence; originals left in `temp/` | [2026-07-23 fork build](../evidence/2026-07-23-fork-build/README.md) |
-| 2026-11-08 fresh compile | Validation evidence | New | [2026-11-08 local build](../evidence/2026-11-08-local-build.md) |
-| New entry | Current state | New | `docs/DEVELOPMENT.md` |
-| New project constraints | Stable constraints | New, thin | `AGENTS.md` |
-| New design/validation navigation | Navigation | New | `docs/ENGINEERING_DESIGN.md`, `docs/VALIDATION.md` |
-| New deployment runbook | Contract/runbook | New | [deployment](../modules/deployment/README.md) |
-| New history/provenance | History | New | `docs/history/README.md`, `docs/history/fork-operations.md` |
+| README title、warranty、Buy Me a Coffee、blog link | 公开导航/介绍 | 重写，保留链接 | `README.md` |
+| README Summary（为什么替换 factory firmware） | 产品意图 | 移动 | `README.md` 介绍；[factory firmware](../modules/factory-firmware/README.md) |
+| README feature checklist（`[x]`） | 当前功能合同 | 移动；不再作为 README 状态 | [firmware overview](../modules/firmware/README.md) |
+| README unchecked items（`[ ]`） | 未完成产品项 | 移到唯一 open-items 表；不关闭 | `docs/DEVELOPMENT.md` §5 |
+| README The Device/Hardware | 设计/硬件 | 移动 | [hardware](../modules/hardware/README.md) |
+| README 编程 header、AP 名/密码、first boot | 设计/硬件/部署 | 移动 | [hardware](../modules/hardware/README.md)、[deployment](../modules/deployment/README.md)、[configuration](../modules/firmware/configuration.md) |
+| README development environment | Build 合同 | 移动 | [build and flash](../modules/build-and-flash/README.md) |
+| README UI 截图 | 参考媒体 | 保留路径；从 firmware/hardware 链接 | `docs/images/` |
+| README factory-firmware 段和截图 | 硬件/证据 | 移动 | [factory firmware](../modules/factory-firmware/README.md) |
+| README contribution | 导航/约束 | 重写 | `README.md`、`AGENTS.md`、`docs/DEVELOPMENT.md` §4 |
+| `docs/datasheets/`、`docs/display/`、`docs/images/`、`KiCad/` | 二进制参考媒体 | 原路径保留并链接 | 同路径 |
+| `libraries/README.md`、`libraries/libraries.zip` | Build 约束/backup | 保留并链接 | 同路径；[build and flash](../modules/build-and-flash/README.md) |
+| `releases/` | Inherited artifacts | 保留；记录 hash | 同路径；[validation](../VALIDATION.md) |
+| `factory_firmware/image4M.bin` | Inherited evidence | 保留；记录 caveat | 同路径；[factory firmware](../modules/factory-firmware/README.md) |
+| `temp/logs/`、`temp/artifacts/`、`temp/arduino-cli.yaml`、`temp/render_schematic.py`、`temp/downloads/` checksums | Fork 本地操作/证据 | 复制到 evidence；原件留 `temp/` | [2026-07-23 fork build](../evidence/2026-07-23-fork-build/README.md) |
+| 2026-11-08 fresh compile | Validation 证据 | 新增 | [2026-11-08 local build](../evidence/2026-11-08-local-build.md) |
+| 新 entry | 当前状态 | 新增 | `docs/DEVELOPMENT.md` |
+| 新项目约束 | 稳定约束 | 新增，保持薄 | `AGENTS.md` |
+| 新 design/validation 导航 | 导航 | 新增 | `docs/ENGINEERING_DESIGN.md`、`docs/VALIDATION.md` |
+| 新 deployment runbook | 合同/runbook | 新增 | [deployment](../modules/deployment/README.md) |
+| 新 history/provenance | 历史 | 新增 | `docs/history/README.md`、`docs/history/fork-operations.md` |
 
-## 4. Preservation and de-duplication
+## 4. 保全与去重
 
-- **Old README:** preserved in Git at `d55188e` and in the fork's history; it was replaced rather than kept as a second entry. No verbatim snapshot file was created because the content maps into the pages above and the old revision remains immutable in Git.
-- **Upstream vs fork:** the migration records the fork provenance explicitly and does not attribute upstream commits, screenshots, releases or the factory dump to the fork. No upstream history was rewritten.
-- **Artifacts:** `releases/` and `factory_firmware/` were not modified. Their sizes and SHA-256 values are recorded in [validation](../VALIDATION.md) and the [artifact manifest](../evidence/2026-07-23-fork-build/artifacts.sha256).
-- **Temp records:** the raw build logs, CLI config, schematic script, checksum list and manifests were copied verbatim; absolute paths inside them refer to the original workspace. The originals remain in `temp/` and are not committed. `.gitattributes` marks the copied `.log` files as `-whitespace` so their console-formatting spaces do not trip `git diff --check`; the content is unchanged.
-- **Anchors/links:** the old README had no heading anchors to preserve. New stable anchors were added for `release-rebuild`, `hardware-and-deployment`, `known-implementation-notes`, `known-persistence-defects`, `provenance`, `3-phase-1-full-factory-backup` and `record-template`; inbound/outbound local links were checked.
-- **Generic rules:** documentation/session/Git rules are references to the applicable global `AGENTS.md` and skills; no global rule text was copied into the project.
-- **Unresolved items:** the README's unchecked feature items, the missing deployment record, the exact-rebuild unknown, and the hardware-not-run status remain open or unknown; none was closed by the migration.
+- **旧 README：** Git `d55188e` 保留旧版本；它被替换，没有保留第二入口。没有 verbatim snapshot 文件，因为内容映射到上面的页面，旧 revision 在 Git 中不可变。
+- **Upstream vs fork：** 迁移明确记录 fork 来源，不把 upstream commit、截图、release 或 factory dump 说成 fork 工作。没有重写 upstream history。
+- **Artifacts：** `releases/` 和 `factory_firmware/` 未修改；size/SHA-256 记录在 [validation](../VALIDATION.md) 和 [artifact manifest](../evidence/2026-07-23-fork-build/artifacts.sha256)。
+- **Temp 记录：** raw build log、CLI config、schematic script、checksum 和 manifest 原样复制；绝对路径指向原 workspace。原件仍在 `temp/`，不提交。`.gitattributes` 把复制 `.log` 标为 `-whitespace`，避免 console 格式空格触发 `git diff --check`；内容未改。
+- **Anchor/link：** 旧 README 没有 heading anchor。新增稳定 anchor：`release-rebuild`、`hardware-and-deployment`、`known-implementation-notes`、`known-persistence-defects`、`provenance`、`3-phase-1-full-factory-backup`、`record-template`；inbound/outbound 本地链接已检查。
+- **通用规则：** 文档/session/Git 规则引用适用全局 `AGENTS.md` 和 skills；没有把全局规则正文复制进项目。
+- **未决项：** README unchecked 功能、缺失的 deployment record、exact-rebuild unknown、hardware not-run 保持 open/unknown；迁移没有关闭。
 
-## 5. Validation
+## 5. 验证
 
-- **Links/anchors:** Python checker over all tracked Markdown (excluding `temp/` and copied raw-log directory); **141 local links checked, 0 broken**.
-- **Capacity (LF source characters):**
-  - Entry `docs/DEVELOPMENT.md`: **7,931** (limit 8,000).
-  - Design `docs/ENGINEERING_DESIGN.md`: **3,935** (limit 4,000).
-  - Validation `docs/VALIDATION.md`: **3,996** (limit 4,000).
-  - Module navigation: firmware **5,744**, hardware **5,490**, factory firmware **5,072** (limit 6,000 each); history index **3,128**.
-  - Detailed contracts over the navigation limit: `configuration.md` **8,453**, `build-and-flash/README.md` **7,269**, `deployment/README.md` **8,222**, `fork-operations.md` **6,679**. These are procedure/contract or history pages, not navigation indexes; they are linked from the entry/module maps and are not default full reads. Their size is recorded here for the next review rather than hidden by renaming or splitting.
-- **Reading walkthrough:** from entry §7, the [deployment record template](../modules/deployment/README.md#record-template) is one link away; from entry §5, a non-current hardware/validation item reaches its evidence in one link. Module pages link their direct contracts and back to the entry.
-- **Static checks:** link checker as above; `git diff --check` run before delivery; no code/dependency changes.
-- **Build evidence:** 2026-11-08 compile pass under the documented toolchain; see [2026-11-08 local build](../evidence/2026-11-08-local-build.md). No hardware or deployment qualification was added.
+- **链接/anchor：** 所有 tracked Markdown（排除 `temp/` 和复制的 raw-log 目录）用 Python checker 检查；**当时 141 个本地链接，0 broken**。
+- **容量（LF 源码字符）：** 入口 **7,931**（limit 8,000）；design **3,935**（4,000）；validation **3,996**（4,000）；module 导航：firmware **5,744**、hardware **5,490**、factory **5,072**（limit 6,000）；history 3,128。`configuration.md` 8,453、`build-and-flash/README.md` 7,269、`deployment/README.md` 8,222、`fork-operations.md` 6,679 是 detailed contract/history，不是 navigation index；记录 size，供下次 review。
+- **阅读走查：** 入口 §7 一步到 [deployment record template](../modules/deployment/README.md#record-template)；入口 §5 一步到非当前 hardware/validation 证据。Module 页面链接直接合同并回入口。
+- **静态检查：** 上述 link checker；`git diff --check` 在交付前运行；没有 code/dependency change。
+- **Build 证据：** 2026-11-08 按 documented toolchain compile pass；见 [2026-11-08 local build](../evidence/2026-11-08-local-build.md)。没有新增 hardware/deployment 资格。
 
-## 6. Follow-up
+## 6. 后续
 
-- **Open/unknown items:** fork deployment record **待核实**; exact v1.1 rebuild **UNKNOWN**; hardware runtime **NOT_RUN**; web-UI firmware upload **OPEN/FAILED**; persistence defects **OPEN**; upstream divergence **OPEN**.
-- **Next task:** `DEP-2026-11` — capture the fork's real deployment record and dry-run the runbook on a spare ESP8266/D1 mini; do not flash the clock until a full per-unit backup is verified. This is a record, not execution authorisation.
-- **Next review trigger:** a new deployment record, a capacity warning, a focus change, a firmware change, or a maintainer request. The entry is near its 8,000-character warning, so a new open item should replace or merge an existing row rather than append.
-- **Delivery:** documentation migration committed as `92772d1` and pushed to `origin/master` on 2026-11-08.
-- **Superseded deployment status:** the `待核实` deployment item in this migration was resolved on 2026-11-08; see the [K4-03 deployment record](2026-11-08-k4-03-deployment-record.md) and the [curated evidence](../evidence/2026-07-23-k4-03-deployment.md). The rest of this migration record is historical and is not rewritten.
-- **Notes:** documentation language is English; binary media stays at existing paths; the fork remains behind upstream; no code, libraries, releases or hardware were changed.
+- **Open/unknown：** K4-03 部署记录 **待核实**（当时）；v1.1 exact rebuild **UNKNOWN**；hardware **NOT_RUN**；Web UI upload **OPEN/FAILED**；持久化缺陷 **OPEN**；upstream 分叉 **OPEN**。
+- **下一任务：** `DEP-2026-11` — 记录实际部署并在 spare ESP8266/D1 mini 上 dry-run；backup 验证前不要刷时钟。这是记录，不是执行授权。
+- **下次触发：** 新部署记录、容量预警、焦点变化、firmware 变化或 maintainer 请求。入口接近 8,000 warning；新增 open item 应替换或合并现有行。
+- **交付：** 文档迁移 commit `92772d1`，2026-11-08 push 到 `origin/master`。
+- **已部分被替代：** 部署状态在 2026-11-08 由 [K4-03 deployment record](2026-11-08-k4-03-deployment-record.md) 和 [curated evidence](../evidence/2026-07-23-k4-03-deployment.md) 更新；本记录其余部分保持历史。
+- **备注：** 文档语言原为 English，后按 maintainer 要求在 2026-11-08 改为中文；二进制媒体保留原路径；fork 落后 upstream；没有改代码、libraries、releases 或 hardware。

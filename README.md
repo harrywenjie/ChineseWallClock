@@ -4,38 +4,38 @@
 
 # Chinese Wall Clock
 
-Open-source replacement firmware for the **Baiyangshu 1902 Wifi Clock K2 02** (“Chinese Wall Clock”). It replaces the factory firmware with an ESP8266/Arduino firmware that adds a web UI, NTP + DS3231 timekeeping with DST-aware time zones, automatic brightness, Arduino OTA and syslog.
+面向 **Baiyangshu 1902 Wifi Clock K2 02**（“Chinese Wall Clock”）的开源替换固件。它用 ESP8266/Arduino 固件替换原厂固件，提供 Web UI、NTP + DS3231 时间保持、支持 DST 的时区、自动亮度、Arduino OTA 和 syslog。
 
-This repository is a fork of [`halacs/wallclock`](https://github.com/halacs/wallclock), maintained at [`harrywenjie/ChineseWallClock`](https://github.com/harrywenjie/ChineseWallClock). The upstream target is the K2-02; this fork's actual unit is a **BAIYANGSHU K4-03**. The tracked source is upstream; fork-local operations and the actual deployment are documented separately.
+本仓库是 [`halacs/wallclock`](https://github.com/halacs/wallclock) 的 fork，维护在 [`harrywenjie/ChineseWallClock`](https://github.com/harrywenjie/ChineseWallClock)。upstream 目标是 K2-02；本 fork 的实际机器是 **BAIYANGSHU K4-03**。受跟踪的源码来自 upstream；fork 的本地操作和实际部署单独记录。
 
-![Device](docs/images/device_picture.png)
+![设备](docs/images/device_picture.png)
 
-## Start here
+## 从这里开始
 
-- **[Development entry](docs/DEVELOPMENT.md)** — current state, open items and the next task. Read this first.
-- **[Hardware](docs/modules/hardware/README.md)** — board, components, pinout, programming header, schematic and datasheets.
-- **[Firmware behaviour](docs/modules/firmware/README.md)** — boot flow, configuration, display, time, logging and known implementation notes.
-- **[Build and flash](docs/modules/build-and-flash/README.md)** — toolchain, pinned libraries, image forms, offsets, OTA and common failures.
-- **[Deployment runbook](docs/modules/deployment/README.md)** — end-to-end procedure for a similar clock, including the factory-backup checklist and record template.
-- **[Factory firmware](docs/modules/factory-firmware/README.md)** — original 4,000,000-byte dump, extraction command and the factory UI.
-- **[History and provenance](docs/history/README.md)** — upstream baseline vs fork-local operations and the preserved 2026 build evidence.
-- **[Validation](docs/VALIDATION.md)** — what is proven, what is not, and the evidence boundaries.
-- **[Actual K4-03 deployment](docs/evidence/2026-07-23-k4-03-deployment.md)** — the real flash, verification, first boot and configuration record (private identifiers redacted).
-- **[K4-03 hardware preparation](docs/evidence/2026-07-23-k4-03-hardware-preparation.md)** — soldering, serial/GND troubleshooting, pin confirmations and download mode.
-- **[K4-03 backup manifest](docs/evidence/2026-07-23-k4-03-backup-manifest.md)** — private full-flash backup and restore plan (raw image not in repo).
+- **[开发入口](docs/DEVELOPMENT.md)** — 当前状态、未决项和下一任务。先读这个。
+- **[硬件](docs/modules/hardware/README.md)** — 主板、元件、引脚、编程接口、schematic 和 datasheet。
+- **[固件行为](docs/modules/firmware/README.md)** — boot 流程、配置、显示、时间、日志和已知实现问题。
+- **[构建与刷写](docs/modules/build-and-flash/README.md)** — toolchain、固定库、image 形式、offset、OTA 和常见故障。
+- **[部署 runbook](docs/modules/deployment/README.md)** — 类似时钟的端到端流程，包括 factory backup 和 record template。
+- **[原厂固件](docs/modules/factory-firmware/README.md)** — upstream 的 4,000,000-byte dump、提取命令和原厂 UI。
+- **[历史与来源](docs/history/README.md)** — upstream baseline、fork 本地操作和保留的 2026 构建证据。
+- **[验证](docs/VALIDATION.md)** — 已证明什么、未证明什么，以及证据边界。
+- **[实际 K4-03 部署](docs/evidence/2026-07-23-k4-03-deployment.md)** — 真实刷写、校验、首次启动和配置记录（私有标识已脱敏）。
+- **[K4-03 硬件准备](docs/evidence/2026-07-23-k4-03-hardware-preparation.md)** — 焊接、串口/GND 排查、针脚确认和下载模式。
+- **[K4-03 备份清单](docs/evidence/2026-07-23-k4-03-backup-manifest.md)** — 私有 full-flash backup 和恢复预案（原始 image 不在仓库内）。
 
-## Releases and hardware files
+## Release 与硬件文件
 
-- [Release binaries](releases/) — inherited v1.0 (2024-03-23) and v1.1 (2024-04-01).
-- [Upstream K2-02 factory firmware dump](factory_firmware/image4M.bin) — not a K4-03 recovery image; see the caveats in the [factory firmware page](docs/modules/factory-firmware/README.md).
-- [KiCad schematic](KiCad/schematic.pdf).
-- [Pinned Arduino libraries](libraries/libraries.zip) — the author's backup; see [libraries/README.md](libraries/README.md).
+- [Release binaries](releases/) — inherited v1.0（2024-03-23）和 v1.1（2024-04-01）。
+- [Upstream K2-02 原厂固件 dump](factory_firmware/image4M.bin) — 不是 K4-03 的恢复镜像；恢复前先看 [原厂固件说明](docs/modules/factory-firmware/README.md)。
+- [KiCad schematic](KiCad/schematic.pdf)。
+- [固定 Arduino 库](libraries/libraries.zip) — 作者的备份；见 [libraries/README.md](libraries/README.md)。
 
-## Project links
+## 项目链接
 
-- [Author's blog post](https://www.halacs.hu/baiyangshu-1902-wifi-clock-k2-02)
-- [Upstream repository](https://github.com/halacs/wallclock)
+- [作者博客](https://www.halacs.hu/baiyangshu-1902-wifi-clock-k2-02)
+- [Upstream 仓库](https://github.com/halacs/wallclock)
 
-## Contributing
+## 贡献
 
-Open a pull request against the fork. Describe the change and how it was tested. A compile is not a hardware test; state separately what ran on a real clock. Read the [development entry](docs/DEVELOPMENT.md) and [project instructions](AGENTS.md) before changing firmware or documentation.
+向本 fork 提交 pull request。说明改了什么、如何测试。compile 不等于 hardware test；分别说明哪些在真实时钟上运行过。修改固件或文档前先读 [开发入口](docs/DEVELOPMENT.md) 和 [项目指令](AGENTS.md)。

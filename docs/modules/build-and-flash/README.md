@@ -1,33 +1,33 @@
-# Build, Images and Flashing
+# 构建、镜像与刷写
 
-This page is the build/flash contract for the current source. It records the inherited upstream environment, the verified fork build, image forms and the flashing paths. Deployment procedure is in [deployment](../deployment/README.md); hardware wiring is in [hardware](../hardware/README.md).
+本页是当前源码的 build/flash 合同。它记录 upstream 环境、已验证的 fork build、image 形式和刷写路径。部署流程见 [deployment](../deployment/README.md)，硬件接线见 [hardware](../hardware/README.md)。
 
-## 1. Original environment
+## 1. 环境
 
-The upstream README records:
+upstream README 记录：
 
-- Ubuntu 22.04.4 LTS (jammy)
+- Ubuntu 22.04.4 LTS（jammy）
 - Arduino IDE 2.3.2
-- Wemos D1 mini as the development/test board
+- Wemos D1 mini 作为开发/测试板
 
-The fork's verified build (2026-07-23 and 2026-11-08) used:
+fork 的已验证 build（2026-07-23 和 2026-11-08）使用：
 
 - Windows 11
 - Arduino CLI **0.35.3**
 - ESP8266 core **3.1.2**
-- Libraries from `libraries/libraries.zip`, extracted to a local libraries folder
+- 从 `libraries/libraries.zip` 解压出的 libraries
 
-The target FQBN is `esp8266:esp8266:d1_mini`. The physical clock uses an ESP-12F module; the D1 mini target is the compatible development board used by the original author.
+target FQBN 是 `esp8266:esp8266:d1_mini`。物理时钟用 ESP-12F；D1 mini 是原作者使用的兼容开发板。
 
-The actual fork deployment was on a **K4-03** (ESP8266EX, 26 MHz, 4 MB), not the upstream K2-02. Its final build used Arduino CLI 0.35.3 with `SOURCE_DATE_EPOCH=1711661163`; two clean builds were byte-identical and produced the 485,280-byte image `5E4F2814…D3D1D`. See [the K4-03 deployment record](../../evidence/2026-07-23-k4-03-deployment.md).
+实际 fork 部署在 **K4-03**，不是 upstream K2-02。最终 build 使用 Arduino CLI 0.35.3 和 `SOURCE_DATE_EPOCH=1711661163`；两次 clean build byte-identical，产出 485,280-byte image `5E4F2814…D3D1D`。见 [K4-03 deployment](../../evidence/2026-07-23-k4-03-deployment.md)。
 
-## 2. Libraries
+## 2. 库
 
-`libraries/libraries.zip` is the author's pinned library snapshot (12,334,448 bytes, 18 libraries). It is a backup, not a package manifest. Extract it to a libraries folder and pass that folder to the build; do not install “latest” versions over it.
+`libraries/libraries.zip` 是作者的固定库快照（12,334,448 bytes，18 个库）。它是 backup，不是 package manifest。解压到 libraries 目录并传给 build；不要用 latest 版本覆盖。
 
-Libraries actually used by the verified build:
+已验证 build 实际使用：
 
-| Library | Version | Source |
+| 库 | 版本 | 来源 |
 |---|---|---|
 | WiFiManager | 2.0.17 | bundle |
 | ArduinoJson | 7.0.4 | bundle |
@@ -37,33 +37,35 @@ Libraries actually used by the verified build:
 | AceTime | 2.3.1 | bundle |
 | AceCommon | 1.6.2 | bundle |
 | AceSorting | 1.0.0 | bundle |
-| ESP8266WiFi, ESP8266WebServer, DNSServer, LittleFS, ArduinoOTA, Wire, ESP8266mDNS | core 3.1.2 | ESP8266 platform |
+| ESP8266WiFi、ESP8266WebServer、DNSServer、LittleFS、ArduinoOTA、Wire、ESP8266mDNS | core 3.1.2 | ESP8266 platform |
 
-The zip also contains libraries not used by this sketch (for example Timezone, ESP32httpUpdate, ESP-WiFiSettings). They are part of the author's backup; they are not required for a minimal build. See [libraries/README.md](../../../libraries/README.md) for the author's note.
+zip 还包含 sketch 不用的库（如 Timezone、ESP32httpUpdate、ESP-WiFiSettings），它们是作者 backup，不是最小 build 必需。见 [libraries/README.md](../../../libraries/README.md)。
 
 ## 3. Arduino IDE
 
-1. Install Arduino IDE 2.3.2 (or a later 2.x) and the ESP8266 board package **3.1.2**.
-2. Add `https://arduino.esp8266.com/stable/package_esp8266com_index.json` to Additional Boards Manager URLs.
-3. Extract `libraries/libraries.zip` into your Arduino libraries folder (or use a sketchbook-local `libraries` folder).
-4. Open `ChineseWallClock.ino`.
-5. Select **Wemos D1 mini** (`esp8266:esp8266:d1_mini`), the correct port, 4 MB flash settings and the serial upload speed.
-6. Verify/compile, then upload over serial or use the Arduino IDE network port for OTA.
+1. 安装 Arduino IDE 2.3.2 和 ESP8266 board package **3.1.2**。
+2. 在 Additional Boards Manager URLs 加 `https://arduino.esp8266.com/stable/package_esp8266com_index.json`。
+3. 把 `libraries/libraries.zip` 解压到 Arduino libraries 目录（或 sketchbook-local `libraries`）。
+4. 打开 `ChineseWallClock.ino`。
+5. 选择 **Wemos D1 mini**（`esp8266:esp8266:d1_mini`）、正确 port、4 MB flash 设置和 serial upload speed。
+6. Verify/compile，然后 serial upload，或用 Arduino IDE network port 做 OTA。
 
-The original author's screenshots of the web UI are in `docs/images/`; they are reference media, not build instructions.
+Web UI 截图只是参考媒体，不是 build 指令。
+
+<a id="arduino-cli"></a>
 
 <a id="arduino-cli"></a>
 
 ## 4. Arduino CLI
 
-Install the ESP8266 core and extract the libraries once:
+安装 core、解压库：
 
 ```text
 arduino-cli core install esp8266:esp8266@3.1.2
 arduino-cli config add board_manager.additional_urls https://arduino.esp8266.com/stable/package_esp8266com_index.json
 ```
 
-Build from the repository root (the sketch is the directory):
+从仓库根目录 build（sketch 就是目录）：
 
 ```text
 arduino-cli compile \
@@ -74,58 +76,58 @@ arduino-cli compile \
   .
 ```
 
-The verified Windows command (2026-11-08) is recorded verbatim in [the local build evidence](../../evidence/2026-11-08-local-build.md). It used a local `temp/arduino-cli.yaml`, `temp/arduino-data`, `temp/bundled/libraries` and `temp/build/docs-verify`; those paths are workspace-local and are not committed.
+2026-11-08 的 Windows 命令原样记录在 [local build evidence](../../evidence/2026-11-08-local-build.md)；它使用 local `temp/arduino-cli.yaml`、`temp/arduino-data`、`temp/bundled/libraries`、`temp/build/docs-verify`。这些路径是 workspace-local，不提交。
 
-For a reproducible comparison with the deployed image, set `SOURCE_DATE_EPOCH=1711661163` in the build environment. The actual deployment build (2026-07-23) used that epoch and Arduino CLI 0.35.3; two independent clean builds produced byte-identical `canonical1`/`canonical2` images with SHA-256 `5E4F281421DCE894FED3F03DD9599AF8A690218A85C70B6A5A5DB466748D3D1D`. Without the fixed epoch the ESP8266 core embeds the current time and the hash changes, as the 2026-11-08 build shows.
+和部署 image 做可复现比较时，在 build 环境设 `SOURCE_DATE_EPOCH=1711661163`。2026-07-23 部署 build 使用该 epoch 和 Arduino CLI 0.35.3；两次 clean build 产出 byte-identical 的 `canonical1`/`canonical2`，SHA-256 `5E4F281421DCE894FED3F03DD9599AF8A690218A85C70B6A5A5DB466748D3D1D`。不固定 epoch 时 ESP8266 core 会嵌入当前时间，hash 变化（见 2026-11-08 build）。
 
-### Output and size
+### 输出和大小
 
-The successful build reports:
+成功 build 报告：
 
-- RAM: 37,404 / 80,192 bytes (46 %)
-- IRAM: 62,551 / 65,536 bytes (**95 %**)
-- Flash: 443,980 / 1,048,576 bytes (42 %)
-- Full image: **485,280 bytes**
-- 14 `-Wwrite-strings` warnings, no errors
+- RAM：37,404 / 80,192 bytes（46 %）
+- IRAM：62,551 / 65,536 bytes（**95 %**）
+- Flash：443,980 / 1,048,576 bytes（42 %）
+- 完整 image：**485,280 bytes**
+- 14 个 `-Wwrite-strings` warning，无 error
 
-IRAM is the tight resource. Re-run the size report after every change; a small feature can hit the IRAM limit before flash is full.
+IRAM 是紧张资源。每次改动都重跑 size report；小功能也可能先撞 IRAM。
 
-## 5. Image forms and offsets
+## 5. Image 形式与 offset
 
-There are two related files:
+有两类文件：
 
-| Form | Starts with | Size in the verified build | Intended offset | Source |
+| 形式 | 开头 | 已验证 build 大小 | 目标 offset | 来源 |
 |---|---|---|---|---|
-| Full Arduino image (`ChineseWallClock.ino.bin`) | `e9 02 02 40` header at 0x0000 | 485,280 bytes | `0x0000` | Normal Arduino/`elf2bin` output; also the form in `releases/` |
-| App-only image (`app-at-0x1000.bin`) | `e9 05 02 40` header at 0x0000 | 481,184 bytes | `0x1000` if the bootloader is already present | Bytes `0x1000..end` of the full image |
+| 完整 Arduino image（`ChineseWallClock.ino.bin`） | `e9 02 02 40` header at 0x0000 | 485,280 bytes | `0x0000` | 正常 Arduino/`elf2bin` 输出；`releases/` 也是这种 |
+| App-only image（`app-at-0x1000.bin`） | `e9 05 02 40` header at 0x0000 | 481,184 bytes | `0x1000`（bootloader 已存在时） | 完整 image 的 `0x1000..end` |
 
-Do not mix the two. A full image written at `0x1000` or an app-only image written at `0x0000` will not boot. Always record the exact file, hash and offset in the deployment record. The release binaries in `releases/` are full images; the fork's temp evidence contains an extracted app-only image for comparison.
+不要混用。完整 image 写到 `0x1000`，或 app-only 写到 `0x0000`，都不会 boot。部署记录必须写清文件、hash 和 offset。`releases/` 里的 binary 是完整 image；fork 的 temp evidence 里有 app-only 派生 image 用于对比。
 
-## 6. Flashing paths
+## 6. 刷写路径
 
-- **Serial (recommended for recovery):** connect a 3.3 V USB-TTL adapter to the 6-pin header, enter ESP8266 boot mode (typically `FLASH` low + pulse `RST`; verify on the board), and use the flash tool with the full image at `0x0000` or the app-only image at `0x1000`. Capture the complete serial log at 115200.
-- **Actual K4-03 setup:** CP210x on `COM3`; only GND/TX/RX connected; clock powered from its own USB-A supply; no RST/DTR/RTS. GPIO0 was held low and the clock repowered, so esptool used `--before no-reset --after no-reset` and 115200 baud. The write used `--flash-mode keep --flash-freq keep --flash-size keep`, no full-chip erase, then automatic and independent `verify-flash`. See [the K4-03 deployment record](../../evidence/2026-07-23-k4-03-deployment.md).
-- **Arduino OTA:** with `ENABLE_OTA` compiled in, the device appears as a network port; the password is the AP name (`halclock<chipid>`). The device must already be on the same network. OTA progress feeds the watchdog.
-- **Web UI firmware upload:** reported broken in the upstream README. Do not use it as a deployment path until it is reproduced and fixed.
+- **Serial（恢复首选）：** 3.3 V USB-TTL 接 6-pin header，进 ESP8266 boot mode（通常 `FLASH` low + pulse `RST`；以板子为准），完整 image 写 `0x0000` 或 app-only 写 `0x1000`。115200 捕获完整 serial log。
+- **实际 K4-03：** CP210x 在 `COM3`；只接 GND/TX/RX；时钟自己 USB-A 供电；没有 RST/DTR/RTS。GPIO0 拉低后重新上电，所以 esptool 用 `--before no-reset --after no-reset`、115200 baud。写入用 `--flash-mode keep --flash-freq keep --flash-size keep`，不做 full-chip erase，然后自动 + 独立 `verify-flash`。见 [K4-03 deployment](../../evidence/2026-07-23-k4-03-deployment.md)。
+- **Arduino OTA：** 定义 `ENABLE_OTA` 时，设备出现在 network port；password 是 AP 名（`halclock<chipid>`）。设备必须已在同一网络。OTA progress 会喂 watchdog。
+- **Web UI firmware upload：** upstream README 报告 broken。复现并修好前，不要作为部署路径。
 
-The factory firmware is a **full-flash-style dump** (partial: 4,000,000 bytes), not an Arduino app image; restoring it is a different operation. See [factory firmware](../factory-firmware/README.md).
+factory firmware 是 **full-flash-style dump**（partial：4,000,000 bytes），不是 Arduino app image；恢复是另一套操作。见 [factory firmware](../factory-firmware/README.md)。
 
-## 7. Reproducibility findings
+## 7. 可复现性发现
 
-- The current source is code-identical to v1.1 (`git diff 7d18e68..HEAD` changes no `.ino`, `.cpp` or `.h`), but the verified build is **485,280 bytes**, while the v1.1 release is **485,248 bytes**.
-- The current source is reproducible with `SOURCE_DATE_EPOCH=1711661163` and Arduino CLI 0.35.3: two clean `canonical` builds were byte-identical (`5E4F…D3D1D`). This is the actual deployed image.
-- All 2026-07-23 variants (`default`, `repro2`, `ide232-cli`, `canonical1`, `canonical2`) produced 485,280-byte full images. The 32-byte difference from v1.1 is **UNKNOWN**; possible causes include core/library patch versions or build flags.
-- Build-path content/length can change the image hash while the size stays the same. Compare hashes only for the same path/toolchain/epoch; otherwise compare size, memory report and observed behaviour.
-- The prior session tried Arduino IDE 2.3.2 options with Arduino CLI 0.35.3; 1.5.1 was downloaded but not used. No variant matched v1.1 byte-for-byte. See [2026-07-23 fork build](../../evidence/2026-07-23-fork-build/README.md).
+- 当前源码与 v1.1 code-identical（`git diff 7d18e68..HEAD` 不改 `.ino`、`.cpp`、`.h`），但已验证 build 是 **485,280 bytes**，v1.1 release 是 **485,248 bytes**。
+- 当前源码在固定 `SOURCE_DATE_EPOCH=1711661163` 和 Arduino CLI 0.35.3 下可复现：两次 clean `canonical` build byte-identical（`5E4F…D3D1D`）。这是实际刷入的 image。
+- 2026-07-23 的 `default`、`repro2`、`ide232-cli`、`canonical1`、`canonical2` 都产出 485,280-byte 完整 image。与 v1.1 的 32-byte 差异为 **UNKNOWN**；可能是 core/library patch 或 build flag。
+- build path 的内容/长度可能改变 image hash 而大小不变。只在相同 path/toolchain/epoch 下比较 hash；否则比较 size、memory report 和实际行为。
+- 上一轮用 Arduino IDE 2.3.2 options + Arduino CLI 0.35.3；1.5.1 下载但未使用。没有 variant 与 v1.1 byte-identical。见 [2026-07-23 fork build](../../evidence/2026-07-23-fork-build/README.md)。
 
-## 8. Common failures
+## 8. 常见故障
 
-| Symptom | Likely cause | Check |
+| 现象 | 可能原因 | 检查 |
 |---|---|---|
-| `WiFiManager.h: No such file` | Libraries folder not passed or zip not extracted | `--libraries` path contains `WiFiManager/library.properties` |
-| Wrong board/core errors | ESP8266 core not 3.1.2 | `arduino-cli core list` |
-| Image flashes but does not boot | Wrong image form/offset | Full at `0x0000`, app-only at `0x1000`; record hash |
-| Cannot enter boot mode | Header orientation or `FLASH`/`RST` wiring | Photo, schematic, continuity; 3.3 V levels |
-| OTA port missing | Device not on WiFi, OTA disabled, or wrong password | Serial log, `ENABLE_OTA`, AP name |
-| Web upload fails | Known upstream defect | Use serial or OTA; do not retry blindly |
-| IRAM overflow after a change | 95 % IRAM already used | Size report; reduce code or move data to flash |
+| `WiFiManager.h: No such file` | libraries 目录没传或 zip 没解压 | `--libraries` 路径下有 `WiFiManager/library.properties` |
+| Board/core 错误 | ESP8266 core 不是 3.1.2 | `arduino-cli core list` |
+| 刷完不 boot | image 形式/offset 错 | 完整 `0x0000`，app-only `0x1000`；记录 hash |
+| 进不了 boot mode | header 方向或 `FLASH`/`RST` 接线 | 照片、schematic、通断；3.3 V 电平 |
+| OTA port 不出现 | 设备不在 WiFi、OTA 未启用、password 错 | serial log、`ENABLE_OTA`、AP 名 |
+| Web upload 失败 | 已知 upstream 缺陷 | 用 serial 或 OTA；不要盲重试 |
+| 改动后 IRAM overflow | IRAM 已 95 % | size report；减少代码或把数据移到 flash |

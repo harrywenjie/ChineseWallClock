@@ -1,138 +1,140 @@
-# Configuration, Web UI, WiFi and OTA
+# 配置、Web UI、WiFi 与 OTA
 
-This page is the contract for runtime settings and the configuration portal. The source of truth is `myConfig.h` / `ChineseWallClock.ino`; this page explains the intended behaviour and records known defects.
+本页是运行时设置和配置 portal 的合同。源码事实以 `myConfig.h` / `ChineseWallClock.ino` 为准；这里说明预期行为和已知缺陷。
 
-## 1. Configuration fields
+## 1. 配置字段
 
-| Field | Type | Default | JSON key | Web control | Notes |
+| 字段 | 类型 | 默认值 | JSON key | Web 控件 | 说明 |
 |---|---|---|---|---|---|
-| `syslog_server` | `char[64]` | private LAN address (see `myConfig.h`) | `syslog_server` | text | The default enables syslog; string length > 1 creates the client on the first log call |
-| `device_name` | `char[64]` | `HalClock` | `device_name` | text | Used as the WiFiManager page title; the AP/hostname is derived separately from the chip ID |
-| `ntp_server` | `char[64]` | `hu.pool.ntp.org` | `ntp_server` | text | Hostname or IP passed to AceTime `NtpClock` |
-| `timezone` | `char[64]` | `Europe/Budapest` | `timezone` | text | Must be an AceTime `zonedbx` IANA name; not validated by the firmware |
-| `leading_zeros` | `bool` | `true` | `leading_zeros` | checkbox | Suppresses the leading zero on the first digit of the hour and minute pairs |
-| `clever` | `bool` | `true` | `clever` | checkbox | Uses the alternate `1` glyph for a leading `1`; **not written by `saveConfiguration()`** |
-| `second_blinking` | `bool` | `false` | `second_blinking` | checkbox | Blinks the second LEDs every 500 ms |
-| `brightness` | `byte` | `255` | `brightness` | number 0–255 | Manual brightness; web save clamps to 1–255, load does not clamp |
-| `auto_brightness` | `bool` | `true` | `auto_brightness` | checkbox | Overrides manual brightness with the `A0` light-sensor value |
+| `syslog_server` | `char[64]` | 私有 LAN 地址（见 `myConfig.h`） | `syslog_server` | text | 默认会启用 syslog；长度 > 1 时第一次 log 创建 client |
+| `device_name` | `char[64]` | `HalClock` | `device_name` | text | 作为 WiFiManager 页面标题；AP/hostname 另由 chip ID 派生 |
+| `ntp_server` | `char[64]` | `hu.pool.ntp.org` | `ntp_server` | text | 传给 AceTime `NtpClock` 的主机名或 IP |
+| `timezone` | `char[64]` | `Europe/Budapest` | `timezone` | text | 必须是 AceTime `zonedbx` 的 IANA 名；固件不校验 |
+| `leading_zeros` | `bool` | `true` | `leading_zeros` | checkbox | 关闭时消掉时/分十位的 leading zero |
+| `clever` | `bool` | `true` | `clever` | checkbox | leading `1` 用 alternate glyph；**save 不写这个 key** |
+| `second_blinking` | `bool` | `false` | `second_blinking` | checkbox | 每 500 ms 切换秒点 LED |
+| `brightness` | `byte` | `255` | `brightness` | number 0–255 | manual 亮度；Web save clamp 到 1–255，load 不 clamp |
+| `auto_brightness` | `bool` | `true` | `auto_brightness` | checkbox | 用 `A0` 光敏值覆盖 manual brightness |
 
-Defaults are in `myConfig.h`. `auto_brightness_minimum_light` is `245`; the display code treats it as the maximum PWM value, not a minimum light level, despite the name.
+默认值在 `myConfig.h`。`auto_brightness_minimum_light` 是 245；display code 把它当 PWM 上限，而不是“最低光照”阈值，名字有误导。
 
-## 2. Persistence format
+## 2. 持久化格式
 
-The file is LittleFS `/halclock.conf`. A normal save writes compact JSON; booleans are strings `"true"` / `"false"` and brightness is a string. This is the shape a save produces (default values):
+文件是 LittleFS `/halclock.conf`。正常 save 写紧凑 JSON；boolean 存 `"true"` / `"false"`，brightness 存字符串。默认值形态如下：
 
 ```json
 {"device_name":"HalClock","ntp_server":"hu.pool.ntp.org","timezone":"Europe/Budapest","syslog_server":"<syslog-host>","second_blinking":"false","leading_zeros":"true","auto_brightness":"true","brightness":"255"}
 ```
 
-`<syslog-host>` stands for the private LAN default in `myConfig.h`; replace it with your collector when deploying.
+`<syslog-host>` 代表 `myConfig.h` 中的私有 LAN 默认值；部署时换成自己的 collector。
 
-`clever` is absent because of the defect described in §6. On load, a missing `clever` key falls back to the default `"true"`.
+`clever` 缺失是 §6 的缺陷；load 时缺 key 会回退默认 `"true"`。
 
-## 3. Load path
+## 3. 加载路径
 
-1. `LittleFS.begin()` mounts the filesystem.
-2. If `/halclock.conf` exists, it is opened and parsed into `StaticJsonDocument<512>`.
-3. Each field is copied with `| default`; boolean fields compare the stored string with `"true"`; brightness uses `atoi`.
-4. If the file does not exist, all defaults are applied.
-5. If the file exists but parsing fails, or if the filesystem does not mount, the code only logs; it does **not** apply defaults. The global `Config` can therefore remain zeroed (empty strings, false flags, brightness 0).
+1. `LittleFS.begin()` mount。
+2. 如果 `/halclock.conf` 存在，打开并解析到 `StaticJsonDocument<512>`。
+3. 每个字段用 `| default` 复制；boolean 比较存储字符串与 `"true"`；brightness 用 `atoi`。
+4. 文件不存在时应用全部默认值。
+5. 文件存在但 parse 失败，或 filesystem mount 失败时，只记 log，**不应用默认值**；全局 `Config` 可能保持全零（空字符串、false、brightness 0）。
 
-The timezone copy uses `sizeof(config.ntp_server)` rather than `sizeof(config.timezone)`. Both are 64 bytes today, so there is no overflow, but the expression is wrong and should be fixed when touched.
+timezone 的复制用 `sizeof(config.ntp_server)`，不是 `sizeof(config.timezone)`。两者当前都是 64 bytes，没有溢出，但表达式是错的，改动时应修。
 
-## 4. Save path
+## 4. 保存路径
 
-`saveParamsCallback()` copies the form values into `config`, clamps brightness into 1–255, calls `saveConfiguration()`, then `wm.reboot()`.
+`saveParamsCallback()` 把 form 值复制进 `config`，把 brightness clamp 到 1–255，调用 `saveConfiguration()`，然后 `wm.reboot()`。
 
-`saveConfiguration()`:
+`saveConfiguration()`：
 
-1. Mounts LittleFS.
-2. Removes the old file (the library appends otherwise).
-3. Opens a new file for writing.
-4. Builds a `StaticJsonDocument<256>`, sets the fields except `clever`, converts brightness with `itoa`, serialises to the file, echoes the JSON to Serial and closes the file.
-5. On file-create or write failure, logs an error and returns.
+1. mount LittleFS。
+2. 删除旧文件（否则库会 append）。
+3. 新建写入文件。
+4. 建 `StaticJsonDocument<256>`，写字段但**不写 `clever`**，brightness 用 `itoa`，序列化到文件，并把 JSON echo 到 Serial，关闭文件。
+5. 文件创建或写入失败时记 error 并返回。
 
-The 256-byte document is tight for four 64-byte strings plus keys and values. It works with the defaults and short user values; test with maximum-length values before adding another field.
+256-byte document 对四个 64-byte 字符串加 key/value 偏紧。默认值和短值可以工作；加字段前用最大长度测试。
 
-## 5. Web UI and WiFiManager
+## 5. Web UI 与 WiFiManager
 
-The portal menu is `wifi`, `info`, `param`, `sep`, `restart`. `wm.setTitle(config.device_name)` supplies the page title; `wm.setHostname(getAPName())` sets the hostname. The form has nine fields in this order: device name, NTP server, timezone, syslog server, brightness, second blinking, clever, leading zeros, auto brightness.
+portal menu 是 `wifi`、`info`、`param`、`sep`、`restart`。`wm.setTitle(config.device_name)` 提供页面标题，`wm.setHostname(getAPName())` 设置 hostname。form 有九个字段，顺序为：device name、NTP server、timezone、syslog server、brightness、second blinking、clever、leading zeros、auto brightness。
 
-Checkbox parameters are submitted as `"1"` and are compared with `"1"` in `saveParamsCallback()`; JSON uses `"true"` / `"false"`. Keep both conventions consistent when adding a field.
+checkbox 提交 `"1"`，`saveParamsCallback()` 用 `"1"` 比较；JSON 用 `"true"` / `"false"`。加字段时两套拼写要同步。
 
-WiFi setup:
+WiFi 设置：
 
-- AP/hostname: `halclock` + uppercase chip ID from `WIFI_getChipId()`.
-- AP password: hard-coded `password`.
-- `setConnectRetries(5)`, non-blocking portal, auto-reconnect enabled.
-- On success, `wm.startWebPortal()` keeps the web UI available on the station network.
-- On failure, the configuration AP remains available; `loop()` services it with `wm.process()`.
+- AP/hostname：`halclock` + `WIFI_getChipId()` 的大写 hex。
+- AP password：硬编码 `password`。
+- `setConnectRetries(5)`、non-blocking portal、auto-reconnect 开启。
+- 成功后 `wm.startWebPortal()`，Web UI 在 station network 上继续可用。
+- 失败时 configuration AP 保留，`loop()` 用 `wm.process()` 服务它。
 
-The README's claim that the AP turns off after configuration is a WiFiManager behaviour, not an explicit firmware action; verify it on the target unit before relying on it. mDNS resolution of the hostname is not verified; use the IP shown by the portal or serial log.
+README 说“配置后 AP 关闭”是 WiFiManager 行为，不是固件显式动作；依赖前先在目标机器上验证。hostname 的 mDNS 解析未验证；用 portal/serial log 显示的 IP。
 
-<a id="known-persistence-defects"></a>
+## 6. 已观察到的 K4-03 配置
 
-## 6. Known persistence defects
+实际机器首次启动没有 `/halclock.conf`，所以用默认值：`Europe/Budapest`、`hu.pool.ntp.org`、device name `HalClock`、clever `1`、second blinking `0`、brightness `255`、leading zeros `1`、auto brightness `1`。
 
-These are code-inspection findings, not hardware reproductions:
+随后 portal 保存：
 
-- **`clever` is not saved.** The field is loaded and shown in the form, but `saveConfiguration()` never writes it. Unchecking clever and saving will likely revert to `true` after reboot.
-- **No defaults on parse/mount failure.** The error paths log but leave the global config zeroed. A corrupt file can produce an empty device name, empty NTP/timezone/syslog strings, and brightness 0. The display may stay dark because manual brightness becomes `255 - 0`.
-- **Loaded brightness is not clamped.** Web saves clamp to 1–255; a value written to the file by another method can wrap when assigned to `byte`.
-- **The save document is small.** Four 64-byte strings plus JSON keys may exceed `StaticJsonDocument<256>` with long values.
-- **The timezone copy uses the NTP field size.** Harmless while both are 64 bytes, but fragile.
-
-## 7. OTA and security
-
-- `ENABLE_OTA` is defined in `myConfig.h`; OTA code is compiled only when it is defined.
-- `ArduinoOTA.setHostname(getAPName())` and `ArduinoOTA.setPassword(getAPName())`; the OTA password is therefore the discoverable AP name.
-- OTA progress calls `wdt_reset()`; the 8 s watchdog therefore does not abort a normal upload.
-- The web UI has no authentication. The AP password is hard-coded and the OTA password is predictable. Treat the device as a trusted-home-network appliance, not an internet-facing service.
-- `saveConfiguration()` echoes the JSON, including the syslog server address, to serial. Do not capture serial logs from an untrusted location.
-
-## 8. Change checklist
-
-When adding or changing a configuration field:
-
-1. Update `Config`, the default macros and `loadConfiguration()`.
-2. Update `menuSetup()` and `saveParamsCallback()`.
-3. Update `saveConfiguration()` and check the JSON document capacity.
-4. Update this page and the entry's current snapshot if behaviour changes.
-5. Test: fresh boot defaults, save, power-cycle persistence, maximum-length values, corrupt JSON, and the relevant display/network effect.
-
-## 9. Observed K4-03 configuration
-
-The actual fork unit first booted with no `/halclock.conf`, so it used defaults: `Europe/Budapest`, `hu.pool.ntp.org`, device name `HalClock`, clever `1`, second blinking `0`, brightness `255`, leading zeros `1`, auto brightness `1`.
-
-The portal was then used to save:
-
-| Field | Value |
+| 字段 | 值 |
 |---|---|
 | NTP server | `nz.pool.ntp.org` |
 | Timezone | `Pacific/Auckland` |
-| Syslog server | empty (disabled) |
+| Syslog server | 空（disabled） |
 | Second blinking | on |
 | Clever numbering | on |
 | Leading zeros | on |
 | Auto brightness | on |
 | Brightness | 255 |
 
-The serial echo showed `clever` missing from the JSON because of the defect in §6; the saved file still loaded correctly with the default `true`. Syslog is UDP 514; an empty server disables the client. Wi-Fi configuration is not in `/halclock.conf`; it lives in the ESP8266 SDK flash region and was preserved by the sketch-only flash. Later the maintainer found auto brightness too dark and switched to fixed manual brightness; the exact value/time is not recorded. See [the deployment record](../../evidence/2026-07-23-k4-03-deployment.md).
+serial echo 中 `clever` 缺失是 §7 的缺陷；保存文件仍以默认 `true` 加载。syslog 是 UDP 514；空 server 禁用 client。Wi-Fi 配置不在 `/halclock.conf`，而在 ESP8266 SDK flash 区，sketch-only flash 会保留它。后来 maintainer 发现自动亮度偏暗，改为固定 manual brightness；具体值和切换时间未记录。见 [deployment record](../../evidence/2026-07-23-k4-03-deployment.md)。
 
-## 10. UI reference
+<a id="known-persistence-defects"></a>
 
-These inherited upstream screenshots show the intended portal layout and a real deployment of the upstream firmware. They are reference media, not fork deployment evidence; values are examples, not defaults. Network identifiers are deliberately not transcribed.
+<a id="known-persistence-defects"></a>
 
-- [Landing page](../../images/main_page.png) — title, hostname/IP, Configure WiFi / Info / Setup / Restart.
-- [Setup page](../../images/setup_page.png) — the configuration fields and checkboxes.
-- [WiFi page](../../images/wifi.png) — SSID/password form, scan and refresh.
+## 7. 已知持久化缺陷
 
-## 11. Test checklist
+以下来自代码审阅，不是 hardware 复现：
 
-- Fresh boot with no `/halclock.conf` shows the documented defaults.
-- Each field survives save + reboot; specifically test `clever` and `leading_zeros`.
-- A corrupt JSON file and a missing filesystem are recovered deliberately (currently a known defect).
-- Brightness 0, 1, 255 and 256 behave as intended; auto brightness overrides manual.
-- Invalid timezone falls back visibly or is rejected (not currently validated).
-- AP SSID/password, portal title, station IP and OTA password match this page.
-- Web-UI firmware upload is known broken; use serial or OTA until it is fixed and verified.
+- **`clever` 不保存。** 字段会 load、会显示，但 `saveConfiguration()` 从不写它。取消 clever 并 save，reboot 后很可能回到 `true`。
+- **parse/mount 失败不应用默认值。** 错误路径只 log，全局 config 保持全零。损坏文件可能产生空 device name、空 NTP/timezone/syslog 和 brightness 0；display 可能黑掉。
+- **Load 的 brightness 不 clamp。** Web save clamp 1–255；其他方式写入的值赋给 `byte` 时可能 wrap。
+- **Save document 偏小。** 四个 64-byte 字符串加 key 可能超过 `StaticJsonDocument<256>`。
+- **timezone 用 NTP 字段大小复制。** 两个都是 64 bytes 时无害，但脆弱。
+
+## 8. OTA 与安全
+
+- `ENABLE_OTA` 在 `myConfig.h` 定义；只有定义时才编译 OTA。
+- `ArduinoOTA.setHostname(getAPName())`、`ArduinoOTA.setPassword(getAPName())`；OTA password 就是可发现的 AP 名。
+- OTA progress 调 `wdt_reset()`；正常 upload 不会被 8 秒 watchdog 打断。
+- Web UI 无认证。AP password 硬编码，OTA password 可预测。把设备当作可信家庭网络设备，不要暴露到互联网。
+- `saveConfiguration()` 把 JSON（含 syslog 地址）echo 到 Serial。不要在不可信环境保存 serial log。
+
+## 9. 改动检查单
+
+加/改配置字段时：
+
+1. 更新 `Config`、默认宏和 `loadConfiguration()`。
+2. 更新 `menuSetup()` 和 `saveParamsCallback()`。
+3. 更新 `saveConfiguration()`，检查 JSON document 容量。
+4. 更新本页；行为变化时更新入口当前快照。
+5. 测试：首次 boot 默认值、save、power-cycle 持久化、最大长度、损坏 JSON，以及对应的 display/network 效果。
+
+## 10. UI 参考
+
+这些 inherited upstream 截图展示 portal 布局和 upstream 固件的真实部署。它们是参考媒体，不是本 fork 的部署证据；值是示例，不是默认值。网络标识不转写。
+
+- [Landing page](../../images/main_page.png) — title、hostname/IP、Configure WiFi / Info / Setup / Restart。
+- [Setup page](../../images/setup_page.png) — 配置字段和 checkbox。
+- [WiFi page](../../images/wifi.png) — SSID/password form、scan、refresh。
+
+## 11. 测试检查单
+
+- 无 `/halclock.conf` 的全新 boot 显示文档默认值。
+- 每个字段 save + reboot 后保留；重点测 `clever` 和 `leading_zeros`。
+- 损坏 JSON 和缺失 filesystem 能被有意恢复（当前是已知缺陷）。
+- brightness 0、1、255、256 行为符合预期；auto brightness 覆盖 manual。
+- 非法 timezone 会被可见地回退或拒绝（当前不校验）。
+- AP SSID/password、portal title、station IP 和 OTA password 与本页一致。
+- Web UI firmware upload 已知 broken；修好并验证前用 serial 或 OTA。

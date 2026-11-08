@@ -1,48 +1,48 @@
-# 2026-07-23 K4-03 Hardware Preparation
+# 2026-07-23 K4-03 硬件准备
 
-This page records the physical preparation and serial troubleshooting that preceded the successful K4-03 flash on **2026-07-23**. It is based on a second user-provided Codex summary and complements the [deployment record](2026-07-23-k4-03-deployment.md). It is not a manufacturer schematic.
+本页记录 K4-03 成功刷写前的物理准备和串口排障，基于 maintainer 提供的第二份 Codex 总结，补充 [部署记录](2026-07-23-k4-03-deployment.md)。它不是厂家 schematic。
 
-## 1. Device and tools
+## 1. 设备和工具
 
-| Item | Actual |
+| 项目 | 实际值 |
 |---|---|
-| Board marking | `BAIYANGSHU WiFi Clock K4-03` |
-| Upstream target | `Baiyangshu 1902 WiFi Clock K2-02` |
-| MCU / module | ESP-12F; esptool identifies `ESP8266EX` |
+| 主板丝印 | `BAIYANGSHU WiFi Clock K4-03` |
+| Upstream 目标 | `Baiyangshu 1902 WiFi Clock K2-02` |
+| MCU / module | ESP-12F；esptool 识别 `ESP8266EX` |
 | Crystal | 26 MHz |
 | Flash | 4 MB = 4,194,304 bytes |
-| Flash ID | `Manufacturer: 20`, `Device: 4016` |
-| USB-UART | CP2102, header `3V3 / TXD / RXD / GND / +5V` |
-| Windows port | `COM3` (re-check after replug or on another PC) |
-| Tools | Windows 11, PowerShell, Python, Arduino IDE; esptool **5.3.1** |
-| Repository | `E:\ChineseWallClock` |
+| Flash ID | `Manufacturer: 20`、`Device: 4016` |
+| USB-UART | CP2102，header `3V3 / TXD / RXD / GND / +5V` |
+| Windows port | `COM3`（重新插拔或换电脑要重新确认） |
+| 工具 | Windows 11、PowerShell、Python、Arduino IDE；esptool **5.3.1** |
+| 仓库 | `E:\ChineseWallClock` |
 
-The goal was to remove the factory firmware's always-on AP and use a maintainable open-source firmware. The factory serial log confirmed that it ran STA + SoftAP simultaneously. The replacement preserved the saved Wi-Fi configuration, closed the configuration AP and (per the maintainer) recovers after a network outage; long-term Wi-Fi stability was not separately measured.
+目标是关闭原厂固件的常驻 AP，改用可维护的开源固件。原厂 serial log 证实它同时运行 STA + SoftAP。替换固件保留 Wi-Fi 配置、关闭 configuration AP，并且（per maintainer）断网后能自动恢复；长期 Wi-Fi 稳定性没有单独测量。
 
-## 2. Programming header: what was actually confirmed
+## 2. 编程 header：实际确认了什么
 
-“Left to right” below means the physical direction observed on **this** board with its photo. It is not a universal pin-1 definition for every K4-03.
+下面的“左到右”只指**这块板**的观察方向，不是所有 K4-03 的通用 pin 1 定义。
 
-| Observed position | Confirmation | Caution |
+| 位置 | 确认情况 | 注意 |
 |---|---|---|
-| 1 | **FLASH / GPIO0 confirmed** | Pull low, repower; esptool connected and two backups were read |
-| 2 | **Not confirmed in this session** | Upstream K2-02 docs call it RST, but it was never wired or used |
-| 3 | **GND confirmed** | Continuity to the clock's USB-A power ground; common-ground A/B/C tests passed |
-| 4/5 | **Serial pair confirmed by communication** | Initial wiring produced no valid output; swapping the two wires worked. The text record does not finally assign which is MCU TX vs RX |
-| 6 | **+5V confirmed usable for the clock** | The stable setup did not use it; the clock was powered from its own USB-A |
+| 1 | **FLASH / GPIO0 已确认** | 拉低、重新上电；esptool 连接并完成两次 backup |
+| 2 | **本次未确认** | upstream K2-02 称 RST，但本次没接、没用 |
+| 3 | **GND 已确认** | 与时钟 USB-A power GND 通断；A/B/C 共地测试通过 |
+| 4/5 | **Serial pair 通信确认** | 初始接法无有效输出；交换两根线后成功。文字记录没有最终分配哪根是 MCU TX/RX |
+| 6 | **+5V 可用于时钟** | 稳定方案不用它；时钟自己 USB-A 供电 |
 
-### TX/RX direction
+### TX/RX 方向
 
-The correct relationship is by signal direction, not by copying a pin number:
+正确关系按 signal direction 记，不要照抄 pin 号：
 
 ```text
-clock TX (logs out)  ─────→ CP2102 RXD
-clock RX (commands)  ←───── CP2102 TXD
+clock TX（输出 log） ─────→ CP2102 RXD
+clock RX（接收命令） ←───── CP2102 TXD
 ```
 
-Reading the factory log only proves the clock→PC direction. esptool identifying the chip and reading flash proved bidirectional communication.
+能读原厂 log 只证明 clock→PC 方向。esptool 识别 chip、读取 flash 才证明双向通信。
 
-## 3. Final power and wiring
+## 3. 最终供电和接线
 
 ```text
 clock USB-A ─────────────── clock power
@@ -52,81 +52,81 @@ CP2102 GND ──────────────── board pin 3 GND
 CP2102 RXD ←─────────────── board actual TX
 CP2102 TXD ───────────────→ board actual RX
 
-CP2102 +5V                 not connected
-CP2102 3V3                 not connected
-board pin 2                not connected; RST unused
-download mode only:
+CP2102 +5V                 不接
+CP2102 3V3                 不接
+board pin 2                不接；RST 未使用
+仅在下载模式：
 board pin 1 FLASH/GPIO0 ─── board GND
 ```
 
-The clock and CP2102 were separately powered and shared a common ground. The clock's USB-A ground does not remove the need for a common serial reference.
+时钟和 CP2102 各自供电、共享 common ground。时钟 USB-A 有地，不代表可以省掉 serial 双方的 common reference。
 
-Avoid:
+避免：
 
-- connecting CP2102 `+5V` or `3V3` while the clock is on its own USB supply;
-- treating the board `+5V` as UART logic level;
-- assuming a `3V3` pin means the TXD level was measured — no independent TXD voltage measurement was kept.
+- 时钟用自己 USB 供电时，接 CP2102 `+5V` 或 `3V3`；
+- 把 board `+5V` 当 UART logic level；
+- 认为有 `3V3` 引脚就代表 TXD 电平已经测过——本次没有保留独立 TXD 电压测量。
 
-## 4. Soldering fault and recovery
+## 4. 焊接故障和恢复
 
-During soldering/wiring, the clock once showed no blue LED and no serial output, looking bricked. **No firmware write had been performed yet.** After cleaning the solder joints, removing external wiring, and powering only from the clock's USB-A, it recovered, reconnected to the original Wi-Fi and served the factory page.
+焊接/接线期间，时钟一度没有蓝灯、没有 serial 输出，看起来像变砖。**当时还没有写 firmware。** 清理焊点、移除外部接线、只用时钟 USB-A 供电后恢复，能连原 Wi-Fi 并打开原厂页面。
 
-Conclusion: the evidence supports a soldering/contact/boot-strap-state problem, not a corrupted factory image. No specific short was recorded, so do not claim a particular solder bridge as the proven cause.
+结论：证据支持焊接/接触/boot-strap 状态问题，不是 factory image 损坏。没有记录具体 short，所以不能断言是某个焊盘连锡。
 
-Lessons:
+经验：
 
-1. Disconnect power and jumpers before soldering, cleaning or continuity tests.
-2. Check both sides for bridges, cold joints, stray wire strands and pad edges.
-3. A visual absence of a bridge does not prove a reliable connection.
-4. Use the actual USB-A power ground as the reference, not the USB shell.
-5. Continuity beeps alone are not a complete diagnosis; combine resistance, routing and live behaviour.
-6. Strain-relieve the wires; intermittent contact during read/write is dangerous.
-7. On an anomaly, power down and return to the minimal wiring; do not “rescue” by repeated power cycling or erasing.
-8. No blue LED or no display does not prove a damaged chip; with GPIO0 held low the factory application is not supposed to run.
+1. 焊接、清理、通断测量前断开电源和 jumpers。
+2. 两面都检查 bridge、cold joint、stray wire、pad edge。
+3. 肉眼看不出 bridge 不等于连接可靠。
+4. 用实际 USB-A power ground 作 reference，不用 USB shell。
+5. 蜂鸣档不能代替完整判断；结合阻值、走线和实际工作状态。
+6. 线要 strain-relieve；read/write 时不要碰线。
+7. 异常时断电，回到 minimal wiring；不要靠反复上电或擦写“抢救”。
+8. 蓝灯不亮、display 不亮不能证明 chip 坏；GPIO0 拉低时原厂 application 本来就不运行。
 
-## 5. “GND connected, clock does not start” investigation
+## 5. “接 GND 就不启动”的排查
 
-The clock once failed to start with CP2102 GND connected and recovered when it was removed, suggesting the programming GND was not connected or the board was intentionally locked. Later:
+时钟曾在接 CP2102 GND 时不启动，拔掉恢复，让人怀疑 programming GND 没通或厂家防刷。后来：
 
-- pin 3 did have continuity to the USB-A power ground;
-- CP2102 `+5V` was **not** connected during the anomaly, so “dual 5 V supply” is not a proven cause;
-- three minimal tests passed:
+- pin 3 确实与 USB-A power ground 导通；
+- 异常时 CP2102 `+5V` **没有**接，所以“双 5 V 供电”不是已证明原因；
+- 三个最小测试通过：
 
-| Test | Wiring | Result |
+| 测试 | 接线 | 结果 |
 |---|---|---|
-| A | Separate supplies, only GND connected | Clock boots normally |
-| B | A + clock TX → CP2102 RXD | Factory serial log readable |
-| C | B + CP2102 TXD → clock RX | Clock still boots; bidirectional communication works |
+| A | 各自供电，只接 GND | 正常启动 |
+| B | A + clock TX → CP2102 RXD | 能读原厂 serial log |
+| C | B + CP2102 TXD → clock RX | 仍正常；双向通信成功 |
 
-The common-ground scheme was correct; the original GND was not a dead pin. The exact electrical cause of the earlier anomaly was not determined; the focus moved to FLASH wiring and boot order.
+common-ground 方案本身正确，GND 不是空脚。早期异常的精确原因没有确定；重点转到 FLASH 接线和 boot order。
 
-The most effective method was to add **one wire at a time** and isolate variables, rather than connecting everything and guessing.
+最有效的方法是**每次只加一根线**，隔离变量，而不是一次接满后猜。
 
-## 6. Serial and download mode
+## 6. 串口和下载模式
 
-Windows enumerated `Silicon Labs CP210x USB to UART Bridge (COM3)`. Arduino Serial Monitor and Python miniterm both work, but only one program may own `COM3` at a time.
+Windows 识别 `Silicon Labs CP210x USB to UART Bridge (COM3)`。Arduino Serial Monitor 和 Python miniterm 都能用，但同一时刻只能有一个程序占用 `COM3`。
 
-Factory log command:
+原厂 log 命令：
 
 ```powershell
 py -m serial.tools.miniterm COM3 115200
 ```
 
-Exit with `Ctrl+]`.
+退出 `Ctrl+]`。
 
-After swapping TX/RX there was data but garbage; switching to `115200` produced clear factory ASCII. Some Chinese text remained garbled; that does not mean the serial link failed. `74880` is for the ESP8266 ROM boot messages, not the application log; the successful download-mode evidence is esptool connecting, not a saved ROM boot log.
+交换 TX/RX 后有数据但乱码；切到 `115200` 后读到清晰原厂 ASCII。部分中文仍乱码，不代表 serial link 失败。`74880` 是 ESP8266 ROM boot message，不是 application log；download-mode 成功的证据是 esptool 连接，不是保存了 ROM log。
 
-To see the earliest boot messages, keep the CP2102 and serial monitor connected and power-cycle only the clock; unplugging the CP2102 removes the COM port.
+想看最早 boot message，保持 CP2102 和 serial monitor 连着，只给时钟重新上电；拔掉 CP2102 会让 COM port 消失。
 
-Manual download mode:
+手动下载模式：
 
 ```text
 clock off → FLASH/GPIO0 to GND → clock on → run esptool
 ```
 
-GPIO0 must be low at reset/boot; connecting it after the factory application is already running is not enough.
+GPIO0 必须在 reset/boot 时 low；原厂 application 已经运行后再接不够。
 
-Successful identification:
+成功识别：
 
 ```powershell
 py -m esptool --chip esp8266 --port COM3 --baud 115200 `
@@ -136,13 +136,13 @@ py -m esptool --chip esp8266 --port COM3 --baud 115200 `
   --before no-reset --after no-reset flash-id
 ```
 
-Observed: `Connected to ESP8266 on COM3`, `Chip type: ESP8266EX`, `Crystal frequency: 26MHz`, `Chip ID: <private>`, `Detected flash size: 4MB`. The chip ID/MAC suffix is a private hardware identifier and is not repeated in the public deployment record.
+观察到：`Connected to ESP8266 on COM3`、`Chip type: ESP8266EX`、`Crystal frequency: 26MHz`、`Chip ID: <private>`、`Detected flash size: 4MB`。Chip ID/MAC suffix 是私有硬件标识，公开记录不重复。
 
-`Hard resetting via RTS pin...` is a tool message, not proof that the board reset. RTS was not wired; the commands used both `--before no-reset` and `--after no-reset`.
+`Hard resetting via RTS pin...` 只是工具消息，不是 board reset 证据。RTS 没接；命令同时使用 `--before no-reset` 和 `--after no-reset`。
 
 ## 7. Factory backup
 
-The private backup directory contains a verified full image and its hash/restore notes. Historical reads used:
+私有 backup 目录里有 verified full image 和 hash/restore notes。历史读取命令：
 
 ```powershell
 Set-Location <private-backup-dir>
@@ -156,15 +156,15 @@ py -m esptool --chip esp8266 --port COM3 --baud 115200 `
   read-flash 0x000000 0x400000 K4-03_factory_2.bin
 ```
 
-Each read took about **382.9 seconds** at about **87.6 kbit/s**. Both files were 4,194,304 bytes and matched SHA-256 `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E`.
+每次约 **382.9 秒**、约 **87.6 kbit/s**。两个文件都是 4,194,304 bytes，SHA-256 都是 `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E`。
 
-Do not re-run the read command with the same filenames after flashing; it would overwrite the factory backup. The current private directory has `K4-03_FACTORY_VERIFIED.bin` with the same hash. The raw image is **not copied into the repository**; the maintainer keeps it privately. See [backup manifest](2026-07-23-k4-03-backup-manifest.md).
+刷写后不要用同名文件再读，会覆盖 factory backup。当前私有目录有 `K4-03_FACTORY_VERIFIED.bin`，hash 相同。原始 image **不复制进仓库**，由 maintainer 私有保存。见 [backup manifest](2026-07-23-k4-03-backup-manifest.md)。
 
-A successful two-read backup does not mean a restore was tested. **Restore remains NOT_RUN.**
+两次读取成功不等于 restore 已经测试。**Restore 仍是 NOT_RUN。**
 
-## 8. Auto-brightness finding
+## 8. 自动亮度发现
 
-After flashing, `Auto Brightness` worked but looked too dark. The upstream code:
+刷后 `Auto Brightness` 能用但偏暗。Upstream code：
 
 ```cpp
 int brightness_level = 255 - config.brightness;
@@ -173,38 +173,38 @@ if (config.auto_brightness) {
 }
 ```
 
-means auto mode **overrides** the manual `Brightness` value; it is not a baseline or offset. The mapping is approximately:
+auto mode **覆盖** manual `Brightness`，不是 baseline 或 offset。映射大致是：
 
 ```text
 sensorValue = analogRead(A0)
 brightness_level = min(sensorValue / 4, 245)
 ```
 
-The OE control is inverted: lower PWM is brighter, higher PWM is dimmer. No A0 readings were collected across lighting conditions, and the final core's PWM configuration was not recorded. The observed “too dark” result may be the upstream mapping, the light-sensor divider, or another K4-03 difference; the cause is not proven.
+OE 控制是 inverted：PWM 越小越亮，越大越暗。没有采集不同光照下的 A0，也没有记录最终 core 的 PWM 配置。“偏暗”可能来自 upstream mapping、光敏分压或 K4-03 差异；原因未证明。
 
-The maintainer's workaround was to disable auto brightness and use a fixed manual value; the fixed value/time was not recorded. Treat auto brightness as an **open usability issue**, not a passed feature.
+Maintainer 的 workaround 是关闭 auto brightness、用固定 manual 值；具体值和时间未记录。Auto brightness 是 **open usability issue**，不是 passed feature。
 
-## 9. Compatibility boundary
+## 9. 兼容性边界
 
-The upstream code defines GPIO15 (OE), GPIO12 (latch), GPIO14 (shift clock), GPIO13 (data), `A0` light sensor, and DS3231 over `Wire`. These are **code definitions**, not a full continuity measurement of the K4-03. The successful boot proves compatibility for the tested functions on this one unit, not for every K4-03 revision.
+upstream code 定义 GPIO15（OE）、GPIO12（latch）、GPIO14（shift clock）、GPIO13（data）、`A0` 光敏、DS3231 over `Wire`。这些是 **code 定义**，不是对 K4-03 全部走线的通断测量。成功 boot 只证明这台机器上已测功能兼容，不证明所有 K4-03 revision。
 
-## 10. Checklist for the next unit
+## 10. 下一台机器的检查单
 
-- [ ] Power off before soldering; inspect both sides for bridges, cold joints and strain.
-- [ ] Verify pins with the real power ground and continuity; do not trust “left-to-right” from another board.
-- [ ] Pin 1 FLASH and pin 3 GND confirmed; pin 2 unverified; photograph the final pin 4/5 orientation.
-- [ ] Clock on its own USB supply; CP2102 only GND/RX/TX; +5V/3V3 unconnected.
-- [ ] Add GND first, then receive, then transmit.
-- [ ] A readable log proves only clock→PC; use esptool to prove bidirectional communication.
-- [ ] GPIO0 low before repower for download; remove it before normal boot.
-- [ ] Do not treat no LED/no display/RTS text as proof of damage or reset.
-- [ ] Two full backups, matching size/hash; never overwrite the factory image.
-- [ ] Do not publish the factory image or raw logs with saved Wi-Fi configuration.
-- [ ] Flash success, functional test pass and restore test are three separate conclusions.
+- [ ] 焊接前断电；两面检查 bridge、cold joint、strain。
+- [ ] 用真实 power ground 和通断确认 pin，不信另一块板的“左起”。
+- [ ] pin 1 FLASH、pin 3 GND 已确认；pin 2 未验证；拍照记录 pin 4/5 最终方向。
+- [ ] 时钟自己 USB 供电；CP2102 只接 GND/RX/TX；+5V/3V3 不接。
+- [ ] 先接 GND，再接 receive，最后接 transmit。
+- [ ] 能读 log 只证明 clock→PC；用 esptool 证明双向。
+- [ ] 下载前 GPIO0 low，正常 boot 前移除。
+- [ ] 不把无 LED/无 display/RTS 文本当损坏或 reset 的证据。
+- [ ] 两次完整 backup，size/hash 匹配；不要覆盖 factory image。
+- [ ] 不公开含已保存 Wi-Fi 配置的 factory image 或 raw log。
+- [ ] flash 成功、functional test pass、restore test 是三件不同的事。
 
-## 11. Related records
+## 11. 相关记录
 
-- [K4-03 deployment record](2026-07-23-k4-03-deployment.md) — build, flash, verification, boot and config.
-- [Backup manifest](2026-07-23-k4-03-backup-manifest.md) — private backup and hash.
-- [Hardware](../modules/hardware/README.md) — components, pins and cautions.
-- [Deployment runbook](../modules/deployment/README.md) — repeatable procedure.
+- [K4-03 部署记录](2026-07-23-k4-03-deployment.md) — build、flash、verify、boot、config。
+- [Backup manifest](2026-07-23-k4-03-backup-manifest.md) — 私有 backup 和 hash。
+- [Hardware](../modules/hardware/README.md) — 元件、pin、注意事项。
+- [Deployment runbook](../modules/deployment/README.md) — 可重复流程。

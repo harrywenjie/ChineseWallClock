@@ -1,46 +1,46 @@
-# History and Provenance
+# 历史与来源
 
-This is the index for project history. It separates **upstream history** from **fork-local operations**; the distinction matters because the fork has not committed or pushed its own changes.
+本页是项目历史索引，区分 **upstream 历史** 和 **fork 本地操作**。fork 没有改固件源码，只有文档提交。
 
 <a id="provenance"></a>
 
-## 1. Provenance
+## 1. 来源
 
-| Item | Value |
+| 项目 | 值 |
 |---|---|
-| Upstream project | [`halacs/wallclock`](https://github.com/halacs/wallclock) |
+| Upstream | [`halacs/wallclock`](https://github.com/halacs/wallclock) |
 | Fork | [`harrywenjie/ChineseWallClock`](https://github.com/harrywenjie/ChineseWallClock) |
-| Fork created | 2026-01-27T20:03:16Z (GitHub API metadata) |
-| Local clone | 2026-07-23 14:08:33 +12:00, from the fork remote |
-| Tracked HEAD | `d55188e` (2025-07-25), identical to `origin/master` |
-| Fork commits/pushes | Documentation commits only; no firmware-source changes |
-| Upstream divergence | Upstream has newer commits (pushed 2026-09-05) that are not in this fork; no merge decision |
+| Fork 创建 | 2026-01-27T20:03:16Z（GitHub API） |
+| 本地 clone | 2026-07-23 14:08:33 +12:00，从 fork remote |
+| Tracked HEAD | `d55188e`（2025-07-25），与 `origin/master` 一致 |
+| Fork 提交 | 只有文档提交；没有固件源码变更 |
+| Upstream 分叉 | upstream 有 2026-09-05 push 的新提交，本 fork 未 merge |
 
-The tracked source is upstream work. `releases/`, `factory_firmware/`, `docs/images/`, `docs/display/`, `docs/datasheets/` and `KiCad/` are inherited artifacts. Fork-local build work was uncommitted and kept in `temp/`; the preserved part is under [`docs/evidence/2026-07-23-fork-build/`](../evidence/2026-07-23-fork-build/README.md). The actual K4-03 deployment is separately recorded in [`docs/evidence/2026-07-23-k4-03-deployment.md`](../evidence/2026-07-23-k4-03-deployment.md).
+Tracked source 是 upstream 工作。`releases/`、`factory_firmware/`、`docs/images/`、`docs/display/`、`docs/datasheets/`、`KiCad/` 是 inherited 资产。fork 本地 build 工作原在 `temp/`，保留部分在 [`docs/evidence/2026-07-23-fork-build/`](../evidence/2026-07-23-fork-build/README.md)。实际 K4-03 部署单独记录在 [`docs/evidence/2026-07-23-k4-03-deployment.md`](../evidence/2026-07-23-k4-03-deployment.md)。
 
-## 2. Index
+## 2. 索引
 
-| Page | Covers | Read when |
+| 页面 | 内容 | 何时读 |
 |---|---|---|
-| [Fork operations](fork-operations.md) | 2026-07-23 build/deployment session and 2026-11-08 documentation round | Reconstructing what the fork actually did |
-| [2026-07-23 build evidence](../evidence/2026-07-23-fork-build/README.md) | Tool versions, build variants, artifacts, logs | Auditing the fork build |
-| [2026-07-23 K4-03 deployment](../evidence/2026-07-23-k4-03-deployment.md) | Actual flash, verification, first boot, config, Wi-Fi preservation | Reproducing or auditing the deployment |
-| [2026-07-23 hardware preparation](../evidence/2026-07-23-k4-03-hardware-preparation.md) | Soldering, serial/GND troubleshooting, pin confirmations, download mode | Preparing another unit |
-| [2026-07-23 backup manifest](../evidence/2026-07-23-k4-03-backup-manifest.md) | Private full-flash backup and restore plan (raw image not in repo) | Before restoring or discussing the backup |
-| [2026-11-08 local build](../evidence/2026-11-08-local-build.md) | Current compile verification | Checking the latest build |
-| [Deployment runbook](../modules/deployment/README.md) | Future deployment procedure and record template | Preparing a similar clock |
-| [Factory firmware](../modules/factory-firmware/README.md) | Inherited factory dump and original UI | Before restoring or replacing factory firmware |
+| [Fork operations](fork-operations.md) | 2026-07-23 build/deployment 和 2026-11-08 文档轮 | 重建 fork 实际做过什么 |
+| [2026-07-23 build evidence](../evidence/2026-07-23-fork-build/README.md) | tool 版本、build 变体、artifact、log | 审计 fork build |
+| [2026-07-23 K4-03 deployment](../evidence/2026-07-23-k4-03-deployment.md) | 实际 flash、verify、首次 boot、config、Wi-Fi 保留 | 复现或审计部署 |
+| [2026-07-23 hardware preparation](../evidence/2026-07-23-k4-03-hardware-preparation.md) | 焊接、串口/GND 排查、针脚确认、下载模式 | 准备另一台机器 |
+| [2026-07-23 backup manifest](../evidence/2026-07-23-k4-03-backup-manifest.md) | 私有 full-flash backup、内容检查、restore 预案 | 恢复或讨论 backup 前 |
+| [2026-11-08 local build](../evidence/2026-11-08-local-build.md) | 当前 compile 验证 | 检查最新 build |
+| [Deployment runbook](../modules/deployment/README.md) | 未来部署流程和 record template | 准备类似时钟 |
+| [Factory firmware](../modules/factory-firmware/README.md) | Inherited factory dump 和原厂 UI | 恢复/替换原厂固件前 |
 
-## 3. What not to infer
+## 3. 不要推断
 
-- The upstream screenshots show a working deployment of the upstream firmware. They are **not** evidence of the fork's unit, image or configuration.
-- The 2024 release binaries and factory dump predate the 2026 fork. Their presence in the fork does not mean the fork built or deployed them.
-- The 2026-07-23 build session proves the fork could compile the upstream source. The separate [K4-03 deployment record](../evidence/2026-07-23-k4-03-deployment.md) records the flash, verification, first boot and configuration; neither source proves full hardware compatibility.
-- The actual deployment is one K4-03 unit. It does not prove K2-02/K4-03 equivalence, and it does not close the untested display/RTC/brightness items in `docs/DEVELOPMENT.md` §5.
+- upstream 截图展示的是 upstream 固件的一次部署，**不是**本 fork 机器、image 或配置的证据。
+- 2024 release binaries 和 factory dump 早于 2026 fork；它们在 fork 里不代表 fork build 或部署过。
+- 2026-07-23 build 证明 fork 能编译 upstream 源码；flash、boot、部署由单独的 [K4-03 deployment](../evidence/2026-07-23-k4-03-deployment.md) 记录；两者都不证明完整 hardware compatibility。
+- 实际部署是一台 K4-03，不证明 K2-02/K4-03 等价，也不关闭 `docs/DEVELOPMENT.md` §5 中未测的 display/RTC/brightness 项。
 
-## 4. History maintenance
+## 4. 历史维护
 
-- New fork-local operations go to `docs/history/fork-operations.md` and, when raw evidence exists, `docs/evidence/<date>-<task>/`.
-- Do not rewrite upstream history or copy upstream commit narratives as fork work.
-- Do not close a failed/not-run test or a partial hardware check by reorganising this page.
-- Historical evidence records what was observed then; it does not create a current qualification. Current qualifications are in `docs/VALIDATION.md`.
+- 新的 fork 操作写 `docs/history/fork-operations.md`；有原始证据时放 `docs/evidence/<date>-<task>/`。
+- 不重写 upstream 历史，不把 upstream commit 叙述成 fork 工作。
+- 不通过重新整理关闭 failed/not-run test 或 partial hardware check。
+- 历史证据只记录当时观察到的事实，不产生当前资格；当前资格在 `docs/VALIDATION.md`。

@@ -1,43 +1,43 @@
-# 2026-07-23 K4-03 Backup Manifest
+# 2026-07-23 K4-03 Backup 清单
 
-This page records the actual K4-03 factory backup and its handling. The raw image is **not copied into or committed to** this public repository because it contains the saved Wi-Fi configuration and hardware identifiers, not just firmware. The maintainer keeps and backs it up manually.
+本页记录实际 K4-03 factory backup 和它的处理方式。原始 image **不复制进、不提交到**这个公开仓库，因为它包含已保存的 Wi-Fi 配置和硬件标识，不只是固件。Maintainer 自行保存和手动备份。
 
-## 1. Backup
+## 1. 备份
 
-| Property | Value |
+| 属性 | 值 |
 |---|---|
-| Original private directory | `<private-backup-dir>` (kept outside the repository; do not publish) |
-| Verified file | `K4-03_FACTORY_VERIFIED.bin` |
-| Size | **4,194,304 bytes** (`0x400000`, full 4 MiB) |
+| 原始私有目录 | `<private-backup-dir>`（仓库外；不要公开） |
+| Verified 文件 | `K4-03_FACTORY_VERIFIED.bin` |
+| 大小 | **4,194,304 bytes**（`0x400000`，完整 4 MiB） |
 | SHA-256 | `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E` |
-| Historical reads | Two independent full reads (`K4-03_factory_1.bin`, `K4-03_factory_2.bin`) matched the same size/hash |
-| Restore note | `restore.txt` in the private directory |
-| Restore tested? | **No** — the restore command is a plan, not a verified operation |
+| 历史读取 | 两次 independent full read（`K4-03_factory_1.bin`、`K4-03_factory_2.bin`），size/hash 一致 |
+| Restore note | 私有目录中的 `restore.txt` |
+| Restore 测试 | **未执行**——restore 命令是预案，不是 verified operation |
 
-The private directory also contains `K4-03_FACTORY_VERIFIED.sha256.txt` and `restore.txt`. They are not committed because they contain the private path/user context.
+私有目录还包含 `K4-03_FACTORY_VERIFIED.sha256.txt` 和 `restore.txt`。它们因含私有路径/用户上下文，不提交。
 
-### Content check
+### 内容检查
 
-A read-only inspection of the verified image found the saved Wi-Fi configuration in the SDK parameter region:
+对 verified image 做只读检查，在 SDK 参数区找到已保存的 Wi-Fi 配置：
 
-- the known SSID string is present at offset `0x3FD010` (and duplicated at `0x3FE010`), which is the SDK Wi-Fi config area, not the application image;
-- a credential-like field follows in the same structure; its exact encoding was not decoded, and no secret value is reproduced here;
-- the rest of the last 16 KiB contains SDK/RF data, not just application code.
+- 已知 SSID 字符串出现在 offset `0x3FD010`，并在 `0x3FE010` 重复；这是 SDK Wi-Fi config 区，不是 application image；
+- 同一结构后面有 credential-like 字段；具体编码未解码，本页不复制任何 secret；
+- 最后 16 KiB 的其余内容是 SDK/RF 数据，不只是 application code。
 
-So the backup is **not** firmware-only. Treat the whole 4 MiB image as containing user settings, even though the password encoding was not reverse-engineered.
+所以 backup **不是** firmware-only。即使 password 编码没有 reverse-engineer，整份 4 MiB image 也要按含用户设置处理。
 
-## 2. Repository policy
+## 2. 仓库策略
 
-- The raw image stays in the private directory and in whatever offline backup the maintainer chooses.
-- It is **not** copied into the repository; there is no `archive/` directory or Git-tracked binary.
-- Only this manifest, the size/hash and the restore procedure are committed.
-- If the repository is ever made private and the maintainer explicitly accepts the credential exposure, the raw image could be committed separately; that is not the current policy.
+- 原始 image 只放私有目录和 maintainer 选择的离线 backup。
+- **不**复制进仓库；没有 `archive/` 目录或 Git-tracked binary。
+- 只提交本清单、size/hash 和 restore procedure。
+- 如果仓库以后改为 private，且 maintainer 明确接受凭据暴露，才可以单独提交 raw image；当前政策不是这样。
 
-The maintainer will handle the manual backup; this page does not claim that a second copy exists.
+Maintainer 会自行做 manual backup；本页不声称存在第二份副本。
 
-## 3. Restore command (plan only)
+## 3. 恢复命令（仅预案）
 
-Do not run this while the clock is working. It writes the complete private image from `0x000000`:
+时钟正常运行时不要执行。它把完整私有 image 从 `0x000000` 写回：
 
 ```powershell
 py -m esptool --chip esp8266 --port COM3 --baud 115200 `
@@ -46,25 +46,25 @@ py -m esptool --chip esp8266 --port COM3 --baud 115200 `
   <private-backup-dir>\K4-03_FACTORY_VERIFIED.bin
 ```
 
-Before running:
+执行前：
 
-1. Re-check the SHA-256 and size.
-2. Confirm the unit is the same K4-03 (do not use the upstream K2-02 image).
-3. Confirm GPIO0 is low and the clock was repowered into the bootloader.
-4. Confirm `COM3` is not held by a serial monitor.
-5. Obtain explicit approval; a restore has not been tested.
+1. 复核 SHA-256 和 size。
+2. 确认是同一台 K4-03（不要用 upstream K2-02 image）。
+3. 确认 GPIO0 low，时钟已重新上电进 bootloader。
+4. 确认 `COM3` 没被 serial monitor 占用。
+5. 取得明确批准；restore 尚未测试。
 
-After writing, verify the flash, power off, remove GPIO0 from GND, power on, and check the factory display, Wi-Fi and web page.
+写完后 verify flash，断电，移除 GPIO0 到 GND，重新上电，检查原厂 display、Wi-Fi 和 Web 页面。
 
-## 4. Why the raw image is not in Git
+## 4. 为什么 raw image 不进 Git
 
-The full flash contains the saved Wi-Fi configuration and unit-specific data. The repository is public. Committing it would expose private network settings and create a permanent Git-history copy that is difficult to remove. The safe handling is:
+完整 flash 含已保存的 Wi-Fi 配置和 unit-specific 数据。仓库是 public。提交会暴露私有网络设置，并在 Git history 留下难以移除的副本。安全处理是：
 
-- keep the verified raw image only in the private directory/offline backup;
-- commit this manifest, the size/hash and the restore procedure;
-- never attach the image to an issue, release or pull request.
+- verified raw image 只放私有目录/离线 backup；
+- 提交本清单、size/hash 和 restore procedure；
+- 不要把 image 附到 issue、release 或 pull request。
 
-## 5. Related records
+## 5. 相关记录
 
 - [K4-03 deployment](2026-07-23-k4-03-deployment.md)
 - [K4-03 hardware preparation](2026-07-23-k4-03-hardware-preparation.md)

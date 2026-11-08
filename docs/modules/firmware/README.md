@@ -1,83 +1,87 @@
-# Firmware Overview
+# 固件总览
 
-The firmware is a single Arduino sketch plus four small modules. This page is the reading map and cross-cutting contract; change-specific detail is in the linked topic pages.
+固件是一个 Arduino sketch 加四个小 module。本页是阅读导航和横切合同；具体改动看链接的专题页。
 
-The actual fork unit is a K4-03. The software/deployment path (build, flash, verify, boot, config, Wi-Fi preservation) passed; detailed display/RTC/brightness checks are partial. See [the deployment record](../../evidence/2026-07-23-k4-03-deployment.md).
+本 fork 的实际机器是 K4-03。software/deployment 路径（build、flash、verify、boot、config、Wi-Fi 复用）已通过；display/RTC 细节和自动亮度根因仍为 partial。见 [deployment record](../../evidence/2026-07-23-k4-03-deployment.md)。
 
-## 1. Source map
+## 1. 源码映射
 
-| File | Role | Read when |
+| 文件 | 职责 | 何时读 |
 |---|---|---|
-| `ChineseWallClock.ino` | `setup()`/`loop()`, config load/save, WiFiManager menu, OTA, reset logging, watchdog | Changing boot, portal, OTA or lifecycle |
-| `myConfig.h`, `myConfig.cpp` | `Config` struct, defaults, shift-register pins, AP name/password | Changing a setting, pin or identity |
-| `myDisplay.h`, `myDisplay.cpp` | Shift-register output, digits, brightness, 500 ms scheduler | Changing what the display shows |
-| `myTime.h`, `myTime.cpp` | AceTime NTP + DS3231, timezone/DST conversion | Changing time sources or zones |
-| `myLogging.h`, `myLogging.cpp` | Serial and optional syslog output | Adding or changing log output |
+| `ChineseWallClock.ino` | `setup()`/`loop()`、配置、WiFiManager menu、OTA、reset log、watchdog | 改 boot、portal、OTA 或生命周期时 |
+| `myConfig.h`、`myConfig.cpp` | `Config`、默认值、shift register 引脚、AP 身份 | 改设置、引脚或身份时 |
+| `myDisplay.h`、`myDisplay.cpp` | shift register 输出、数字、亮度、500 ms scheduler | 改显示时 |
+| `myTime.h`、`myTime.cpp` | AceTime NTP + DS3231、timezone/DST | 改时间源或时区时 |
+| `myLogging.h`、`myLogging.cpp` | Serial 和可选 syslog | 改日志时 |
 
-## 2. Boot and loop
+## 2. 启动与主循环
 
-`setup()`:
+`setup()`：
 
-1. `Serial.begin(115200)`, log `Booting`.
-2. Load `/halclock.conf` from LittleFS; missing file loads defaults.
-3. Log the effective configuration.
-4. Initialise the display and show `2020` while the clock is not ready.
-5. Initialise `NTP + DS3231` via AceTime's `SystemClockLoop`.
-6. Build the WiFiManager parameter menu, then connect or start the non-blocking portal.
-7. Start ArduinoOTA when `ENABLE_OTA` is defined in `myConfig.h`.
-8. Log the reset reason; disable the watchdog, `delay(3000)`, enable `WDTO_8S`.
+1. `Serial.begin(115200)`，输出 `Booting`。
+2. 从 LittleFS 加载 `/halclock.conf`；文件不存在则用默认值。
+3. 输出当前配置。
+4. 初始化 display，在时间未就绪时显示 `2020`。
+5. 通过 AceTime `SystemClockLoop` 初始化 NTP + DS3231。
+6. 建立 WiFiManager 参数 menu，连接 WiFi 或启动 non-blocking portal。
+7. 如果 `myConfig.h` 定义了 `ENABLE_OTA`，启动 ArduinoOTA。
+8. 记录 reset reason；关闭 watchdog，`delay(3000)`，启用 `WDTO_8S`。
 
-`loop()` calls `wm.process()`, the time loop, the 500 ms display scheduler, `ArduinoOTA.handle()` when enabled, and `wdt_reset()`.
+`loop()` 调用 `wm.process()`、time loop、500 ms display scheduler、启用时的 `ArduinoOTA.handle()`，最后 `wdt_reset()`。
 
-## 3. Implemented behaviour
+## 3. 已实现行为
 
-- **Configuration UI:** WiFiManager portal with device name, NTP server, timezone, syslog server, brightness and four checkboxes (second blinking, clever numbering, leading zeros, automatic brightness).
-- **Time:** NTP is the reference source; the DS3231 is the backup. Timezones and DST come from AceTime's `zonedbx` database using the configured IANA name.
-- **Display:** hours and minutes on four digits; optional blinking second LEDs; optional leading zeros; “clever” glyph for a leading `1`; manual or automatic brightness.
-- **Network:** AP/hostname `halclock` + uppercase chip ID; AP password `password`; hostname set to the same value; WiFiManager retries five times; portal remains available after a successful connection.
-- **OTA:** Arduino IDE network upload, password set to the AP name; `ENABLE_OTA` controls compilation.
-- **Logging:** serial at 115200 and optional UDP syslog at facility `LOCAL7`.
-- **Watchdog:** 8 s, reset in the main loop and during OTA progress.
+- **配置 UI：** WiFiManager portal，包含 device name、NTP server、timezone、syslog server、brightness 和四个 checkbox（second blinking、clever numbering、leading zeros、automatic brightness）。
+- **时间：** NTP 是 reference source，DS3231 是 backup；时区和 DST 来自 AceTime `zonedbx` 中配置的 IANA 名。
+- **显示：** 四位数字显示时和分；可选秒点 LED 闪烁；可选 leading zeros；leading `1` 的 clever glyph；manual 或 automatic brightness。
+- **网络：** AP/hostname 为 `halclock` + 大写 chip ID；AP password `password`；hostname 同名；WiFiManager retry 5 次；连接成功后 portal 仍可用。
+- **OTA：** Arduino IDE network upload，password 为 AP 名；`ENABLE_OTA` 控制是否编译。
+- **日志：** serial 115200 和可选 UDP syslog，facility `LOCAL7`。
+- **Watchdog：** 8 秒，主 loop 和 OTA progress 都会 reset。
 
-Open product items (timezone dropdown, web-UI password, MQTT, web-UI firmware upload) are tracked only in `docs/DEVELOPMENT.md` §5.
+未完成产品项（timezone dropdown、Web UI password、MQTT、Web UI firmware upload）只在 `docs/DEVELOPMENT.md` §5 维护。
 
-## 4. Cross-cutting invariants
+## 4. 横切不变量
 
-- **One configuration object.** `Config config` is global; load happens before any consumer, save happens only from the portal callback and ends in `wm.reboot()`.
-- **Display cadence.** `syncDisplayScheduler()` refreshes every 500 ms; it reads the local time each time. Do not add a second display update loop.
-- **Time source.** `NtpClock` is the reference and `DS3231Clock` the backup; consumers call `getLocalTime()` rather than reading NTP or the RTC directly.
-- **Identity.** AP SSID, hostname and OTA password are derived from `getAPName()`; changing one changes the others.
-- **Logging is global.** The first log call may create the syslog client; changing `syslog_server` requires a reboot (the save path does one).
-- **Watchdog.** Blocking work over 8 s without `wdt_reset()` will reset the device.
+- **一个配置对象。** `Config config` 是全局；load 在使用者之前，save 只从 portal callback 进入并以 `wm.reboot()` 结束。
+- **Display 节奏。** `syncDisplayScheduler()` 每 500 ms refresh，每次都读取 local time。不要加第二个 display update loop。
+- **时间源。** `NtpClock` 是 reference，`DS3231Clock` 是 backup；consumer 调 `getLocalTime()`，不直接读 NTP/RTC。
+- **身份。** AP SSID、hostname、OTA password 都由 `getAPName()` 派生；改一个会改其他。
+- **Logging 是全局的。** 第一次 log 可能创建 syslog client；改 `syslog_server` 需要 reboot（save 路径会 reboot）。
+- **Watchdog。** 超过 8 秒不 `wdt_reset()` 会 reset。
 
 <a id="known-implementation-notes"></a>
 
-## 5. Known implementation notes
+<a id="known-implementation-notes"></a>
 
-These are code-inspection findings, not hardware reproductions:
+## 5. 已知实现问题
 
-- `saveConfiguration()` does not write `clever`; on the next load the missing key falls back to `"true"`. Unchecking clever therefore probably does not survive a reboot. See [configuration defects](configuration.md#known-persistence-defects).
-- A failed LittleFS mount or a JSON parse error logs but does not apply defaults; the global `Config` can remain zeroed. See [configuration defects](configuration.md#known-persistence-defects).
-- `loadConfiguration()` copies `timezone` with `sizeof(config.ntp_server)`; both fields are 64 bytes today, so this is harmless but fragile.
-- `saveConfiguration()` uses `StaticJsonDocument<256>` for four 64-byte strings plus keys; long values may be tight. Test with maximum-length values before adding fields.
-- `printCurrentTime()` is called from every `getLocalTime()` but only computes and discards values; it is a debug leftover.
-- `warningLog()` is implemented but unused.
-- `logResetReason()` and several logging calls assign string literals to `char*`, producing `-Wwrite-strings` warnings. The build has 14 such warnings and no errors.
-- `secondLedsOn` uses `millis() % 1000`, so the blink phase is relative to boot, not the RTC second.
-- `dsClock.setup()` and `systemClock->setup()` return values are not checked; a missing RTC is not explicitly reported.
+以下来自代码审阅，不是 hardware 复现：
 
-## 6. Reading map
+- `saveConfiguration()` 不写 `clever`；下次 load 缺 key 时回退 `"true"`。取消 clever 很可能在 reboot 后恢复。见 [configuration defects](configuration.md#known-persistence-defects)。
+- LittleFS mount 失败或 JSON parse error 只记 log，不应用默认值；全局 `Config` 可能保持全零。见 [configuration defects](configuration.md#known-persistence-defects)。
+- `loadConfiguration()` 用 `sizeof(config.ntp_server)` 复制 `timezone`；两者当前都是 64 bytes，暂时无害但脆弱。
+- `saveConfiguration()` 使用 `StaticJsonDocument<256>` 装四个 64-byte 字符串加 key；长值可能偏紧。加字段前用最大长度测试。
+- `printCurrentTime()` 每次 `getLocalTime()` 都调用，但只计算不输出，是 debug 残留。
+- `warningLog()` 实现了但未使用。
+- `logResetReason()` 和若干 logging 调用把 string literal 赋给 `char*`，产生 `-Wwrite-strings` warning；build 有 14 个 warning、0 error。
+- `secondLedsOn` 用 `millis() % 1000`，blink 相位相对 boot，不是 RTC 秒。
+- `dsClock.setup()` 和 `systemClock->setup()` 的返回值未检查；RTC 缺失不会被明确报告。
 
-| Task | Next page |
+## 6. 阅读映射
+
+| 任务 | 下一页 |
 |---|---|
-| Defaults, JSON, web form, WiFi, OTA | [configuration](configuration.md) |
-| Digits, brightness, leading zeros, clever `1`, second LEDs | [display](display.md) |
-| NTP, DS3231, timezone/DST | [time](time.md) |
-| Serial/syslog format | [logging](logging.md) |
-| Build/flash/deploy | [build and flash](../build-and-flash/README.md), [deployment](../deployment/README.md) |
+| 默认值、JSON、Web form、WiFi、OTA | [configuration](configuration.md) |
+| 数字、亮度、leading zeros、clever `1`、秒点 LED | [display](display.md) |
+| NTP、DS3231、timezone/DST | [time](time.md) |
+| Serial/syslog 格式 | [logging](logging.md) |
+| Build/flash/deploy | [build and flash](../build-and-flash/README.md)、[deployment](../deployment/README.md) |
 
 <a id="open-product-items"></a>
 
-## 7. Open product items
+<a id="open-product-items"></a>
 
-The upstream README still lists a timezone drop-down, a password-protected web UI, MQTT and a broken web-UI firmware upload. The status and next-step conditions are maintained only in `docs/DEVELOPMENT.md` §5; this page does not duplicate or close them.
+## 7. 未完成产品项
+
+upstream README 仍列出 timezone dropdown、password-protected Web UI、MQTT 和断掉的 Web UI firmware upload。状态和下一步只在 `docs/DEVELOPMENT.md` §5 维护；本页不复制或关闭它们。

@@ -1,67 +1,67 @@
-# ChineseWallClock Project Instructions
+# ChineseWallClock 项目指令
 
-This file holds project-specific, stable constraints. Generic DSH documentation, session and Git rules live in the applicable global `AGENTS.md` and skills; do not copy them here.
+本文件只保存项目特有的稳定约束。通用的 DSH 文档、会话和 Git 规则见适用的全局 `AGENTS.md` 与技能；不要在这里复制它们的正文。
 
-## What this repository is
+## 这个仓库是什么
 
-- A fork of [`halacs/wallclock`](https://github.com/halacs/wallclock), maintained as `harrywenjie/ChineseWallClock`.
-- Arduino/ESP8266 replacement firmware for the **Baiyangshu 1902 Wifi Clock K2 02**. This fork's actual unit is a **K4-03** revision (ESP8266EX, 26 MHz, 4 MB); do not assume K2-02 peripheral equivalence.
-- The tracked source is upstream source at `d55188e` (2025-07-25). Fork commits are documentation only; there is no fork firmware-source change.
-- Treat `releases/`, `factory_firmware/`, `docs/images/`, `docs/display/`, `docs/datasheets/`, and `KiCad/` as inherited upstream artifacts unless a record explicitly says otherwise.
-- Fork-local build records are preserved in `docs/evidence/2026-07-23-fork-build/`; the actual K4-03 deployment is recorded in `docs/evidence/2026-07-23-k4-03-deployment.md`.
-- The K4-03 deployment passed the software path (build, flash, verify, boot, config, Wi-Fi preservation, AP closure, network-loss recovery reported). Display detail and the auto-brightness cause remain partial; auto brightness was too dark and fixed brightness is the workaround. Do not invent results.
+- [`halacs/wallclock`](https://github.com/halacs/wallclock) 的 fork，维护仓库为 `harrywenjie/ChineseWallClock`。
+- 针对 **Baiyangshu 1902 Wifi Clock K2 02** 的 Arduino/ESP8266 替换固件。本 fork 的实际机器是 **K4-03**（ESP8266EX、26 MHz、4 MB），不要假设它与 K2-02 的外围电路完全等价。
+- 受跟踪的源码仍来自 upstream `d55188e`（2025-07-25）。fork 的提交只有文档，没有改固件源码。
+- `releases/`、`factory_firmware/`、`docs/images/`、`docs/display/`、`docs/datasheets/`、`KiCad/` 默认视为 inherited upstream 资产，除非记录明确说明不是。
+- fork 的构建记录保存在 `docs/evidence/2026-07-23-fork-build/`；实际 K4-03 部署记录在 `docs/evidence/2026-07-23-k4-03-deployment.md`。
+- K4-03 部署的软件路径已通过：build、flash、verify、boot、config、Wi-Fi 复用、配置 AP 关闭、断网恢复（人工反馈）。显示细节和自动亮度根因仍未完全验证；自动亮度偏暗，固定亮度是当前 workaround。不要编造结果。
 
-## Reading card
+## 阅读卡
 
-| Task | Read first | Then |
+| 任务 | 先读 | 再读 |
 |---|---|---|
-| Any round | `README.md`, `docs/DEVELOPMENT.md` §1–2, §5, §7 | The task's direct contract below |
-| Firmware behaviour | `docs/ENGINEERING_DESIGN.md`, `docs/modules/firmware/README.md` | The focused firmware topic file |
-| Build or flash | `docs/modules/build-and-flash/README.md` | `docs/evidence/2026-07-23-k4-03-deployment.md`, `docs/evidence/2026-11-08-local-build.md` |
-| Deploy a similar clock | `docs/modules/deployment/README.md` | `docs/evidence/2026-07-23-k4-03-hardware-preparation.md`, `docs/modules/hardware/README.md`, `docs/modules/factory-firmware/README.md` |
-| Hardware or schematic | `docs/modules/hardware/README.md` | The linked datasheet or `KiCad/schematic.pdf` |
-| Historical or provenance question | `docs/history/README.md` | `docs/history/fork-operations.md` |
-| Documentation maintenance | `AGENTS.md` (this file), `docs/DEVELOPMENT.md` §4 | `docs/maintenance/` records |
+| 任意一轮 | `README.md`、`docs/DEVELOPMENT.md` §1–2、§5、§7 | 下面的直接合同 |
+| 固件行为 | `docs/ENGINEERING_DESIGN.md`、`docs/modules/firmware/README.md` | 对应的专题页 |
+| 构建或刷写 | `docs/modules/build-and-flash/README.md` | `docs/evidence/2026-07-23-k4-03-deployment.md`、`docs/evidence/2026-11-08-local-build.md` |
+| 部署类似时钟 | `docs/modules/deployment/README.md` | `docs/evidence/2026-07-23-k4-03-hardware-preparation.md`、`docs/modules/hardware/README.md`、`docs/modules/factory-firmware/README.md` |
+| 硬件或原理图 | `docs/modules/hardware/README.md` | 链接的 datasheet 或 `KiCad/schematic.pdf` |
+| 历史或来源 | `docs/history/README.md` | `docs/history/fork-operations.md` |
+| 文档维护 | 本文件、`docs/DEVELOPMENT.md` §4 | `docs/maintenance/` 记录 |
 
-Do not load all module docs by default. Follow the direct dependency first; load history/evidence only when provenance, audit, or a conflict requires it.
+不要默认加载所有 module 文档。先读直接依赖；只有修改共享机制、证据冲突或缺少必要约束时，才沿引用补读 history/evidence。
 
-## Hardware and firmware constraints
+## 硬件与固件约束
 
-- Upstream target: **ESP-12F** (ESP8266), 4 × **74HC595D** shift registers, **DS3231SM** RTC on I2C, environment-light sensor on `A0`. Actual fork unit: **K4-03**, ESP8266EX, 26 MHz, 4 MB flash.
-- Arduino target: `esp8266:esp8266:d1_mini` (Wemos D1 mini / ESP-12F), ESP8266 core **3.1.2** (verified 2026-07-23 and 2026-11-08). The actual build used Arduino CLI **0.35.3**, 80 MHz, 4 MB, `4M2M`, DIO, 40 MHz, lwIP v2 Lower Memory, exceptions/debug off.
-- Shift-register pins: `SR_OE` GPIO15, `SR_RCLK` GPIO12, `SR_SRCLK` GPIO14, `SR_SER` GPIO13. RTC uses the ESP8266 default `Wire` pins (GPIO4/5 unless the schematic says otherwise). Confirm against `KiCad/schematic.pdf` before rewiring.
-- GPIO15 is a boot strap and the 74HC595 OE is active-low, so display outputs may be enabled briefly before `displaySetup()` raises OE. Treat this as the first K4-03 hardware risk; do not assume random segments are a firmware bug until checked.
-- Runtime configuration is LittleFS JSON at `/halclock.conf`; the `Config` struct and defaults live in `myConfig.h`. Saving from the web UI calls `wm.reboot()`.
-- Network identity: AP/hostname `halclock` + uppercase chip ID; AP password is the hard-coded `password`; OTA password is the AP name. The web UI has no authentication.
-- `ENABLE_OTA` is a compile-time define in `myConfig.h`. Removing it excludes OTA from the build; it does not add web-UI authentication.
-- The watchdog is enabled with an 8 s timeout after a 3 s boot delay. Do not add long blocking work without feeding or re-planning the watchdog.
-- IRAM usage is already **95 %** (62,551 / 65,536 bytes) in the verified build. Check the size report before adding IRAM-heavy code.
-- Code-level defects found during this documentation round are recorded, not fixed: `clever` is not persisted, a config parse/mount failure does not apply defaults, and several string literals produce `-Wwrite-strings` warnings. See `docs/modules/firmware/configuration.md` and `docs/modules/firmware/README.md`.
+- upstream 目标：**ESP-12F**（ESP8266）、4 × **74HC595D** shift register、I2C 上的 **DS3231SM** RTC、`A0` 光敏输入。本 fork 实际机器：**K4-03**、ESP8266EX、26 MHz、4 MB flash。
+- Arduino target：`esp8266:esp8266:d1_mini`（Wemos D1 mini / ESP-12F），ESP8266 core **3.1.2**（2026-07-23、2026-11-08 已验证）。实际构建使用 Arduino CLI **0.35.3**、80 MHz、4 MB、`4M2M`、DIO、40 MHz、lwIP v2 Lower Memory、exceptions/debug 关闭。
+- shift register 引脚：`SR_OE` GPIO15、`SR_RCLK` GPIO12、`SR_SRCLK` GPIO14、`SR_SER` GPIO13。RTC 使用 ESP8266 默认 `Wire` 引脚（GPIO4/5，除非 schematic 另有说明）。改动接线前对照 `KiCad/schematic.pdf`。
+- GPIO15 是 boot strap，74HC595 OE 低有效；复位/启动早期 display 输出可能短暂使能，直到 `displaySetup()` 拉高 OE。这是 K4-03 的首要硬件观察点，不要先把随机段位当成固件 bug。
+- 运行时配置是 LittleFS JSON `/halclock.conf`；`Config` 结构和默认值在 `myConfig.h`。Web UI 保存后调用 `wm.reboot()`。
+- 网络身份：AP/hostname 为 `halclock` + 大写 chip ID；AP 密码硬编码为 `password`；OTA 密码等于 AP 名。Web UI 没有认证。
+- `ENABLE_OTA` 是 `myConfig.h` 中的编译期 define。移除它只排除 OTA，不会增加 Web UI 认证。
+- watchdog 在 3 秒 boot delay 后以 8 秒超时启用。不要加入不喂狗的长阻塞逻辑。
+- 已验证 build 的 IRAM 已用 **95 %**（62,551 / 65,536 bytes）。加入 IRAM 密集代码前先看 size report。
+- 本轮记录的代码级缺陷（未修）：`clever` 不持久化；配置解析/挂载失败不会回退默认值；若干字符串字面量产生 `-Wwrite-strings` warning。见 `docs/modules/firmware/configuration.md` 和 `docs/modules/firmware/README.md`。
 
-## Build and artifact constraints
+## 构建与产物约束
 
-- `libraries/libraries.zip` is the pinned library snapshot. Extract it to a libraries folder; do not upgrade, patch, or “clean up” libraries in place without a recorded build and hardware check.
-- Build from the repository root with the extracted libraries on `--libraries`. Keep build directories and toolchains under `temp/`; do not commit them.
-- Reproducible deployment build: `SOURCE_DATE_EPOCH=1711661163`, Arduino CLI 0.35.3, core 3.1.2; two clean builds produced the 485,280-byte image with SHA-256 `5E4F281421DCE894FED3F03DD9599AF8A690218A85C70B6A5A5DB466748D3D1D`. Keep this epoch for comparisons.
-- The actual K4-03 factory backup is **4,194,304 bytes** with SHA-256 `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E`, stored privately outside the repository. It contains the saved Wi-Fi configuration (SSID confirmed in the SDK region), not just firmware; never commit, push or attach it. The raw image is not copied into the repo; the maintainer backs it up manually.
-- `releases/` and `factory_firmware/` are inherited upstream artifacts. Do not overwrite them. A new release needs a new dated directory and maintainer approval.
-- `factory_firmware/image4M.bin` is **4,000,000 bytes** (`0x3D0900`), not a full 4 MiB (`0x400000`) dump, and it came from the upstream author's device. Never treat it as a per-unit backup for this fork's clock.
-- Flash with esptool **5.3.1** (or a compatible version), `--before no-reset --after no-reset`, GPIO0 low, no full-chip erase for a sketch-only update, and verify both automatically and independently. Record the exact image hash/offset.
-- No automated tests exist. A compile is not a hardware test; state separately what was compiled, flashed, observed on a device, and deployed.
+- `libraries/libraries.zip` 是固定库快照。解压到 libraries 目录；没有记录 build 和硬件检查时，不要原地升级、打补丁或“整理”库。
+- 从仓库根目录构建，用 `--libraries` 指向解压后的库。build 目录和 toolchain 放在 `temp/`；不要提交。
+- 可复现部署 build：`SOURCE_DATE_EPOCH=1711661163`、Arduino CLI 0.35.3、core 3.1.2；两次 clean build 产出同一 485,280-byte image，SHA-256 `5E4F281421DCE894FED3F03DD9599AF8A690218A85C70B6A5A5DB466748D3D1D`。比较时保留这个 epoch。
+- 实际 K4-03 原厂备份：**4,194,304 bytes**，SHA-256 `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E`，保存在仓库外的私有目录。它包含已保存的 Wi-Fi 配置（SSID 已在 SDK 区确认），不只是固件；绝不 commit、push 或作为附件上传。原始 image 不复制进仓库，由 maintainer 手动备份。
+- `releases/` 和 `factory_firmware/` 是 inherited upstream 资产，不要覆盖。新 release 需要新的日期目录和 maintainer 批准。
+- `factory_firmware/image4M.bin` 是 **4,000,000 bytes**（`0x3D0900`），不是完整 4 MiB（`0x400000`）dump，来自 upstream 作者的设备。不要把它当作本 fork 时钟的 per-unit backup。
+- 刷写使用 esptool **5.3.1**（或兼容版本），`--before no-reset --after no-reset`，GPIO0 拉低，sketch-only 更新不做 full-chip erase，并做自动 + 独立 verify。记录准确的 image hash/offset。
+- 没有自动化测试。compile 不等于 hardware test；分别记录 compiled、flashed、observed on device、deployed。
 
-## Documentation rules
+## 文档规则
 
-- Documentation language is **English**, matching the existing public README.
-- `docs/DEVELOPMENT.md` is the only current-state and next-task entry. `README.md` is navigation plus a short project introduction. Do not add repository TODO, ROADMAP, STATUS, “latest”, or handoff files.
-- Binary reference media stay at their existing paths: `docs/datasheets/`, `docs/display/`, `docs/images/`, `KiCad/`, `releases/`, `factory_firmware/`. They are assets, not narrative documents.
-- Project-specific operations belong in `docs/history/fork-operations.md`; raw or copied evidence belongs in `docs/evidence/`; migration and maintenance records belong in `docs/maintenance/`.
-- The project has no issue tracker IDs. Use date-stamped task names such as `DOC-2026-11-08` or `DEP-2026-11` in the entry.
-- Documentation maintenance binding: follow the applicable global `AGENTS.md` §6 and the `doc-governance` skill. Default capacity warnings apply: entry 8,000; design/validation navigation 4,000; a module/topic navigation 6,000 LF source characters. Do not raise them to hide growth.
-- Any persistent change updates `docs/DEVELOPMENT.md` in the same round and replaces stale conclusions. Do not close UNKNOWN/FAILED/NOT_RUN items or a paused decision by reorganising text.
+- **文档语言为中文**；命令、路径、代码标识符、版本号、状态值（`PASS`/`FAILED`/`UNKNOWN`/`PARTIAL`/`NOT_RUN`/`OPEN`）和英文更准确的术语保留英文。
+- `docs/DEVELOPMENT.md` 是唯一当前状态和下一任务入口。`README.md` 是导航加简短项目介绍。不要增加仓库内 TODO、ROADMAP、STATUS、“latest”或 handoff 文件。
+- 二进制参考媒体保留原路径：`docs/datasheets/`、`docs/display/`、`docs/images/`、`KiCad/`、`releases/`、`factory_firmware/`。它们是 asset，不是叙述文档。
+- 项目操作记录放 `docs/history/fork-operations.md`；原始或复制证据放 `docs/evidence/`；迁移/维护记录放 `docs/maintenance/`。
+- 项目没有 issue tracker ID。使用日期任务名，如 `DOC-2026-11-08`、`VAL-2026-11`。
+- 文档维护绑定：遵循适用全局 `AGENTS.md` §6 和 `doc-governance` skill。默认容量预警：入口 8,000；design/validation 导航 4,000；单个 module/topic 导航 6,000 个 LF 源码字符。不要为了隐藏增长而上调阈值。
+- 任何持久变更都在同一轮更新 `docs/DEVELOPMENT.md` 并替换过期结论。不要通过重新整理关闭 `UNKNOWN`/`FAILED`/`NOT_RUN` 或暂停的决定。
 
-## Git and delivery
+## Git 与交付
 
-- Default branch `master`; `origin` is the fork `https://github.com/harrywenjie/ChineseWallClock.git`. Never push to the upstream `halacs/wallclock` without an explicit request.
-- Commit prefixes: `docs:`, `feat:`, `fix:`, `test:`, `chore:`.
-- Do not commit `temp/`, build outputs, toolchains, credentials, the K4-03 private backup, or private network identifiers. The repository already contains upstream deployment screenshots; do not transcribe their SSIDs, LAN addresses, MAC addresses, AP chip suffix, private backup path, or other private details into new text. The curated deployment record uses placeholders such as `<clock-ip>` and `<saved-2.4GHz-network>`.
-- The fork is behind upstream (upstream has commits after 2025-07-25). Syncing or merging upstream is a separate, explicitly authorised task; do not do it as part of documentation work.
+- 默认分支 `master`；`origin` 是 fork `https://github.com/harrywenjie/ChineseWallClock.git`。没有明确要求，不要 push 到 upstream `halacs/wallclock`。
+- commit 前缀：`docs:`、`feat:`、`fix:`、`test:`、`chore:`。
+- 不要提交 `temp/`、build 产物、toolchain、凭据、K4-03 私有备份或私有网络标识。仓库已有 upstream 部署截图；不要把其中的 SSID、LAN 地址、MAC、AP chip suffix、私有备份路径写进新文本。整理后的部署记录使用 `<clock-ip>`、`<saved-2.4GHz-network>` 等占位符。
+- 本 fork 落后于 upstream（upstream 在 2025-07-25 之后还有提交）。同步或 merge upstream 是单独、明确授权的任务；不要作为文档工作的一部分执行。

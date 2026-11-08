@@ -1,70 +1,70 @@
-# Time, NTP and RTC
+# 时间、NTP 与 RTC
 
-This page covers time acquisition, the DS3231 backup and timezone/DST conversion. The source of truth is `myTime.cpp`; the RTC hardware is described in [hardware](../hardware/README.md).
+本页覆盖时间获取、DS3231 backup 和 timezone/DST。源码事实以 `myTime.cpp` 为准；RTC 硬件见 [hardware](../hardware/README.md)。
 
-## 1. Stack
+## 1. 栈
 
-The firmware uses [AceTime](https://github.com/bxparks/AceTime) and `AceTimeClock`:
+固件使用 [AceTime](https://github.com/bxparks/AceTime) 和 `AceTimeClock`：
 
-- `NtpClock ntpClock` — reference clock, configured with `config.ntp_server`.
-- `DS3231Clock<WireInterface> dsClock` — battery-backed backup on I2C.
-- `SystemClockLoop systemClock` — combines the reference and backup.
-- `ExtendedZoneManager` with the `zonedbx` zone/link registry and a 3-entry `ExtendedZoneProcessorCache` — converts epoch seconds to local time using `config.timezone`.
+- `NtpClock ntpClock` — reference clock，用 `config.ntp_server` 配置。
+- `DS3231Clock<WireInterface> dsClock` — I2C 上的 battery-backed backup。
+- `SystemClockLoop systemClock` — 组合 reference 和 backup。
+- `ExtendedZoneManager` + `zonedbx` zone/link registry + 3 项 `ExtendedZoneProcessorCache` — 用 `config.timezone` 把 epoch seconds 转 local time。
 
-`Wire.begin()` uses the ESP8266 default I2C pins (GPIO4/5 unless the schematic says otherwise). `DS3231Clock::setup()` and `systemClock->setup()` are called without checking their return values.
+`Wire.begin()` 使用 ESP8266 默认 I2C 引脚（除非 schematic 另有说明，一般是 GPIO4/5）。`DS3231Clock::setup()` 和 `systemClock->setup()` 的返回值未检查。
 
-## 2. Setup and loop
+## 2. 初始化与主循环
 
-`syncTimeSetup()`:
+`syncTimeSetup()`：
 
-1. Placement-new `NtpClock(config.ntp_server)`.
-2. Allocate `SystemClockLoop(&ntpClock, &dsClock)`.
-3. `Wire.begin()` and `wireInterface.begin()`.
-4. `dsClock.setup()`.
-5. `ntpClock.setup()`; logs “NTP setup OK” or an error.
-6. `systemClock->setup()`.
+1. placement-new `NtpClock(config.ntp_server)`。
+2. 分配 `SystemClockLoop(&ntpClock, &dsClock)`。
+3. `Wire.begin()`、`wireInterface.begin()`。
+4. `dsClock.setup()`。
+5. `ntpClock.setup()`；成功 log “NTP setup OK”，失败 log error。
+6. `systemClock->setup()`。
 
-`syncTimeLoop()` calls `systemClock->loop()` on every main-loop iteration. The display calls `getLocalTime()` twice per second.
+`syncTimeLoop()` 每次主循环调用 `systemClock->loop()`。display 每秒调用 `getLocalTime()` 两次。
 
-`getLocalTime()`:
+`getLocalTime()`：
 
-1. `systemClock->getNow()` returns epoch seconds.
-2. `manager.createForZoneName(config.timezone)` creates a `TimeZone`.
-3. `ZonedDateTime::forEpochSeconds(...)` converts to local time.
-4. Copies year/month/day/hour/minute/second into the firmware `Time` struct.
-5. Calls `printCurrentTime()` — a debug leftover that computes values and prints nothing.
+1. `systemClock->getNow()` 取 epoch seconds。
+2. `manager.createForZoneName(config.timezone)` 建 `TimeZone`。
+3. `ZonedDateTime::forEpochSeconds(...)` 转 local time。
+4. 把 year/month/day/hour/minute/second 复制到固件 `Time` 结构。
+5. 调 `printCurrentTime()` — debug 残留，计算但不打印。
 
-## 3. Timezone and DST
+## 3. Timezone 与 DST
 
-- `config.timezone` is an IANA name such as `Europe/Budapest`; the full `zonedbx` registry is compiled in.
-- DST is automatic from the timezone rules; there is no manual offset or DST switch.
-- The string is **not validated**. An unknown name is likely treated as an unknown/UTC zone by AceTime; test any new zone on hardware before relying on it.
-- The timezone lookup is repeated on every `getLocalTime()` call; the 3-entry cache is shared, but this is still more work than caching the `TimeZone` for a stable configuration.
-- Changing the timezone via the web UI saves the config and reboots; the new zone is used on the next boot.
+- `config.timezone` 是 IANA 名，如 `Europe/Budapest`；完整 `zonedbx` registry 编译进固件。
+- DST 由 timezone 规则自动处理；没有 manual offset 或 DST switch。
+- 字符串**不校验**。未知名称很可能被 AceTime 当作 unknown/UTC zone；新时区先在 hardware 上验证。
+- 每次 `getLocalTime()` 都重复 timezone lookup；3 项 cache 共享，但仍比缓存稳定配置的 `TimeZone` 更费。
+- Web UI 改 timezone 会 save + reboot；下次 boot 使用新 zone。
 
-The actual K4-03 deployment saved `Pacific/Auckland` and `nz.pool.ntp.org`; the second boot loaded the zone, and AceTime's TZDB 2023d supplied the New Zealand DST rules. That is a snapshot of the timezone database at deployment time, not a permanent guarantee for future law changes. See [the deployment record](../../evidence/2026-07-23-k4-03-deployment.md).
+实际 K4-03 保存了 `Pacific/Auckland` 和 `nz.pool.ntp.org`；第二次 boot 加载了 zone，AceTime 的 TZDB 2023d 提供新西兰 DST 规则。这是部署时的时区数据库快照，不保证未来法律变化。见 [deployment record](../../evidence/2026-07-23-k4-03-deployment.md)。
 
-## 4. Failure behaviour
+## 4. 失败行为
 
-- NTP unreachable: `ntpClock.setup()` logs an error; `SystemClockLoop` is expected to use the DS3231 backup. The exact fallback timing is library behaviour and is **not verified on hardware** in this workspace.
-- DS3231 missing or battery dead: `dsClock.setup()` is not checked; the system may still run from NTP when the network is available, but the failure is not explicitly logged.
-- Both unavailable: the system clock may remain unset; the display will show whatever epoch-derived time results. The UI does not expose a “time not set” state.
-- On the actual K4-03, the maintainer reports automatic recovery after a network outage. That is a human observation, not an isolated RTC-only test; the RTC-vs-Wi-Fi path remains **not separately instrumented**.
-- Power loss: the DS3231 battery is intended to keep time; battery condition and drift are not measured here.
+- NTP 不可达：`ntpClock.setup()` log error；预期 `SystemClockLoop` 使用 DS3231 backup。具体 fallback 时机是库行为，本 workspace **未在 hardware 上验证**。
+- DS3231 缺失或电池没电：`dsClock.setup()` 未检查；有网络时仍可能靠 NTP 运行，但失败不会明确 log。
+- 两者都不可用：system clock 可能未设置；display 显示 epoch 派生值。UI 没有“time not set”状态。
+- 掉电：DS3231 电池用于保持时间；电池状态和漂移未测。
+- 实际 K4-03 上 maintainer 反馈断网后能自动恢复；这是人工观察，不是 isolated RTC-only test，RTC/Wi-Fi 路径仍未分别验证。
 
-## 5. Test checklist
+## 5. 测试检查单
 
-- Cold boot with NTP reachable: serial shows NTP setup OK; display reaches the correct local time.
-- Cold boot with NTP blocked: serial shows the NTP error; display uses the DS3231 and keeps time.
-- DST transition: the displayed local time changes at the configured zone's transition without a manual setting.
-- Invalid timezone: observe the actual fallback and record it; do not assume.
-- Power-cycle with the RTC battery installed: time is retained.
-- Power-cycle with the battery removed: record how long the clock takes to recover and what the display shows meanwhile.
-- Change timezone through the web UI: after reboot, the new local time and DST rules apply.
+- NTP 可达的冷启动：serial 显示 NTP setup OK；display 到正确 local time。
+- 阻断 NTP 的冷启动：serial 显示 NTP error；display 使用 DS3231 并保持时间。
+- DST 切换：display 在配置 zone 的切换点自动变化，无需 manual setting。
+- 非法 timezone：观察实际 fallback 并记录；不要假设。
+- 装 RTC 电池 power-cycle：时间保持。
+- 拔电池 power-cycle：记录恢复时间和 display 期间显示什么。
+- Web UI 改 timezone：reboot 后新 local time 和 DST 规则生效。
 
-## 6. Related reading
+## 6. 相关阅读
 
-- [Configuration](configuration.md) — `ntp_server`, `timezone`, save/reboot path.
-- [Display](display.md) — how the time is rendered.
-- [Logging](logging.md) — NTP/RTC error messages.
-- [Hardware](../hardware/README.md) — DS3231 and I2C pins.
+- [Configuration](configuration.md) — `ntp_server`、`timezone`、save/reboot 路径。
+- [Display](display.md) — 时间如何显示。
+- [Logging](logging.md) — NTP/RTC error message。
+- [Hardware](../hardware/README.md) — DS3231 和 I2C 引脚。

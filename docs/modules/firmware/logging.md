@@ -1,48 +1,48 @@
-# Logging and Syslog
+# 日志与 Syslog
 
-This page covers the serial/syslog logging path. The source of truth is `myLogging.cpp`.
+本页覆盖 serial/syslog logging 路径。源码事实以 `myLogging.cpp` 为准。
 
 ## 1. API
 
-Four varargs helpers share one `logging()` implementation:
+四个 varargs helper 共享 `logging()`：
 
-| Function | Severity | Typical use |
+| 函数 | 严重级别 | 典型用途 |
 |---|---|---|
-| `debugLog()` | `PRI_DEBUG` | Boot, config, filesystem, WiFi details |
-| `infoLog()` | `PRI_INFO` | Lifecycle events, AP identity, OTA start/end |
-| `warningLog()` | `PRI_WARNING` | **Unused** in the current source |
-| `errorLog()` | `PRI_ERROR` | Filesystem, brightness clamp, WiFi/OTA errors |
+| `debugLog()` | `PRI_DEBUG` | boot、config、filesystem、WiFi 细节 |
+| `infoLog()` | `PRI_INFO` | 生命周期、AP 身份、OTA start/end |
+| `warningLog()` | `PRI_WARNING` | **当前源码未使用** |
+| `errorLog()` | `PRI_ERROR` | filesystem、brightness clamp、WiFi/OTA 错误 |
 
-Every message is formatted with `vasprintf()`, printed to Serial as `[LEVEL] message`, sent to syslog when configured, and freed. The dynamic allocation per message is normal for diagnostic logging but is a fragmentation risk if logging is added in a tight loop.
+每条消息用 `vasprintf()` 格式化，按 `[LEVEL] message` 打到 Serial，配置了 syslog 时发送，然后 free。每条消息动态分配一次，诊断用途正常，但 tight loop 里频繁 log 有 fragmentation 风险。
 
-## 2. Serial
+## 2. 串口
 
-`Serial.begin(115200)` is called first in `setup()`. The first line is `[INFO] Booting`. The boot log then includes the effective configuration, AP name/password, NTP setup result, WiFi result, OTA status and reset reason. This is the primary diagnostic channel for a deployment; capture it before and after flashing.
+`setup()` 最先 `Serial.begin(115200)`。第一行是 `[INFO] Booting`。boot log 随后包含有效配置、AP name/password、NTP 结果、WiFi 结果、OTA 状态和 reset reason。部署时这是主要诊断通道；刷写前后都保留。
 
 ## 3. Syslog
 
-- Disabled when `strlen(config.syslog_server) <= 1`.
-- On the first log call with a longer server string, a `SimpleSyslog` instance is created with:
-  - hostname `getAPName()`;
-  - application name `APPLICATION_NAME` (`HalClock`);
-  - the configured server address.
-- Messages use facility `FAC_LOCAL7` and the severity above.
-- The client is global and lazy: changing `syslog_server` requires a reboot to recreate it. The web save path already reboots.
-- The default server is a private LAN address defined in `myConfig.h`. With the default, the firmware will attempt syslog on the first log call even if no collector exists; UDP failures are not surfaced.
-- The actual K4-03 deployment left `syslog_server` empty, which disables the remote client. The transport is UDP 514; use a trusted collector and keep the address private.
-- Syslog is plain UDP, unauthenticated and unencrypted. Use it only on a trusted network.
+- `strlen(config.syslog_server) <= 1` 时 disabled。
+- 第一次 log 且 server 字符串更长时，创建 `SimpleSyslog`：
+  - hostname `getAPName()`；
+  - application name `APPLICATION_NAME`（`HalClock`）；
+  - 配置的 server 地址。
+- 消息使用 `FAC_LOCAL7` 和上面的 severity。
+- client 是全局、lazy 的；改 `syslog_server` 需要 reboot 才重建。Web save 已经 reboot。
+- 默认 server 是 `myConfig.h` 里的私有 LAN 地址。用默认值时第一次 log 就会尝试 syslog，即使没有 collector；UDP 失败不会上报。
+- 实际 K4-03 部署把 `syslog_server` 留空，禁用 remote client。传输是 UDP 514；只使用可信 collector，地址保持私有。
+- Syslog 是 plain UDP，无认证、无加密。只在可信网络使用。
 
-## 4. Message conventions
+## 4. 消息约定
 
-- Prefix severity in brackets: `[INFO]`, `[DEBUG]`, `[WARNING]`, `[ERROR]`.
-- Use `%s`, `%d` and `%.2f` formats supported by the ESP8266 `printf`; avoid `%zu`/`%llu` unless verified.
-- Do not log credentials, WiFi passwords or full configuration dumps in new code. The existing save path echoes the JSON configuration to Serial, including the syslog address; treat captured logs as sensitive.
-- `logResetReason()` maps ESP8266 reset reasons and logs a human-readable string.
+- 前缀方括号 severity：`[INFO]`、`[DEBUG]`、`[WARNING]`、`[ERROR]`。
+- 使用 ESP8266 `printf` 支持的 `%s`、`%d`、`%.2f`；`%zu`/`%llu` 要先验证。
+- 新代码不要 log 凭据、WiFi password 或完整配置 dump。现有 save 路径会把 JSON 配置（含 syslog 地址）echo 到 Serial；捕获的 log 视为敏感。
+- `logResetReason()` 把 ESP8266 reset reason 映射成可读字符串。
 
-## 5. Test checklist
+## 5. 测试检查单
 
-- Serial at 115200 shows boot, config, AP identity and reset reason.
-- With an empty syslog server, no syslog client is created.
-- With a reachable collector, messages arrive with `LOCAL7` and the expected severity.
-- With an unreachable collector, boot and display behaviour do not block.
-- Changing the syslog server via the web UI takes effect after reboot.
+- Serial 115200 显示 boot、config、AP 身份和 reset reason。
+- syslog server 为空时不创建 client。
+- collector 可达时，消息以 `LOCAL7` 和预期 severity 到达。
+- collector 不可达时，boot 和 display 不被阻塞。
+- Web UI 改 syslog server 后 reboot 生效。
