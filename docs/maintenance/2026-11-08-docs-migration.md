@@ -57,7 +57,7 @@
 
 - **Links/anchors:** Python checker over all tracked Markdown (excluding `temp/` and copied raw-log directory); **141 local links checked, 0 broken**.
 - **Capacity (LF source characters):**
-  - Entry `docs/DEVELOPMENT.md`: **7,948** (limit 8,000).
+  - Entry `docs/DEVELOPMENT.md`: **7,931** (limit 8,000).
   - Design `docs/ENGINEERING_DESIGN.md`: **3,935** (limit 4,000).
   - Validation `docs/VALIDATION.md`: **3,996** (limit 4,000).
   - Module navigation: firmware **5,744**, hardware **5,490**, factory firmware **5,072** (limit 6,000 each); history index **3,128**.
@@ -71,4 +71,5 @@
 - **Open/unknown items:** fork deployment record **待核实**; exact v1.1 rebuild **UNKNOWN**; hardware runtime **NOT_RUN**; web-UI firmware upload **OPEN/FAILED**; persistence defects **OPEN**; upstream divergence **OPEN**.
 - **Next task:** `DEP-2026-11` — capture the fork's real deployment record and dry-run the runbook on a spare ESP8266/D1 mini; do not flash the clock until a full per-unit backup is verified. This is a record, not execution authorisation.
 - **Next review trigger:** a new deployment record, a capacity warning, a focus change, a firmware change, or a maintainer request. The entry is near its 8,000-character warning, so a new open item should replace or merge an existing row rather than append.
+- **Delivery:** documentation migration committed as `92772d1` and pushed to `origin/master` on 2026-11-08.
 - **Notes:** documentation language is English; binary media stays at existing paths; the fork remains behind upstream; no code, libraries, releases or hardware were changed.

@@ -8,7 +8,7 @@ This is the only current-state and next-task entry. Read §1, §2, §5 and §7 f
 
 **Non-goals:** firmware changes, dependency upgrades, flashing or opening the clock, merging upstream, publishing a release.
 
-**Focus:** `DOC-2026-11-08` — documentation normalisation and preservation of the fork-local records.
+**Focus:** `DOC-2026-11-08` complete; documentation baseline and fork evidence in place.
 
 **Latest validation:** 2026-11-08 local compile **PASS** — Arduino CLI 0.35.3, ESP8266 core 3.1.2, bundled libraries; 485,280-byte image; RAM 46 %, IRAM 95 %, flash 42 %. No hardware test. See [2026-11-08 build](evidence/2026-11-08-local-build.md).
 
@@ -75,7 +75,7 @@ Unresolved items are not closed by documentation work. `UNKNOWN`, `FAILED`, `NOT
 
 <a id="current-next"></a>
 
-**Safe point:** `DOC-2026-11-08` is complete when this entry, the module docs, preserved evidence and migration record are delivered and checked. No firmware/hardware state changed.
+**Safe point:** `DOC-2026-11-08` is complete: this entry, the module docs, preserved evidence and migration record are delivered and checked. No firmware/hardware state changed.
 
 **Minimal input:** `AGENTS.md`, this entry §1/2/5/7, the relevant module doc and the linked evidence.
 
