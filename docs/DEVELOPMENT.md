@@ -8,9 +8,9 @@
 
 **非目标：** 改固件行为、升级依赖、打开或刷写时钟、merge upstream、发布 release。
 
-**当前焦点：** `DOC-2026-11-08` — 文档 baseline 加 K4-03 部署记录。
+**当前焦点：** `DOC-2026-11-08-temp-inventory` — 盘点 `temp/`、备份脚本/文档、记录从零重建 toolchain 的步骤。
 
-**最近验证：** 2026-07-23 K4-03 部署 **PASS**（build/flash/verify/boot/config/Wi-Fi/AP；断网恢复为人工反馈）— [记录](evidence/2026-07-23-k4-03-deployment.md)；2026-11-08 compile **PASS**（485,280 bytes，IRAM 95 %）— [build](evidence/2026-11-08-local-build.md)。自动亮度偏暗，已改用固定亮度；display/RTC 细节仍为 partial。
+**最近验证：** 2026-07-23 K4-03 部署 **PASS**（build/flash/verify/boot/config/Wi-Fi/AP；断网恢复为人工反馈）— [记录](evidence/2026-07-23-k4-03-deployment.md)；2026-11-08 compile **PASS**（485,280 bytes，IRAM 95 %）— [build](evidence/2026-11-08-local-build.md)；同轮脚本在空 `temp/` 副本（`E:\cwc\ChineseWallClock`）全量下载并重建部署 image **PASS**（485,280 bytes，`5E4F…D3D1D`）— [toolchain setup](modules/build-and-flash/toolchain-setup.md)。自动亮度偏暗，已改用固定亮度；display/RTC 细节仍为 partial。
 
 **部署基线：** 实际 K4-03，2026-07-23；firmware `5E4F…`（485,280 B），esptool 5.3.1，`0x000000`，已验证；inherited v1.1（485,248 B）是 upstream，不是本次部署。
 
@@ -26,25 +26,27 @@
 | 固件行为 | [`modules/firmware/README.md`](modules/firmware/README.md) | 修改固件前 |
 | 硬件、pinout、schematic、datasheet | [`modules/hardware/README.md`](modules/hardware/README.md) | 接线、刷写或恢复前 |
 | build、image、offset、OTA | [`modules/build-and-flash/README.md`](modules/build-and-flash/README.md) | compile/flash 前 |
+| 丢弃 temp 后重建 toolchain/libraries | [`modules/build-and-flash/toolchain-setup.md`](modules/build-and-flash/toolchain-setup.md) | 新机器、清理 temp 或 build 环境不完整时 |
 | 端到端部署 | [`modules/deployment/README.md`](modules/deployment/README.md) | 打开/刷写时钟前 |
 | validation 资格 | [`VALIDATION.md`](VALIDATION.md) | 声称某功能可用时 |
 | factory backup 和原厂 UI | [`modules/factory-firmware/README.md`](modules/factory-firmware/README.md) | 恢复/替换原厂固件前 |
+| 文档链接/容量检查 | [`scripts/check_docs.py`](../scripts/check_docs.py) | 每次改文档后 |
 | 文档维护绑定 | §4、[`AGENTS.md`](../AGENTS.md) | 每次改文档 |
 | 全局 agent 规则 | 适用的全局 `AGENTS.md`（DSH §6） | 每一轮；不要复制正文到这里 |
 
 ## 3. 当前工作包与通过条件
 
-- **任务：** `DOC-2026-11-08`。
-- **范围：** 建立本入口、薄 `AGENTS.md`、design/validation 导航、module 文档、fork-operations history、保留的 build evidence、迁移记录和实际 K4-03 部署记录；把 README 改为导航。
-- **通过条件：** 只有一个当前状态入口；旧 README 内容无丢失地映射；本地链接/anchor 有效；temp 记录已保留；入口/design/validation 导航在容量预警内；`git diff --check` 干净；没有代码/依赖变更。
-- **边界：** maintainer 只授权文档工作和 fork 本地记录整理。没有授权改代码、访问硬件、刷写或部署。
+- **任务：** `DOC-2026-11-08-temp-inventory`。
+- **范围：** 盘点 ignored `temp/` 的 12 个子目录和根文件；把 `check_docs.py` 迁到 `scripts/`；新增可移植 CLI config、toolchain setup/build 脚本；记录大包下载/校验/重建；更新文档中的 temp 引用。
+- **通过条件：** `temp/` 每项都有处置；部署所需脚本、libraries 和下载步骤可从 Git 重建；链接/anchor 有效；入口/导航容量在预警内；`git diff --check` 干净；没有代码/依赖/硬件变更。
+- **边界：** 只做文档和仓库脚本；不删除整个 `temp/`、不刷写、不部署、不 merge upstream。`temp/` 删除是 maintainer 后续动作。
 
 ## 4. 每轮开发与收尾
 
 - 遵循适用的全局 `AGENTS.md` 流程。本节只记录项目命令和环境。
 - **文档维护绑定：** 分层、容量、复审、退出和未决项规则见全局 `AGENTS.md` §6 和 `doc-governance` skill。不要在这里复制规则正文。
 - **项目文档规则：** 中文；命令/路径/代码标识符/状态值保留英文；二进制媒体留在 `docs/datasheets/`、`docs/display/`、`docs/images/`、`KiCad/`、`releases/`、`factory_firmware/`；fork 操作记录放 `docs/history/fork-operations.md`；原始证据放 `docs/evidence/`；维护记录放 `docs/maintenance/`。
-- **来源：** tracked history 是 upstream history。不要把 upstream commit、截图、release 或 factory dump 说成 fork 的工作。fork 本地 build 工作只在 `temp/` 和保留的证据里；部署记录在 `docs/evidence/2026-07-23-k4-03-deployment.md`。
+- **来源：** tracked history 是 upstream history。不要把 upstream commit、截图、release 或 factory dump 说成 fork 的工作。fork 本地 build 环境在 `temp/`（可整体删除，重建见 [toolchain setup](modules/build-and-flash/toolchain-setup.md)），永久证据在 `docs/evidence/`；部署记录在 `docs/evidence/2026-07-23-k4-03-deployment.md`。
 - **验证边界：** compile/文档检查是 local；hardware、NTP/WiFi、display、OTA、Web UI 和 deployment 是不同证据等级。
 
 ## 5. 决定与未决事项
@@ -64,24 +66,27 @@
 
 | 命令 | 用途 | 边界 |
 |---|---|---|
-| `arduino-cli --config-file temp/arduino-cli.yaml compile --fqbn esp8266:esp8266:d1_mini --libraries temp/bundled/libraries --build-path temp/build/verify --output-dir temp/artifacts/verify .` | 用固定 toolchain/libraries 编译 | 仅 local compile |
+| `pwsh -NoProfile -File scripts/setup-build-env.ps1` | 下载/校验 Arduino CLI、安装 core、解压 libraries 到 `temp/` | 需要网络；不碰硬件 |
+| `pwsh -NoProfile -File scripts/build-firmware.ps1 -Variant canonical1 -Clean` | 用固定 FQBN/libraries/build property/epoch 编译并比对部署 hash | 仅 local compile |
+| `python scripts/check_docs.py` | 检查本地 Markdown 链接/anchor 并报告容量 | 仓库卫生 |
 | `git diff --check` | 检查空白/冲突 | 仓库卫生 |
-| `temp/docs-migration/` 下的 Python 链接/anchor checker | 检查本地 Markdown 链接/标题 | 结果写入 maintenance |
 
-- **环境：** Windows 11、Arduino CLI 0.35.3、ESP8266 core 3.1.2、bundled libraries；原作者使用 Ubuntu 22.04.4、Arduino IDE 2.3.2、Wemos D1 mini 测试板。
+- **环境：** Windows 11、Arduino CLI 0.35.3、ESP8266 core 3.1.2、bundled libraries；临时环境可删除和重建（[toolchain setup](modules/build-and-flash/toolchain-setup.md)）。原作者使用 Ubuntu 22.04.4、Arduino IDE 2.3.2、Wemos D1 mini 测试板。
 - **未覆盖：** 详细 K4-03 display/RTC/brightness 检查、OTA upload、Web UI upload、power loss、长期漂移、断网下的 watchdog。build/flash/verify/boot/config/Wi-Fi 已由 [deployment record](evidence/2026-07-23-k4-03-deployment.md) 覆盖。
 
 ## 7. 当前交接与下一任务卡
 
 <a id="current-next"></a>
 
-**当前安全点：** `DOC-2026-11-08` 完成；K4-03 部署已记录；build/flash/boot/config/Wi-Fi/AP 通过；hardware 检查 partial。
+**当前安全点：** `DOC-2026-11-08-temp-inventory` 完成；`temp/` 盘点、永久备份和 toolchain 重建路径已记录；空 `temp/` 副本可从网络重建部署 image；K4-03 部署基线不变；hardware 检查 partial。
 
-**最小输入：** `AGENTS.md`、本入口 §1/2/5/7、[deployment record](evidence/2026-07-23-k4-03-deployment.md) 和对应 module 文档。
+**未验证：** 离线重建 **NOT_RUN**（需要下载 CLI/core/tools）；flash、boot、display、Wi-Fi、OTA 仍按原证据边界保持未验证。
+
+**最小输入：** `AGENTS.md`、本入口 §1/2/5/7、[deployment record](evidence/2026-07-23-k4-03-deployment.md)、[toolchain setup](modules/build-and-flash/toolchain-setup.md) 和对应 module 文档。
 
 **下一候选：** `VAL-2026-11` — 在已部署时钟上跑 hardware checklist（段位、RTC retention、自动亮度、OTA）；记录结果；除非失败，不要重刷。
 
-**通过条件：** 记录观察、log 和失败；更新本入口 §1/§5 与 `docs/VALIDATION.md`。重刷必须有新的明确批准和 backup hash 复核。
+**通过条件：** 记录观察、log 和失败；更新本入口 §1/§5 与 `docs/VALIDATION.md`。重刷必须有新的明确批准和 backup hash 复核。删除 `temp/` 后再 build 时，先按 toolchain setup 重建并复核 image hash。
 
 **不扩展：** upstream merge、功能开发、依赖升级、release 发布，或未经明确授权打开/刷写时钟。
 

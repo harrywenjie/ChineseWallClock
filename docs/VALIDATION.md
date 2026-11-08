@@ -22,7 +22,7 @@ compile 只证明源码能用指定 toolchain/libraries 构建；hash 只证明�
 
 **2026-07-23 deterministic build：** Arduino CLI 0.35.3、core 3.1.2、bundled libraries；`SOURCE_DATE_EPOCH=1711661163`；两次 clean build byte-identical；image **485,280 bytes**，SHA-256 `5E4F281421DCE894FED3F03DD9599AF8A690218A85C70B6A5A5DB466748D3D1D`。
 
-**2026-11-08 local compile：** 同源码/toolchain/libraries，但未固定 epoch；exit 0；485,280 bytes，SHA-256 `4898…50C6`；14 个 warning，0 error。完整记录：[2026-11-08 build](evidence/2026-11-08-local-build.md)。
+**2026-11-08 local compile：** 同源码/toolchain/libraries，但未固定 epoch；exit 0；485,280 bytes，SHA-256 `4898…50C6`；14 个 warning，0 error。完整记录：[2026-11-08 build](evidence/2026-11-08-local-build.md)。从零重建 toolchain 见 [toolchain setup](modules/build-and-flash/toolchain-setup.md)；同轮脚本用 `scriptcheck` build path 和空 `temp/` 副本复现了部署 hash。
 
 ## 4. 实际 K4-03 部署
 
@@ -32,7 +32,7 @@ compile 只证明源码能用指定 toolchain/libraries 构建；hash 只证明�
 
 ## 5. Release 重建
 
-v1.1 为 485,248 bytes，SHA-256 `1FB0…29FC`；2026-07-23 canonical build 为 485,280 bytes，SHA-256 `5E4F…D3D1D`。源码与 v1.1 code-identical（`git diff 7d18e68..HEAD` 未改代码），但 image 大 32 bytes。v1.1 精确重建为 **UNKNOWN**；当前源码在固定 epoch、相同 build path/toolchain 下可复现。
+v1.1 为 485,248 bytes，SHA-256 `1FB0…29FC`；2026-07-23 canonical build 为 485,280 bytes，SHA-256 `5E4F…D3D1D`。源码与 v1.1 code-identical（`git diff 7d18e68..HEAD` 未改代码），但 image 大 32 bytes。v1.1 精确重建为 **UNKNOWN**；当前源码在固定 epoch、相同 toolchain/libraries 下可复现，build path 和 workspace 未观察到影响。
 
 <a id="hardware-and-deployment"></a>
 

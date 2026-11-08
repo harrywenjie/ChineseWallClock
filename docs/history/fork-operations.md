@@ -1,6 +1,6 @@
 # Fork 操作记录
 
-本页记录 fork 在 clone 之后实际做了什么。Tracked source 没有 fork 改动；fork 提交只有文档。Fork 本地证据包括被忽略的 `temp/` build 记录和用户提供的 Codex 部署记录，整理后放 `docs/evidence/`。
+本页记录 fork 在 clone 之后实际做了什么。Tracked source 没有 fork 改动；fork 提交只有文档。Fork 本地证据包括被忽略的 `temp/` build 记录和用户提供的 Codex 部署记录，整理后放 `docs/evidence/`。`temp/` 是一次性环境，删除后按 [toolchain setup](../modules/build-and-flash/toolchain-setup.md) 重建，仓库脚本在 [`scripts/`](../../scripts/README.md)。
 
 时间是 workspace local time（2026 年 7 月为 UTC+12），根据 clone reflog、文件 mtime 和聊天片段重建。不是正式 session log；部署日期由 maintainer 确认为 **2026-07-23**。
 
@@ -21,7 +21,7 @@
 
 ## 2. Fork 本地变更与 setup
 
-Tracked firmware source 没有 fork 改动：build 时复制的 `.cpp` 在去掉生成的 `#line` 后与 upstream 一致，tracked source 仍是 `d55188e`。fork 本地工作是文档，加 `temp/` build 环境和实际部署。
+Tracked firmware source 没有 fork 改动：build 时复制的 `.cpp` 在去掉生成的 `#line` 后与 upstream 一致，tracked source 仍是 `d55188e`。fork 本地工作是文档，加 `temp/` build 环境和实际部署。下面列出的 `temp/` 路径是 2026-07-23 现场；已确认可由仓库脚本和记录的 URL/hash 重建。
 
 - **实际机器：** BAIYANGSHU **K4-03**，不是 upstream K2-02。ESP8266EX、26 MHz、4 MB。K2-02 schematic 只作接线参考，电气等价性未证明。物理准备和 pin 确认见 [hardware preparation](../evidence/2026-07-23-k4-03-hardware-preparation.md)。
 - **Factory backup：** 完整 4 MiB 读取两次；两份 4,194,304-byte 文件 SHA-256 均为 `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E`。Backup 私有，含已保存的 Wi-Fi 配置（不只是固件），绝不进入 Git。[Backup manifest](../evidence/2026-07-23-k4-03-backup-manifest.md)。
@@ -87,4 +87,5 @@ Fork tracked source 是 upstream `d55188e`；文档提交不改 firmware。upstr
 - [2026-07-23 backup manifest](../evidence/2026-07-23-k4-03-backup-manifest.md) — 私有 full-flash backup 和 restore plan（原始 image 不在仓库）。
 - [2026-07-23 fork build](../evidence/2026-07-23-fork-build/README.md) — tool 版本、build variant、log、config/script、artifact hash。
 - [2026-11-08 local build](../evidence/2026-11-08-local-build.md) — 当前 compile 验证。
+- [toolchain setup](../modules/build-and-flash/toolchain-setup.md) — 从零重建 `temp/`、下载 URL/hash 和 compile 命令。
 - [Validation](../VALIDATION.md) — 这些证据证明了什么、没证明什么。

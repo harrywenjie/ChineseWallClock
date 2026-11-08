@@ -15,7 +15,7 @@
 - **[开发入口](docs/DEVELOPMENT.md)** — 当前状态、未决项和下一任务。先读这个。
 - **[硬件](docs/modules/hardware/README.md)** — 主板、元件、引脚、编程接口、schematic 和 datasheet。
 - **[固件行为](docs/modules/firmware/README.md)** — boot 流程、配置、显示、时间、日志和已知实现问题。
-- **[构建与刷写](docs/modules/build-and-flash/README.md)** — toolchain、固定库、image 形式、offset、OTA 和常见故障。
+- **[构建与刷写](docs/modules/build-and-flash/README.md)** — toolchain、固定库、image 形式、offset、OTA 和常见故障；[从零重建 toolchain](docs/modules/build-and-flash/toolchain-setup.md)。
 - **[部署 runbook](docs/modules/deployment/README.md)** — 类似时钟的端到端流程，包括 factory backup 和 record template。
 - **[原厂固件](docs/modules/factory-firmware/README.md)** — upstream 的 4,000,000-byte dump、提取命令和原厂 UI。
 - **[历史与来源](docs/history/README.md)** — upstream baseline、fork 本地操作和保留的 2026 构建证据。

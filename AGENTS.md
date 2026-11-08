@@ -18,6 +18,7 @@
 | 任意一轮 | `README.md`、`docs/DEVELOPMENT.md` §1–2、§5、§7 | 下面的直接合同 |
 | 固件行为 | `docs/ENGINEERING_DESIGN.md`、`docs/modules/firmware/README.md` | 对应的专题页 |
 | 构建或刷写 | `docs/modules/build-and-flash/README.md` | `docs/evidence/2026-07-23-k4-03-deployment.md`、`docs/evidence/2026-11-08-local-build.md` |
+| 清理或重建 temp 环境 | `docs/modules/build-and-flash/toolchain-setup.md` | `scripts/README.md`、`libraries/README.md` |
 | 部署类似时钟 | `docs/modules/deployment/README.md` | `docs/evidence/2026-07-23-k4-03-hardware-preparation.md`、`docs/modules/hardware/README.md`、`docs/modules/factory-firmware/README.md` |
 | 硬件或原理图 | `docs/modules/hardware/README.md` | 链接的 datasheet 或 `KiCad/schematic.pdf` |
 | 历史或来源 | `docs/history/README.md` | `docs/history/fork-operations.md` |
@@ -41,8 +42,9 @@
 ## 构建与产物约束
 
 - `libraries/libraries.zip` 是固定库快照。解压到 libraries 目录；没有记录 build 和硬件检查时，不要原地升级、打补丁或“整理”库。
-- 从仓库根目录构建，用 `--libraries` 指向解压后的库。build 目录和 toolchain 放在 `temp/`；不要提交。
-- 可复现部署 build：`SOURCE_DATE_EPOCH=1711661163`、Arduino CLI 0.35.3、core 3.1.2；两次 clean build 产出同一 485,280-byte image，SHA-256 `5E4F281421DCE894FED3F03DD9599AF8A690218A85C70B6A5A5DB466748D3D1D`。比较时保留这个 epoch。
+- 从仓库根目录构建，用 `--libraries` 指向解压后的库。build 目录和 toolchain 放在 `temp/`；不要提交。`temp/` 可整体删除，按 [toolchain-setup](docs/modules/build-and-flash/toolchain-setup.md) 用 `scripts/setup-build-env.ps1` 重建。
+- 仓库/sketch 目录名保持 `ChineseWallClock`；Arduino 要求目录名与主 `.ino` 一致。build 放短路径；约 209 字符的嵌套路径曾使 GCC 找不到 `bits/cpu_defines.h`（根因未深究）。
+- 可复现部署 build：`SOURCE_DATE_EPOCH=1711661163`、Arduino CLI 0.35.3、core 3.1.2；两次 clean build 产出同一 485,280-byte image，SHA-256 `5E4F281421DCE894FED3F03DD9599AF8A690218A85C70B6A5A5DB466748D3D1D`。比较时保留这个 epoch。部署 build 用 `scripts/build-firmware.ps1 -Variant canonical1 -Clean`，脚本会打印 hash 并比较。
 - 实际 K4-03 原厂备份：**4,194,304 bytes**，SHA-256 `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E`，保存在仓库外的私有目录。它包含已保存的 Wi-Fi 配置（SSID 已在 SDK 区确认），不只是固件；绝不 commit、push 或作为附件上传。原始 image 不复制进仓库，由 maintainer 手动备份。
 - `releases/` 和 `factory_firmware/` 是 inherited upstream 资产，不要覆盖。新 release 需要新的日期目录和 maintainer 批准。
 - `factory_firmware/image4M.bin` 是 **4,000,000 bytes**（`0x3D0900`），不是完整 4 MiB（`0x400000`）dump，来自 upstream 作者的设备。不要把它当作本 fork 时钟的 per-unit backup。
@@ -55,6 +57,7 @@
 - `docs/DEVELOPMENT.md` 是唯一当前状态和下一任务入口。`README.md` 是导航加简短项目介绍。不要增加仓库内 TODO、ROADMAP、STATUS、“latest”或 handoff 文件。
 - 二进制参考媒体保留原路径：`docs/datasheets/`、`docs/display/`、`docs/images/`、`KiCad/`、`releases/`、`factory_firmware/`。它们是 asset，不是叙述文档。
 - 项目操作记录放 `docs/history/fork-operations.md`；原始或复制证据放 `docs/evidence/`；迁移/维护记录放 `docs/maintenance/`。
+- 可复用仓库工具放 `scripts/`；文档链接/anchor 和容量检查用 `python scripts/check_docs.py`。`temp/` 里的脚本不是长期副本。
 - 项目没有 issue tracker ID。使用日期任务名，如 `DOC-2026-11-08`、`VAL-2026-11`。
 - 文档维护绑定：遵循适用全局 `AGENTS.md` §6 和 `doc-governance` skill。默认容量预警：入口 8,000；design/validation 导航 4,000；单个 module/topic 导航 6,000 个 LF 源码字符。不要为了隐藏增长而上调阈值。
 - 任何持久变更都在同一轮更新 `docs/DEVELOPMENT.md` 并替换过期结论。不要通过重新整理关闭 `UNKNOWN`/`FAILED`/`NOT_RUN` 或暂停的决定。

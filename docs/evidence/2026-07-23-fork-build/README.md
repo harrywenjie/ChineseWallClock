@@ -74,7 +74,7 @@ arduino-cli compile --fqbn esp8266:esp8266:d1_mini \
 
 ## 6. 没有复制的内容
 
-源 `temp/` 很大且 machine-specific。以下有记录但不提交，仍在原 workspace（或可重建）：
+源 `temp/` 很大且 machine-specific。2026-11-08 盘点后确认可整体删除；以下有记录但不提交，重建步骤见 [toolchain setup](../../modules/build-and-flash/toolchain-setup.md)：
 
 | `temp/` 项 | 内容 | 处置 |
 |---|---|---|
@@ -89,7 +89,7 @@ arduino-cli compile --fqbn esp8266:esp8266:d1_mini \
 | `pdfs/` | 渲染的 schematic：page 1 300 dpi 和两个 600 dpi crop | 脚本已复制；PNG 不复制 |
 | `toolchain/` | Arduino CLI 0.35.3、1.5.1 executable | 版本已记；不复制 |
 
-如果原 `temp/` 删除，可按 vendored `libraries/libraries.zip`、记录的 core/board URL、复制的 log/config 和本页命令重建。Raw log 是 exact compiler command line 的唯一记录。
+原 `temp/` 删除后，按 [toolchain setup](../../modules/build-and-flash/toolchain-setup.md) 的 URL/hash/脚本重建；raw log 仍是 exact compiler command line 的唯一记录。
 
 ## 7. 限制
 

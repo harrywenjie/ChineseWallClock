@@ -21,6 +21,8 @@ target FQBN 是 `esp8266:esp8266:d1_mini`。物理时钟用 ESP-12F；D1 mini �
 
 实际 fork 部署在 **K4-03**，不是 upstream K2-02。最终 build 使用 Arduino CLI 0.35.3 和 `SOURCE_DATE_EPOCH=1711661163`；两次 clean build byte-identical，产出 485,280-byte image `5E4F2814…D3D1D`。见 [K4-03 deployment](../../evidence/2026-07-23-k4-03-deployment.md)。
 
+从零重建见 [toolchain setup](toolchain-setup.md)；`temp/` 可删除。
+
 ## 2. 库
 
 `libraries/libraries.zip` 是作者的固定库快照（12,334,448 bytes，18 个库）。它是 backup，不是 package manifest。解压到 libraries 目录并传给 build；不要用 latest 版本覆盖。
@@ -54,8 +56,6 @@ Web UI 截图只是参考媒体，不是 build 指令。
 
 <a id="arduino-cli"></a>
 
-<a id="arduino-cli"></a>
-
 ## 4. Arduino CLI
 
 安装 core、解压库：
@@ -76,7 +76,7 @@ arduino-cli compile \
   .
 ```
 
-2026-11-08 的 Windows 命令原样记录在 [local build evidence](../../evidence/2026-11-08-local-build.md)；它使用 local `temp/arduino-cli.yaml`、`temp/arduino-data`、`temp/bundled/libraries`、`temp/build/docs-verify`。这些路径是 workspace-local，不提交。
+2026-11-08 的 Windows 命令见 [local build evidence](../../evidence/2026-11-08-local-build.md)。固定环境用 `scripts/setup-build-env.ps1` 重建，部署 build 用 `scripts/build-firmware.ps1`；步骤见 [toolchain setup](toolchain-setup.md)。
 
 和部署 image 做可复现比较时，在 build 环境设 `SOURCE_DATE_EPOCH=1711661163`。2026-07-23 部署 build 使用该 epoch 和 Arduino CLI 0.35.3；两次 clean build 产出 byte-identical 的 `canonical1`/`canonical2`，SHA-256 `5E4F281421DCE894FED3F03DD9599AF8A690218A85C70B6A5A5DB466748D3D1D`。不固定 epoch 时 ESP8266 core 会嵌入当前时间，hash 变化（见 2026-11-08 build）。
 
@@ -117,7 +117,7 @@ factory firmware 是 **full-flash-style dump**（partial：4,000,000 bytes），
 - 当前源码与 v1.1 code-identical（`git diff 7d18e68..HEAD` 不改 `.ino`、`.cpp`、`.h`），但已验证 build 是 **485,280 bytes**，v1.1 release 是 **485,248 bytes**。
 - 当前源码在固定 `SOURCE_DATE_EPOCH=1711661163` 和 Arduino CLI 0.35.3 下可复现：两次 clean `canonical` build byte-identical（`5E4F…D3D1D`）。这是实际刷入的 image。
 - 2026-07-23 的 `default`、`repro2`、`ide232-cli`、`canonical1`、`canonical2` 都产出 485,280-byte 完整 image。与 v1.1 的 32-byte 差异为 **UNKNOWN**；可能是 core/library patch 或 build flag。
-- build path 的内容/长度可能改变 image hash 而大小不变。只在相同 path/toolchain/epoch 下比较 hash；否则比较 size、memory report 和实际行为。
+- `scriptcheck`、复制 workspace 与 `canonical1` 同固定环境，hash 相同；build path/workspace 未改变 `.bin`。
 - 上一轮用 Arduino IDE 2.3.2 options + Arduino CLI 0.35.3；1.5.1 下载但未使用。没有 variant 与 v1.1 byte-identical。见 [2026-07-23 fork build](../../evidence/2026-07-23-fork-build/README.md)。
 
 ## 8. 常见故障

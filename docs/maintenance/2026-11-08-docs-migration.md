@@ -68,4 +68,5 @@
 - **下次触发：** 新部署记录、容量预警、焦点变化、firmware 变化或 maintainer 请求。入口接近 8,000 warning；新增 open item 应替换或合并现有行。
 - **交付：** 文档迁移 commit `92772d1`，2026-11-08 push 到 `origin/master`。
 - **已部分被替代：** 部署状态在 2026-11-08 由 [K4-03 deployment record](2026-11-08-k4-03-deployment-record.md) 和 [curated evidence](../evidence/2026-07-23-k4-03-deployment.md) 更新；本记录其余部分保持历史。
+- **temp 处置已更新：** §3/§4 的“原件留 `temp/`”是当时状态。2026-11-08 盘点把 checker 迁到 [`scripts/check_docs.py`](../../scripts/check_docs.py)，大包按 [toolchain setup](../modules/build-and-flash/toolchain-setup.md) 重建，`temp/` 不再是唯一副本；详见 [temp inventory](2026-11-08-temp-inventory.md)。
 - **备注：** 文档语言原为 English，后按 maintainer 要求在 2026-11-08 改为中文；二进制媒体保留原路径；fork 落后 upstream；没有改代码、libraries、releases 或 hardware。

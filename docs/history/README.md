@@ -16,7 +16,7 @@
 | Fork 提交 | 只有文档提交；没有固件源码变更 |
 | Upstream 分叉 | upstream 有 2026-09-05 push 的新提交，本 fork 未 merge |
 
-Tracked source 是 upstream 工作。`releases/`、`factory_firmware/`、`docs/images/`、`docs/display/`、`docs/datasheets/`、`KiCad/` 是 inherited 资产。fork 本地 build 工作原在 `temp/`，保留部分在 [`docs/evidence/2026-07-23-fork-build/`](../evidence/2026-07-23-fork-build/README.md)。实际 K4-03 部署单独记录在 [`docs/evidence/2026-07-23-k4-03-deployment.md`](../evidence/2026-07-23-k4-03-deployment.md)。
+Tracked source 是 upstream 工作。`releases/`、`factory_firmware/`、`docs/images/`、`docs/display/`、`docs/datasheets/`、`KiCad/` 是 inherited 资产。fork 本地 build 工作原在 `temp/`，保留部分在 [`docs/evidence/2026-07-23-fork-build/`](../evidence/2026-07-23-fork-build/README.md)。`temp/` 可整体删除；重建见 [toolchain setup](../modules/build-and-flash/toolchain-setup.md)，脚本在 [`scripts/`](../../scripts/README.md)。实际 K4-03 部署单独记录在 [`docs/evidence/2026-07-23-k4-03-deployment.md`](../evidence/2026-07-23-k4-03-deployment.md)。
 
 ## 2. 索引
 

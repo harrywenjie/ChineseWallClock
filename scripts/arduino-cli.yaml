@@ -1,0 +1,13 @@
+# Portable Arduino CLI configuration for this repository.
+# Run arduino-cli from the repository root: relative directories resolve
+# against the current working directory. The default fixed toolchain is
+# Arduino CLI 0.35.3; see docs/modules/build-and-flash/toolchain-setup.md.
+board_manager:
+  additional_urls:
+    - https://arduino.esp8266.com/stable/package_esp8266com_index.json
+directories:
+  data: temp/arduino-data
+  downloads: temp/arduino-downloads
+  user: temp/bundled
+logging:
+  level: info

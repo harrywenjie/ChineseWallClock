@@ -101,7 +101,7 @@ inherited `factory_firmware/image4M.bin` **不是**这一步的替代品：它�
 
 ## 4. Phase 2 — 构建或选择 image
 
-- 优先用当前源码和固定 toolchain/libraries 构建。按 [build and flash](../build-and-flash/README.md#arduino-cli) 操作。
+- 优先用当前源码和固定 toolchain/libraries 构建。按 [build and flash](../build-and-flash/README.md#arduino-cli) 操作；toolchain 缺失时先按 [toolchain setup](../build-and-flash/toolchain-setup.md) 重建。
 - 用 inherited release 时，对照 [validation](../../VALIDATION.md#release-rebuild) 验 size/hash。v1.1 是 full image，不是 app-only。
 - 记录 source commit 和 image SHA-256。不要只写“latest build”。
 - 选 image form：full `0x0000`，或 bootloader 已知完好时 app-only `0x1000`。不确定就用 full。
