@@ -1,0 +1,48 @@
+Fork build environment record
+=============================
+Recorded: 2026-11-08, from the preserved temp/ directories.
+Workspace: E:\ChineseWallClock (Windows 11)
+Local clone: 2026-07-23 14:08:33 +12:00, from https://github.com/harrywenjie/ChineseWallClock.git
+Tracked HEAD: d55188e (2025-07-25)
+
+Arduino CLI
+- used: 0.35.3 (Commit 95cfd654, 2024-02-19)
+- also downloaded: 1.5.1 (not used for the preserved builds)
+- config: arduino-cli.yaml in this directory (absolute paths point at the original workspace)
+
+ESP8266 platform
+- package: esp8266:esp8266 3.1.2
+- board manager URL: https://arduino.esp8266.com/stable/package_esp8266com_index.json
+- FQBN: esp8266:esp8266:d1_mini
+- compiler: xtensa-lx106-elf-gcc 3.1.0-gcc10.3-e5f9fec
+- flash layout observed in the link command: eagle.flash.4m2m.ld (4 MB flash, 2 MB filesystem class)
+
+Libraries
+- source: libraries/libraries.zip (12,334,448 bytes, 18 libraries)
+- extracted to temp/bundled/libraries
+- comparison: 3447 zip files, 0 modified, 1 extra example file
+- versions: see library-versions.tsv
+
+Downloads present in temp/downloads
+- arduino-cli_0.35.3_Windows_64bit.zip (15,548,385 bytes)
+- arduino-cli_1.5.1_Windows_64bit.zip (17,965,819 bytes)
+- arduino-ide-2.3.2-source.zip (3,326,414 bytes)
+- arduino-cli_0.35.3-checksums.txt (copied)
+
+PDF tooling
+- Python venv: temp/pdf-venv
+- PyMuPDF 1.26.3, pypdf 6.1.1
+- script: render_schematic.py (copied)
+- output: temp/pdfs (300 dpi page images, 600 dpi detail crops)
+
+Build commands
+- The exact arduino-cli invocations were not logged.
+- build.options.json and the compiler logs record FQBN, library folders and custom build properties.
+- Build directories: default, repro2, ide232-cli, canonical1, canonical2.
+- Logs: build-default.log, build-canonical-ide232-cli.log (copied).
+- 14 warnings (-Wwrite-strings), 0 errors; all full images 485,280 bytes.
+
+Not present
+- no esptool read/write log
+- no serial boot log
+- no deployment date/unit/config record

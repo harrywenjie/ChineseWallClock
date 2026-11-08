@@ -1,0 +1,85 @@
+Sketches with .pde extension are deprecated, please rename the following files to .ino:
+ - temp\bundled\libraries\Timezone\examples\Clock\Clock.pde
+ - temp\bundled\libraries\Timezone\examples\HardwareRTC\HardwareRTC.pde
+ - temp\bundled\libraries\Timezone\examples\WorldClock\WorldClock.pde
+ - temp\bundled\libraries\Timezone\examples\WriteRules\WriteRules.pde
+ - temp\ide-source-2.3.2\arduino-ide-2.3.2\arduino-ide-extension\src\test\node\__test_sketchbook__\project1\CodeB\version2B\version2B.pde
+E:\ChineseWallClock\myLogging.cpp: In function 'void logging(int, const char*, va_list)':
+E:\ChineseWallClock\myLogging.cpp:22:21: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+   22 |       severityMsg = "ERROR";
+      |                     ^~~~~~~
+E:\ChineseWallClock\myLogging.cpp:25:21: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+   25 |       severityMsg = "WARNING";
+      |                     ^~~~~~~~~
+E:\ChineseWallClock\myLogging.cpp:28:21: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+   28 |       severityMsg = "INFO";
+      |                     ^~~~~~
+E:\ChineseWallClock\myLogging.cpp:31:21: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+   31 |       severityMsg = "DEBUG";
+      |                     ^~~~~~~
+E:\ChineseWallClock\myLogging.cpp:34:21: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+   34 |       severityMsg = "UNKNOWN";
+      |                     ^~~~~~~~~
+E:\ChineseWallClock\myConfig.cpp: In function 'char* getAPPassword()':
+E:\ChineseWallClock\myConfig.cpp:19:10: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+   19 |   return "password";
+      |          ^~~~~~~~~~
+E:\ChineseWallClock\ChineseWallClock.ino: In function 'void logResetReason()':
+E:\ChineseWallClock\ChineseWallClock.ino:373:19: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  373 |       reasonStr = "REASON_DEFAULT_RST: normal startup by power on";
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+E:\ChineseWallClock\ChineseWallClock.ino:376:19: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  376 |       reasonStr = "REASON_WDT_RST: hardware watch dog reset";
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+E:\ChineseWallClock\ChineseWallClock.ino:379:19: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  379 |       reasonStr = "REASON_EXCEPTION_RST: exception reset, GPIO status won’t change";
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+E:\ChineseWallClock\ChineseWallClock.ino:382:19: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  382 |       reasonStr = "REASON_SOFT_WDT_RST: software watch dog reset, GPIO status won’t change";
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+E:\ChineseWallClock\ChineseWallClock.ino:385:19: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  385 |       reasonStr = "REASON_SOFT_RESTART: software restart, system_restart, GPIO status won’t change";
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+E:\ChineseWallClock\ChineseWallClock.ino:388:19: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  388 |       reasonStr = "REASON_DEEP_SLEEP_AWAKE: wake up from deep-sleep";
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+E:\ChineseWallClock\ChineseWallClock.ino:391:19: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  391 |       reasonStr = "REASON_EXT_SYS_RST: external system reset";
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+E:\ChineseWallClock\ChineseWallClock.ino:394:19: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  394 |       reasonStr = "???";
+      |                   ^~~~~
+Couldn't deeply cache core build: Rel: can't make E:\ChineseWallClock\temp\build\docs-verify relative to D:\dsh-tmp\arduino\cores
+Running normal build of the core...
+. Variables and constants in RAM (global, static), used 37404 / 80192 bytes (46%)
+║   SEGMENT  BYTES    DESCRIPTION
+╠══ DATA     1532     initialized variables
+╠══ RODATA   5832     constants       
+╚══ BSS      30040    zeroed variables
+. Instruction RAM (IRAM_ATTR, ICACHE_RAM_ATTR), used 62551 / 65536 bytes (95%)
+║   SEGMENT  BYTES    DESCRIPTION
+╠══ ICACHE   32768    reserved space for flash instruction cache
+╚══ IRAM     29783    code in IRAM    
+. Code in flash (default, ICACHE_FLASH_ATTR), used 443980 / 1048576 bytes (42%)
+║   SEGMENT  BYTES    DESCRIPTION
+╚══ IROM     443980   code in flash   
+
+Used library     Version Path
+WiFiManager      2.0.17  E:\ChineseWallClock\temp\bundled\libraries\WiFiManager
+ESP8266WiFi      1.0     E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi
+ESP8266WebServer 1.0     E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WebServer
+DNSServer        1.1.1   E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\DNSServer
+LittleFS         0.1.0   E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\LittleFS
+ArduinoJson      7.0.4   E:\ChineseWallClock\temp\bundled\libraries\ArduinoJson
+ArduinoOTA       1.0     E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ArduinoOTA
+SimpleSyslog     0.1.1   E:\ChineseWallClock\temp\bundled\libraries\SimpleSyslog
+AceWire          0.4.1   E:\ChineseWallClock\temp\bundled\libraries\AceWire
+Wire             1.0     E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\Wire
+AceTimeClock     1.3.0   E:\ChineseWallClock\temp\bundled\libraries\AceTimeClock
+AceTime          2.3.1   E:\ChineseWallClock\temp\bundled\libraries\AceTime
+AceCommon        1.6.2   E:\ChineseWallClock\temp\bundled\libraries\AceCommon
+AceSorting       1.0.0   E:\ChineseWallClock\temp\bundled\libraries\AceSorting
+ESP8266mDNS      1.2     E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266mDNS
+
+Used platform   Version Path
+esp8266:esp8266 3.1.2   E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2

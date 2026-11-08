@@ -1,0 +1,5 @@
+# path	bytes	sha256
+temp/artifacts/docs-verify/ChineseWallClock.ino.bin	485280	4898bf9bcbc4a510e986cd5e6f3207ab56e3dfb6a18ee0dc090811be784950c6
+temp/artifacts/docs-verify/ChineseWallClock.ino.elf	7910144	30f9b311ccac40435e8a7fced01f547bc394df507ed3ce3aba0b779c77e2b273
+temp/artifacts/docs-verify/ChineseWallClock.ino.map	4703776	69ab26e23b6e564e4a826f697a9c724dce9d2881f7d3bc098ae3b8a7c9779a02
+temp/logs/docs-verify.log	6787	42e7d893f6106363e08d1c739749d397faddea06301ebb492c221eb5bf788473

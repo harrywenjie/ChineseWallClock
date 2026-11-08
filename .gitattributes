@@ -1,0 +1,3 @@
+# Raw build logs are preserved as evidence; their trailing spaces are console formatting.
+docs/evidence/2026-07-23-fork-build/*.log -whitespace
+docs/evidence/2026-11-08-local-build.log -whitespace

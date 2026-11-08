@@ -1,0 +1,429 @@
+Sketches with .pde extension are deprecated, please rename the following files to .ino:
+ - temp\bundled\libraries\Timezone\examples\Clock\Clock.pde
+ - temp\bundled\libraries\Timezone\examples\HardwareRTC\HardwareRTC.pde
+ - temp\bundled\libraries\Timezone\examples\WorldClock\WorldClock.pde
+ - temp\bundled\libraries\Timezone\examples\WriteRules\WriteRules.pde
+ - temp\ide-source-2.3.2\arduino-ide-2.3.2\arduino-ide-extension\src\test\node\__test_sketchbook__\project1\CodeB\version2B\version2B.pde
+
+FQBN: esp8266:esp8266:d1_mini
+Using board 'd1_mini' from platform in folder: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2
+Using core 'esp8266' from platform in folder: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2
+
+"E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\tools\\python3\\3.7.2-post1/python3" -I "E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/mkbuildoptglobals.py" "E:\\ChineseWallClock\\temp\\toolchain\\arduino-cli-0.35.3" 10607 "E:\\ChineseWallClock\\temp\\build\\canonical1" "E:\\ChineseWallClock\\temp\\build\\canonical1/core/build.opt" "E:\\ChineseWallClock/ChineseWallClock.ino.globals.h" "E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2\\cores\\esp8266/CommonHFile.h"
+default_encoding:       cp936
+Assume aggressive 'core.a' caching enabled.
+Note: optional global include file 'E:\ChineseWallClock\ChineseWallClock.ino.globals.h' does not exist.
+  Read more at https://arduino-esp8266.readthedocs.io/en/latest/faq/a06-global-build-options.html
+Detecting libraries used...
+E:\ChineseWallClock\temp\arduino-data\packages\esp8266\tools\xtensa-lx106-elf-gcc\3.1.0-gcc10.3-e5f9fec/bin/xtensa-lx106-elf-g++ -D__ets__ -DICACHE_FLASH -U__STRICT_ANSI__ -D_GNU_SOURCE -DESP8266 @E:\ChineseWallClock\temp\build\canonical1/core/build.opt -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lwip2/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/libc/xtensa-lx106-elf/include -IE:\ChineseWallClock\temp\build\canonical1/core -c @E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/warnings/none-cppflags -Os -g -free -fipa-pta -Werror=return-type -mlongcalls -mtext-section-literals -fno-rtti -falign-functions=4 -std=gnu++17 -ffunction-sections -fdata-sections -fno-exceptions -DMMU_IRAM_SIZE=0x8000 -DMMU_ICACHE_SIZE=0x8000 -w -x c++ -E -CC -DNONOSDK22x_190703=1 -DF_CPU=80000000L -DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=0 -DARDUINO=10607 -DARDUINO_ESP8266_WEMOS_D1MINI -DARDUINO_ARCH_ESP8266 -DARDUINO_BOARD="ESP8266_WEMOS_D1MINI" -DARDUINO_BOARD_ID="d1_mini" -DFLASHMODE_DIO -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\cores\esp8266 -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\variants\d1_mini E:\ChineseWallClock\temp\build\canonical1\sketch\ChineseWallClock.ino.cpp -o nul
+Alternatives for WiFiManager.h: [WiFiManager@2.0.17]
+ResolveLibrary(WiFiManager.h)
+  -> candidates: [WiFiManager@2.0.17]
+E:\ChineseWallClock\temp\arduino-data\packages\esp8266\tools\xtensa-lx106-elf-gcc\3.1.0-gcc10.3-e5f9fec/bin/xtensa-lx106-elf-g++ -D__ets__ -DICACHE_FLASH -U__STRICT_ANSI__ -D_GNU_SOURCE -DESP8266 @E:\ChineseWallClock\temp\build\canonical1/core/build.opt -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lwip2/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/libc/xtensa-lx106-elf/include -IE:\ChineseWallClock\temp\build\canonical1/core -c @E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/warnings/none-cppflags -Os -g -free -fipa-pta -Werror=return-type -mlongcalls -mtext-section-literals -fno-rtti -falign-functions=4 -std=gnu++17 -ffunction-sections -fdata-sections -fno-exceptions -DMMU_IRAM_SIZE=0x8000 -DMMU_ICACHE_SIZE=0x8000 -w -x c++ -E -CC -DNONOSDK22x_190703=1 -DF_CPU=80000000L -DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=0 -DARDUINO=10607 -DARDUINO_ESP8266_WEMOS_D1MINI -DARDUINO_ARCH_ESP8266 -DARDUINO_BOARD="ESP8266_WEMOS_D1MINI" -DARDUINO_BOARD_ID="d1_mini" -DFLASHMODE_DIO -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\cores\esp8266 -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\variants\d1_mini -IE:\ChineseWallClock\temp\bundled\libraries\WiFiManager E:\ChineseWallClock\temp\build\canonical1\sketch\ChineseWallClock.ino.cpp -o nul
+Alternatives for ESP8266WiFi.h: [ESP8266WiFi@1.0]
+ResolveLibrary(ESP8266WiFi.h)
+  -> candidates: [ESP8266WiFi@1.0]
+E:\ChineseWallClock\temp\arduino-data\packages\esp8266\tools\xtensa-lx106-elf-gcc\3.1.0-gcc10.3-e5f9fec/bin/xtensa-lx106-elf-g++ -D__ets__ -DICACHE_FLASH -U__STRICT_ANSI__ -D_GNU_SOURCE -DESP8266 @E:\ChineseWallClock\temp\build\canonical1/core/build.opt -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lwip2/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/libc/xtensa-lx106-elf/include -IE:\ChineseWallClock\temp\build\canonical1/core -c @E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/warnings/none-cppflags -Os -g -free -fipa-pta -Werror=return-type -mlongcalls -mtext-section-literals -fno-rtti -falign-functions=4 -std=gnu++17 -ffunction-sections -fdata-sections -fno-exceptions -DMMU_IRAM_SIZE=0x8000 -DMMU_ICACHE_SIZE=0x8000 -w -x c++ -E -CC -DNONOSDK22x_190703=1 -DF_CPU=80000000L -DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=0 -DARDUINO=10607 -DARDUINO_ESP8266_WEMOS_D1MINI -DARDUINO_ARCH_ESP8266 -DARDUINO_BOARD="ESP8266_WEMOS_D1MINI" -DARDUINO_BOARD_ID="d1_mini" -DFLASHMODE_DIO -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\cores\esp8266 -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\variants\d1_mini -IE:\ChineseWallClock\temp\bundled\libraries\WiFiManager -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src E:\ChineseWallClock\temp\build\canonical1\sketch\ChineseWallClock.ino.cpp -o nul
+Alternatives for ESP8266WebServer.h: [ESP8266WebServer@1.0]
+ResolveLibrary(ESP8266WebServer.h)
+  -> candidates: [ESP8266WebServer@1.0]
+E:\ChineseWallClock\temp\arduino-data\packages\esp8266\tools\xtensa-lx106-elf-gcc\3.1.0-gcc10.3-e5f9fec/bin/xtensa-lx106-elf-g++ -D__ets__ -DICACHE_FLASH -U__STRICT_ANSI__ -D_GNU_SOURCE -DESP8266 @E:\ChineseWallClock\temp\build\canonical1/core/build.opt -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lwip2/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/libc/xtensa-lx106-elf/include -IE:\ChineseWallClock\temp\build\canonical1/core -c @E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/warnings/none-cppflags -Os -g -free -fipa-pta -Werror=return-type -mlongcalls -mtext-section-literals -fno-rtti -falign-functions=4 -std=gnu++17 -ffunction-sections -fdata-sections -fno-exceptions -DMMU_IRAM_SIZE=0x8000 -DMMU_ICACHE_SIZE=0x8000 -w -x c++ -E -CC -DNONOSDK22x_190703=1 -DF_CPU=80000000L -DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=0 -DARDUINO=10607 -DARDUINO_ESP8266_WEMOS_D1MINI -DARDUINO_ARCH_ESP8266 -DARDUINO_BOARD="ESP8266_WEMOS_D1MINI" -DARDUINO_BOARD_ID="d1_mini" -DFLASHMODE_DIO -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\cores\esp8266 -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\variants\d1_mini -IE:\ChineseWallClock\temp\bundled\libraries\WiFiManager -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WebServer\src E:\ChineseWallClock\temp\build\canonical1\sketch\ChineseWallClock.ino.cpp -o nul
+Alternatives for DNSServer.h: [DNSServer@1.1.1]
+ResolveLibrary(DNSServer.h)
+  -> candidates: [DNSServer@1.1.1]
+E:\ChineseWallClock\temp\arduino-data\packages\esp8266\tools\xtensa-lx106-elf-gcc\3.1.0-gcc10.3-e5f9fec/bin/xtensa-lx106-elf-g++ -D__ets__ -DICACHE_FLASH -U__STRICT_ANSI__ -D_GNU_SOURCE -DESP8266 @E:\ChineseWallClock\temp\build\canonical1/core/build.opt -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lwip2/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/libc/xtensa-lx106-elf/include -IE:\ChineseWallClock\temp\build\canonical1/core -c @E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/warnings/none-cppflags -Os -g -free -fipa-pta -Werror=return-type -mlongcalls -mtext-section-literals -fno-rtti -falign-functions=4 -std=gnu++17 -ffunction-sections -fdata-sections -fno-exceptions -DMMU_IRAM_SIZE=0x8000 -DMMU_ICACHE_SIZE=0x8000 -w -x c++ -E -CC -DNONOSDK22x_190703=1 -DF_CPU=80000000L -DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=0 -DARDUINO=10607 -DARDUINO_ESP8266_WEMOS_D1MINI -DARDUINO_ARCH_ESP8266 -DARDUINO_BOARD="ESP8266_WEMOS_D1MINI" -DARDUINO_BOARD_ID="d1_mini" -DFLASHMODE_DIO -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\cores\esp8266 -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\variants\d1_mini -IE:\ChineseWallClock\temp\bundled\libraries\WiFiManager -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WebServer\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\DNSServer\src E:\ChineseWallClock\temp\build\canonical1\sketch\ChineseWallClock.ino.cpp -o nul
+Alternatives for LittleFS.h: [LittleFS@0.1.0]
+ResolveLibrary(LittleFS.h)
+  -> candidates: [LittleFS@0.1.0]
+E:\ChineseWallClock\temp\arduino-data\packages\esp8266\tools\xtensa-lx106-elf-gcc\3.1.0-gcc10.3-e5f9fec/bin/xtensa-lx106-elf-g++ -D__ets__ -DICACHE_FLASH -U__STRICT_ANSI__ -D_GNU_SOURCE -DESP8266 @E:\ChineseWallClock\temp\build\canonical1/core/build.opt -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lwip2/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/libc/xtensa-lx106-elf/include -IE:\ChineseWallClock\temp\build\canonical1/core -c @E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/warnings/none-cppflags -Os -g -free -fipa-pta -Werror=return-type -mlongcalls -mtext-section-literals -fno-rtti -falign-functions=4 -std=gnu++17 -ffunction-sections -fdata-sections -fno-exceptions -DMMU_IRAM_SIZE=0x8000 -DMMU_ICACHE_SIZE=0x8000 -w -x c++ -E -CC -DNONOSDK22x_190703=1 -DF_CPU=80000000L -DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=0 -DARDUINO=10607 -DARDUINO_ESP8266_WEMOS_D1MINI -DARDUINO_ARCH_ESP8266 -DARDUINO_BOARD="ESP8266_WEMOS_D1MINI" -DARDUINO_BOARD_ID="d1_mini" -DFLASHMODE_DIO -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\cores\esp8266 -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\variants\d1_mini -IE:\ChineseWallClock\temp\bundled\libraries\WiFiManager -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WebServer\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\DNSServer\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\LittleFS\src E:\ChineseWallClock\temp\build\canonical1\sketch\ChineseWallClock.ino.cpp -o nul
+Alternatives for ArduinoJson.h: [ArduinoJson@7.0.4]
+ResolveLibrary(ArduinoJson.h)
+  -> candidates: [ArduinoJson@7.0.4]
+E:\ChineseWallClock\temp\arduino-data\packages\esp8266\tools\xtensa-lx106-elf-gcc\3.1.0-gcc10.3-e5f9fec/bin/xtensa-lx106-elf-g++ -D__ets__ -DICACHE_FLASH -U__STRICT_ANSI__ -D_GNU_SOURCE -DESP8266 @E:\ChineseWallClock\temp\build\canonical1/core/build.opt -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lwip2/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/libc/xtensa-lx106-elf/include -IE:\ChineseWallClock\temp\build\canonical1/core -c @E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/warnings/none-cppflags -Os -g -free -fipa-pta -Werror=return-type -mlongcalls -mtext-section-literals -fno-rtti -falign-functions=4 -std=gnu++17 -ffunction-sections -fdata-sections -fno-exceptions -DMMU_IRAM_SIZE=0x8000 -DMMU_ICACHE_SIZE=0x8000 -w -x c++ -E -CC -DNONOSDK22x_190703=1 -DF_CPU=80000000L -DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=0 -DARDUINO=10607 -DARDUINO_ESP8266_WEMOS_D1MINI -DARDUINO_ARCH_ESP8266 -DARDUINO_BOARD="ESP8266_WEMOS_D1MINI" -DARDUINO_BOARD_ID="d1_mini" -DFLASHMODE_DIO -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\cores\esp8266 -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\variants\d1_mini -IE:\ChineseWallClock\temp\bundled\libraries\WiFiManager -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WebServer\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\DNSServer\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\LittleFS\src -IE:\ChineseWallClock\temp\bundled\libraries\ArduinoJson\src E:\ChineseWallClock\temp\build\canonical1\sketch\ChineseWallClock.ino.cpp -o nul
+Alternatives for ArduinoOTA.h: [ArduinoOTA@1.0]
+ResolveLibrary(ArduinoOTA.h)
+  -> candidates: [ArduinoOTA@1.0]
+E:\ChineseWallClock\temp\arduino-data\packages\esp8266\tools\xtensa-lx106-elf-gcc\3.1.0-gcc10.3-e5f9fec/bin/xtensa-lx106-elf-g++ -D__ets__ -DICACHE_FLASH -U__STRICT_ANSI__ -D_GNU_SOURCE -DESP8266 @E:\ChineseWallClock\temp\build\canonical1/core/build.opt -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lwip2/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/libc/xtensa-lx106-elf/include -IE:\ChineseWallClock\temp\build\canonical1/core -c @E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/warnings/none-cppflags -Os -g -free -fipa-pta -Werror=return-type -mlongcalls -mtext-section-literals -fno-rtti -falign-functions=4 -std=gnu++17 -ffunction-sections -fdata-sections -fno-exceptions -DMMU_IRAM_SIZE=0x8000 -DMMU_ICACHE_SIZE=0x8000 -w -x c++ -E -CC -DNONOSDK22x_190703=1 -DF_CPU=80000000L -DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=0 -DARDUINO=10607 -DARDUINO_ESP8266_WEMOS_D1MINI -DARDUINO_ARCH_ESP8266 -DARDUINO_BOARD="ESP8266_WEMOS_D1MINI" -DARDUINO_BOARD_ID="d1_mini" -DFLASHMODE_DIO -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\cores\esp8266 -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\variants\d1_mini -IE:\ChineseWallClock\temp\bundled\libraries\WiFiManager -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WebServer\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\DNSServer\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\LittleFS\src -IE:\ChineseWallClock\temp\bundled\libraries\ArduinoJson\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ArduinoOTA E:\ChineseWallClock\temp\build\canonical1\sketch\ChineseWallClock.ino.cpp -o nul
+Using cached library dependencies for file: E:\ChineseWallClock\temp\build\canonical1\sketch\myConfig.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\build\canonical1\sketch\myDisplay.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\build\canonical1\sketch\myLogging.cpp
+Alternatives for SimpleSyslog.h: [SimpleSyslog@0.1.1]
+ResolveLibrary(SimpleSyslog.h)
+  -> candidates: [SimpleSyslog@0.1.1]
+Using cached library dependencies for file: E:\ChineseWallClock\temp\build\canonical1\sketch\myTime.cpp
+Alternatives for AceWire.h: [AceWire@0.4.1]
+ResolveLibrary(AceWire.h)
+  -> candidates: [AceWire@0.4.1]
+Alternatives for Wire.h: [Wire@1.0]
+ResolveLibrary(Wire.h)
+  -> candidates: [Wire@1.0]
+Alternatives for AceTimeClock.h: [AceTimeClock@1.3.0]
+ResolveLibrary(AceTimeClock.h)
+  -> candidates: [AceTimeClock@1.3.0]
+Alternatives for AceTime.h: [AceTime@2.3.1]
+ResolveLibrary(AceTime.h)
+  -> candidates: [AceTime@2.3.1]
+Alternatives for AceCommon.h: [AceCommon@1.6.2]
+ResolveLibrary(AceCommon.h)
+  -> candidates: [AceCommon@1.6.2]
+Alternatives for AceSorting.h: [AceSorting@1.0.0]
+ResolveLibrary(AceSorting.h)
+  -> candidates: [AceSorting@1.0.0]
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\WiFiManager\WiFiManager.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src\BearSSLHelpers.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src\CertStoreBearSSL.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src\ESP8266WiFi.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src\ESP8266WiFiAP.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src\ESP8266WiFiGeneric.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src\ESP8266WiFiGratuitous.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src\ESP8266WiFiMulti.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src\ESP8266WiFiSTA-WPS.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src\ESP8266WiFiSTA.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src\ESP8266WiFiScan.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src\WiFiClient.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src\WiFiClientSecureBearSSL.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src\WiFiServer.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src\WiFiServerSecureBearSSL.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src\WiFiUdp.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src\enable_wifi_at_boot_time.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WebServer\src\detail\mimetable.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\DNSServer\src\DNSServer.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\LittleFS\src\LittleFS.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\LittleFS\src\lfs.c
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\LittleFS\src\lfs_util.c
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ArduinoOTA\ArduinoOTA.cpp
+Alternatives for ESP8266mDNS.h: [ESP8266mDNS@1.2]
+ResolveLibrary(ESP8266mDNS.h)
+  -> candidates: [ESP8266mDNS@1.2]
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\Wire\Wire.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTimeClock\src\ace_time\clock\EspSntpClock.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTimeClock\src\ace_time\clock\NtpClock.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTimeClock\src\ace_time\hw\HardwareDateTime.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTimeClock\src\ace_time\hw\Stm32F1Rtc.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTimeClock\src\ace_time\hw\StmRtc.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTimeClock\src\ace_time\testing\TestableClockInterface.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\ace_time\BasicZone.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\ace_time\CompleteZone.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\ace_time\Epoch.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\ace_time\ExtendedZone.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\ace_time\LocalDate.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\ace_time\LocalDateTime.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\ace_time\LocalTime.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\ace_time\OffsetDateTime.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\ace_time\TimeOffset.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\ace_time\TimePeriod.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\ace_time\TimeZone.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\ace_time\ZoneProcessor.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\ace_time\ZonedDateTime.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\ace_time\ZonedExtra.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\ace_time\common\DateStrings.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedb\zone_infos.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedb\zone_policies.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedb\zone_registry.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedbc\zone_infos.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedbc\zone_policies.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedbc\zone_registry.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedbctesting\zone_infos.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedbctesting\zone_policies.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedbctesting\zone_registry.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedbtesting\zone_infos.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedbtesting\zone_policies.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedbtesting\zone_registry.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedbx\zone_infos.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedbx\zone_policies.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedbx\zone_registry.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedbxtesting\zone_infos.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedbxtesting\zone_policies.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zonedbxtesting\zone_registry.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zoneinfo\BrokerCommon.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceTime\src\zoneinfo\compat.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceCommon\src\backslash_x_encoding\backslash_x_encoding.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceCommon\src\cstrings\copyReplace.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceCommon\src\fstrings\FCString.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceCommon\src\kstrings\KString.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceCommon\src\pstrings\pstrings.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\bundled\libraries\AceCommon\src\url_encoding\url_encoding.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266mDNS\src\ESP8266mDNS.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266mDNS\src\LEAmDNS.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266mDNS\src\LEAmDNS_Control.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266mDNS\src\LEAmDNS_Helpers.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266mDNS\src\LEAmDNS_Structs.cpp
+Using cached library dependencies for file: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266mDNS\src\LEAmDNS_Transfer.cpp
+Generating function prototypes...
+E:\ChineseWallClock\temp\arduino-data\packages\esp8266\tools\xtensa-lx106-elf-gcc\3.1.0-gcc10.3-e5f9fec/bin/xtensa-lx106-elf-g++ -D__ets__ -DICACHE_FLASH -U__STRICT_ANSI__ -D_GNU_SOURCE -DESP8266 @E:\ChineseWallClock\temp\build\canonical1/core/build.opt -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/lwip2/include -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/sdk/libc/xtensa-lx106-elf/include -IE:\ChineseWallClock\temp\build\canonical1/core -c @E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/tools/warnings/none-cppflags -Os -g -free -fipa-pta -Werror=return-type -mlongcalls -mtext-section-literals -fno-rtti -falign-functions=4 -std=gnu++17 -ffunction-sections -fdata-sections -fno-exceptions -DMMU_IRAM_SIZE=0x8000 -DMMU_ICACHE_SIZE=0x8000 -w -x c++ -E -CC -DNONOSDK22x_190703=1 -DF_CPU=80000000L -DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=0 -DARDUINO=10607 -DARDUINO_ESP8266_WEMOS_D1MINI -DARDUINO_ARCH_ESP8266 -DARDUINO_BOARD="ESP8266_WEMOS_D1MINI" -DARDUINO_BOARD_ID="d1_mini" -DFLASHMODE_DIO -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\cores\esp8266 -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\variants\d1_mini -IE:\ChineseWallClock\temp\bundled\libraries\WiFiManager -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WebServer\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\DNSServer\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\LittleFS\src -IE:\ChineseWallClock\temp\bundled\libraries\ArduinoJson\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ArduinoOTA -IE:\ChineseWallClock\temp\bundled\libraries\SimpleSyslog -IE:\ChineseWallClock\temp\bundled\libraries\AceWire\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\Wire -IE:\ChineseWallClock\temp\bundled\libraries\AceTimeClock\src -IE:\ChineseWallClock\temp\bundled\libraries\AceTime\src -IE:\ChineseWallClock\temp\bundled\libraries\AceCommon\src -IE:\ChineseWallClock\temp\bundled\libraries\AceSorting\src -IE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266mDNS\src E:\ChineseWallClock\temp\build\canonical1\sketch\ChineseWallClock.ino.cpp -o C:\Users\harry\AppData\Local\Temp\1996354183\sketch_merged.cpp
+E:\ChineseWallClock\temp\arduino-data\packages\builtin\tools\ctags\5.8-arduino11/ctags -u --language-force=c++ -f - --c++-kinds=svpf --fields=KSTtzns --line-directives C:\Users\harry\AppData\Local\Temp\1996354183\sketch_merged.cpp
+Compiling sketch...
+"E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\tools\\python3\\3.7.2-post1/python3" -I "E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/signing.py" --mode header --publickey "E:\\ChineseWallClock/public.key" --out "E:\\ChineseWallClock\\temp\\build\\canonical1/core/Updater_Signing.h"
+"E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\tools\\xtensa-lx106-elf-gcc\\3.1.0-gcc10.3-e5f9fec/bin/xtensa-lx106-elf-g++" -D__ets__ -DICACHE_FLASH -U__STRICT_ANSI__ -D_GNU_SOURCE -DESP8266 "@E:\\ChineseWallClock\\temp\\build\\canonical1/core/build.opt" "-IE:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/sdk/include" "-IE:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/sdk/lwip2/include" "-IE:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/sdk/libc/xtensa-lx106-elf/include" "-IE:\\ChineseWallClock\\temp\\build\\canonical1/core" -c "@E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/warnings/none-cppflags" -Os -g -free -fipa-pta -Werror=return-type -mlongcalls -mtext-section-literals -fno-rtti -falign-functions=4 -std=gnu++17 -MMD -ffunction-sections -fdata-sections -fno-exceptions -DMMU_IRAM_SIZE=0x8000 -DMMU_ICACHE_SIZE=0x8000 -DNONOSDK22x_190703=1 -DF_CPU=80000000L -DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=0 -DARDUINO=10607 -DARDUINO_ESP8266_WEMOS_D1MINI -DARDUINO_ARCH_ESP8266 "-DARDUINO_BOARD=\"ESP8266_WEMOS_D1MINI\"" "-DARDUINO_BOARD_ID=\"d1_mini\"" -DFLASHMODE_DIO "-IE:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2\\cores\\esp8266" "-IE:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2\\variants\\d1_mini" "-IE:\\ChineseWallClock\\temp\\bundled\\libraries\\WiFiManager" "-IE:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2\\libraries\\ESP8266WiFi\\src" "-IE:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2\\libraries\\ESP8266WebServer\\src" "-IE:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2\\libraries\\DNSServer\\src" "-IE:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2\\libraries\\LittleFS\\src" "-IE:\\ChineseWallClock\\temp\\bundled\\libraries\\ArduinoJson\\src" "-IE:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2\\libraries\\ArduinoOTA" "-IE:\\ChineseWallClock\\temp\\bundled\\libraries\\SimpleSyslog" "-IE:\\ChineseWallClock\\temp\\bundled\\libraries\\AceWire\\src" "-IE:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2\\libraries\\Wire" "-IE:\\ChineseWallClock\\temp\\bundled\\libraries\\AceTimeClock\\src" "-IE:\\ChineseWallClock\\temp\\bundled\\libraries\\AceTime\\src" "-IE:\\ChineseWallClock\\temp\\bundled\\libraries\\AceCommon\\src" "-IE:\\ChineseWallClock\\temp\\bundled\\libraries\\AceSorting\\src" "-IE:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2\\libraries\\ESP8266mDNS\\src" "E:\\ChineseWallClock\\temp\\build\\canonical1\\sketch\\ChineseWallClock.ino.cpp" -o "E:\\ChineseWallClock\\temp\\build\\canonical1\\sketch\\ChineseWallClock.ino.cpp.o"
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\sketch\myDisplay.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\sketch\myLogging.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\sketch\myConfig.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\sketch\myTime.cpp.o
+E:\ChineseWallClock\ChineseWallClock.ino: In function 'void logResetReason()':
+E:\ChineseWallClock\ChineseWallClock.ino:373:19: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  373 |       reasonStr = "REASON_DEFAULT_RST: normal startup by power on";
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+E:\ChineseWallClock\ChineseWallClock.ino:376:19: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  376 |       reasonStr = "REASON_WDT_RST: hardware watch dog reset";
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+E:\ChineseWallClock\ChineseWallClock.ino:379:19: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  379 |       reasonStr = "REASON_EXCEPTION_RST: exception reset, GPIO status won’t change";
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+E:\ChineseWallClock\ChineseWallClock.ino:382:19: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  382 |       reasonStr = "REASON_SOFT_WDT_RST: software watch dog reset, GPIO status won’t change";
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+E:\ChineseWallClock\ChineseWallClock.ino:385:19: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  385 |       reasonStr = "REASON_SOFT_RESTART: software restart, system_restart, GPIO status won’t change";
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+E:\ChineseWallClock\ChineseWallClock.ino:388:19: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  388 |       reasonStr = "REASON_DEEP_SLEEP_AWAKE: wake up from deep-sleep";
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+E:\ChineseWallClock\ChineseWallClock.ino:391:19: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  391 |       reasonStr = "REASON_EXT_SYS_RST: external system reset";
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+E:\ChineseWallClock\ChineseWallClock.ino:394:19: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+  394 |       reasonStr = "???";
+      |                   ^~~~~
+Compiling libraries...
+Compiling library "WiFiManager"
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\WiFiManager\WiFiManager.cpp.o
+Compiling library "ESP8266WiFi"
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\CertStoreBearSSL.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\BearSSLHelpers.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\WiFiServer.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\ESP8266WiFiMulti.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\WiFiUdp.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\WiFiServerSecureBearSSL.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\ESP8266WiFiGratuitous.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\ESP8266WiFiScan.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\WiFiClient.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\enable_wifi_at_boot_time.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\ESP8266WiFiSTA-WPS.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\ESP8266WiFiAP.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\ESP8266WiFi.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\WiFiClientSecureBearSSL.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\ESP8266WiFiSTA.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\ESP8266WiFiGeneric.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WiFi\ESP8266WiFi.a
+Compiling library "ESP8266WebServer"
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WebServer\detail\mimetable.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266WebServer\ESP8266WebServer.a
+Compiling library "DNSServer"
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\DNSServer\DNSServer.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\DNSServer\DNSServer.a
+Compiling library "LittleFS"
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\LittleFS\LittleFS.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\LittleFS\lfs.c.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\LittleFS\lfs_util.c.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\LittleFS\LittleFS.a
+Compiling library "ArduinoJson"
+Compiling library "ArduinoOTA"
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ArduinoOTA\ArduinoOTA.cpp.o
+Compiling library "SimpleSyslog"
+Compiling library "AceWire"
+Compiling library "Wire"
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\Wire\Wire.cpp.o
+Compiling library "AceTimeClock"
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTimeClock\ace_time\hw\Stm32F1Rtc.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTimeClock\ace_time\hw\StmRtc.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTimeClock\ace_time\testing\TestableClockInterface.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTimeClock\ace_time\clock\EspSntpClock.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTimeClock\ace_time\clock\NtpClock.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTimeClock\ace_time\hw\HardwareDateTime.cpp.o
+Compiling library "AceTime"
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedbctesting\zone_registry.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\ace_time\BasicZone.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\ace_time\ZoneProcessor.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedbtesting\zone_infos.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\ace_time\TimeOffset.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedbx\zone_infos.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\ace_time\TimePeriod.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedbc\zone_infos.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedbx\zone_policies.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\ace_time\LocalDateTime.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedbc\zone_policies.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zoneinfo\BrokerCommon.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedbx\zone_registry.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\ace_time\LocalTime.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedbxtesting\zone_registry.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\ace_time\TimeZone.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedbc\zone_registry.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedb\zone_infos.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\ace_time\ZonedDateTime.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedbxtesting\zone_infos.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\ace_time\Epoch.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedbxtesting\zone_policies.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedb\zone_policies.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedb\zone_registry.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\ace_time\OffsetDateTime.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedbctesting\zone_infos.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\ace_time\CompleteZone.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zoneinfo\compat.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\ace_time\common\DateStrings.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedbtesting\zone_policies.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\ace_time\ExtendedZone.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedbctesting\zone_policies.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\zonedbtesting\zone_registry.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\ace_time\LocalDate.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceTime\ace_time\ZonedExtra.cpp.o
+Compiling library "AceCommon"
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceCommon\fstrings\FCString.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceCommon\cstrings\copyReplace.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceCommon\backslash_x_encoding\backslash_x_encoding.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceCommon\kstrings\KString.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceCommon\pstrings\pstrings.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\AceCommon\url_encoding\url_encoding.cpp.o
+Compiling library "AceSorting"
+Compiling library "ESP8266mDNS"
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266mDNS\ESP8266mDNS.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266mDNS\LEAmDNS_Control.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266mDNS\LEAmDNS.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266mDNS\LEAmDNS_Helpers.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266mDNS\LEAmDNS_Transfer.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266mDNS\LEAmDNS_Structs.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\libraries\ESP8266mDNS\ESP8266mDNS.a
+Compiling core...
+Couldn't deeply cache core build: Rel: can't make E:\ChineseWallClock\temp\build\canonical1 relative to C:\Users\harry\AppData\Local\Temp\arduino\cores
+Running normal build of the core...
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\Crypto.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\WString.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\LwipIntf.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\Stream.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\abi.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\StreamSend.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\cont.S.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\FSnoop.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\FunctionalInterrupt.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\Print.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\cont_util.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\Schedule.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\LwipDhcpServer-NonOS.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\LwipIntfCB.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\LwipDhcpServer.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\aes_unwrap.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\Esp-version.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\StackThunk.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_flash_utils.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\Esp-frag.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\Esp.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\IPAddress.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_eboot_command.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\HardwareSerial.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\cbuf.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_flash_quirks.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_features.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\FS.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_noniso.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\TypeConversion.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_vm.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_app_entry_noextra4k.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\Updater.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\MD5Builder.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_postmortem.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_phy.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\WMath.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\exc-c-wrapper-handler.S.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\Tone.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_i2s.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\exc-sethandler.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\gdb_hooks.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\hwdt_app_entry.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_non32xfer.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\libb64\cencode.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_spi_utils.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\libb64\cdecode.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\base64.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\spiffs\spiffs_cache.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_waveform_phase.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\spiffs\spiffs_gc.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_main.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\spiffs\spiffs_hydrogen.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\spiffs\spiffs_nucleus.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\spiffs\spiffs_check.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\stdlib_noniso.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\umm_malloc\umm_info.c.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\crc32.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\umm_malloc\umm_integrity.c.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\umm_malloc\umm_local.c.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\reboot_uart_dwnld.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_si2c.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\umm_malloc\umm_poison.c.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\libc_replacements.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_wiring_pwm.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\heap.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\sqrt32.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_wiring_analog.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_waveform_pwm.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\wpa2_eap_patch.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_sigma_delta.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_wiring.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\umm_malloc\umm_malloc.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\flash_hal.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_wiring_pulse.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_wiring_shift.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\spiffs_api.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_timer.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\debug.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\time.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core_esp8266_wiring_digital.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\mmu_iram.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\uart.cpp.o
+Using previously compiled file: E:\ChineseWallClock\temp\build\canonical1\core\core.a
+Linking everything together...
+"E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\tools\\python3\\3.7.2-post1/python3" -I "E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/mkdir.py" -p "E:\\ChineseWallClock\\temp\\build\\canonical1/ld_h/"
+"E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\tools\\python3\\3.7.2-post1/python3" -I "E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/cp.py" "E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/sdk/ld/eagle.flash.4m2m.ld" "E:\\ChineseWallClock\\temp\\build\\canonical1/ld_h/local.eagle.flash.ld.h"
+"E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\tools\\xtensa-lx106-elf-gcc\\3.1.0-gcc10.3-e5f9fec/bin/xtensa-lx106-elf-gcc" -CC -E -P -DVTABLES_IN_FLASH -DMMU_IRAM_SIZE=0x8000 -DMMU_ICACHE_SIZE=0x8000 "E:\\ChineseWallClock\\temp\\build\\canonical1/ld_h/local.eagle.flash.ld.h" -o "E:\\ChineseWallClock\\temp\\build\\canonical1/local.eagle.flash.ld"
+"E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\tools\\xtensa-lx106-elf-gcc\\3.1.0-gcc10.3-e5f9fec/bin/xtensa-lx106-elf-gcc" -CC -E -P -DVTABLES_IN_FLASH -DMMU_IRAM_SIZE=0x8000 -DMMU_ICACHE_SIZE=0x8000 "E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/sdk/ld/eagle.app.v6.common.ld.h" -o "E:\\ChineseWallClock\\temp\\build\\canonical1/local.eagle.app.v6.common.ld"
+"E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\tools\\xtensa-lx106-elf-gcc\\3.1.0-gcc10.3-e5f9fec/bin/xtensa-lx106-elf-gcc" -fno-exceptions -Wl,-Map "-Wl,E:\\ChineseWallClock\\temp\\build\\canonical1/ChineseWallClock.ino.map" -g "@E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/warnings/none-cflags" -Os -nostdlib -Wl,--no-check-sections -u app_entry -u _printf_float -u _scanf_float -Wl,-static "-LE:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/sdk/lib" "-LE:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/sdk/lib/NONOSDK22x_190703" "-LE:\\ChineseWallClock\\temp\\build\\canonical1" "-LE:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/sdk/libc/xtensa-lx106-elf/lib" -Tlocal.eagle.flash.ld -Wl,--gc-sections -Wl,-wrap,system_restart_local -Wl,-wrap,spi_flash_read -o "E:\\ChineseWallClock\\temp\\build\\canonical1/ChineseWallClock.ino.elf" -Wl,--start-group "E:\\ChineseWallClock\\temp\\build\\canonical1\\sketch\\ChineseWallClock.ino.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\sketch\\myConfig.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\sketch\\myDisplay.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\sketch\\myLogging.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\sketch\\myTime.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\WiFiManager\\WiFiManager.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\ESP8266WiFi\\ESP8266WiFi.a" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\ESP8266WebServer\\ESP8266WebServer.a" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\DNSServer\\DNSServer.a" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\LittleFS\\LittleFS.a" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\ArduinoOTA\\ArduinoOTA.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\Wire\\Wire.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTimeClock\\ace_time\\clock\\EspSntpClock.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTimeClock\\ace_time\\clock\\NtpClock.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTimeClock\\ace_time\\hw\\HardwareDateTime.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTimeClock\\ace_time\\hw\\Stm32F1Rtc.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTimeClock\\ace_time\\hw\\StmRtc.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTimeClock\\ace_time\\testing\\TestableClockInterface.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\ace_time\\BasicZone.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\ace_time\\CompleteZone.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\ace_time\\Epoch.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\ace_time\\ExtendedZone.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\ace_time\\LocalDate.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\ace_time\\LocalDateTime.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\ace_time\\LocalTime.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\ace_time\\OffsetDateTime.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\ace_time\\TimeOffset.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\ace_time\\TimePeriod.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\ace_time\\TimeZone.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\ace_time\\ZoneProcessor.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\ace_time\\ZonedDateTime.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\ace_time\\ZonedExtra.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\ace_time\\common\\DateStrings.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedb\\zone_infos.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedb\\zone_policies.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedb\\zone_registry.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedbc\\zone_infos.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedbc\\zone_policies.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedbc\\zone_registry.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedbctesting\\zone_infos.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedbctesting\\zone_policies.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedbctesting\\zone_registry.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedbtesting\\zone_infos.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedbtesting\\zone_policies.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedbtesting\\zone_registry.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedbx\\zone_infos.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedbx\\zone_policies.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedbx\\zone_registry.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedbxtesting\\zone_infos.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedbxtesting\\zone_policies.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zonedbxtesting\\zone_registry.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zoneinfo\\BrokerCommon.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceTime\\zoneinfo\\compat.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceCommon\\backslash_x_encoding\\backslash_x_encoding.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceCommon\\cstrings\\copyReplace.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceCommon\\fstrings\\FCString.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceCommon\\kstrings\\KString.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceCommon\\pstrings\\pstrings.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\AceCommon\\url_encoding\\url_encoding.cpp.o" "E:\\ChineseWallClock\\temp\\build\\canonical1\\libraries\\ESP8266mDNS\\ESP8266mDNS.a" "E:\\ChineseWallClock\\temp\\build\\canonical1\\core\\core.a" -lhal -lphy -lpp -lnet80211 -llwip2-536-feat -lwpa -lcrypto -lmain -lwps -lbearssl -lespnow -lsmartconfig -lairkiss -lwpa2 -lstdc++ -lm -lc -lgcc -Wl,--end-group "-LE:\\ChineseWallClock\\temp\\build\\canonical1"
+"E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\tools\\python3\\3.7.2-post1/python3" -I "E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/elf2bin.py" --eboot "E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/bootloaders/eboot/eboot.elf" --app "E:\\ChineseWallClock\\temp\\build\\canonical1/ChineseWallClock.ino.elf" --flash_mode dio --flash_freq 40 --flash_size 4M --path "E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\tools\\xtensa-lx106-elf-gcc\\3.1.0-gcc10.3-e5f9fec/bin" --out "E:\\ChineseWallClock\\temp\\build\\canonical1/ChineseWallClock.ino.bin"
+Creating BIN file "E:\ChineseWallClock\temp\build\canonical1/ChineseWallClock.ino.bin" using "E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2/bootloaders/eboot/eboot.elf" and "E:\ChineseWallClock\temp\build\canonical1/ChineseWallClock.ino.elf"
+"E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\tools\\python3\\3.7.2-post1/python3" -I "E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/signing.py" --mode sign --privatekey "E:\\ChineseWallClock/private.key" --bin "E:\\ChineseWallClock\\temp\\build\\canonical1/ChineseWallClock.ino.bin" --out "E:\\ChineseWallClock\\temp\\build\\canonical1/ChineseWallClock.ino.bin.signed" --legacy "E:\\ChineseWallClock\\temp\\build\\canonical1/ChineseWallClock.ino.bin.legacy_sig"
+"E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\tools\\python3\\3.7.2-post1/python3" -X utf8 -I "E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\hardware\\esp8266\\3.1.2/tools/sizes.py" --elf "E:\\ChineseWallClock\\temp\\build\\canonical1/ChineseWallClock.ino.elf" --path "E:\\ChineseWallClock\\temp\\arduino-data\\packages\\esp8266\\tools\\xtensa-lx106-elf-gcc\\3.1.0-gcc10.3-e5f9fec/bin" --mmu "-DMMU_IRAM_SIZE=0x8000 -DMMU_ICACHE_SIZE=0x8000"
+. Variables and constants in RAM (global, static), used 37404 / 80192 bytes (46%)
+║   SEGMENT  BYTES    DESCRIPTION
+╠══ DATA     1532     initialized variables
+╠══ RODATA   5832     constants       
+╚══ BSS      30040    zeroed variables
+. Instruction RAM (IRAM_ATTR, ICACHE_RAM_ATTR), used 62551 / 65536 bytes (95%)
+║   SEGMENT  BYTES    DESCRIPTION
+╠══ ICACHE   32768    reserved space for flash instruction cache
+╚══ IRAM     29783    code in IRAM    
+. Code in flash (default, ICACHE_FLASH_ATTR), used 443980 / 1048576 bytes (42%)
+║   SEGMENT  BYTES    DESCRIPTION
+╚══ IROM     443980   code in flash   
+
+Using library WiFiManager at version 2.0.17 in folder: E:\ChineseWallClock\temp\bundled\libraries\WiFiManager 
+Using library ESP8266WiFi at version 1.0 in folder: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi 
+Using library ESP8266WebServer at version 1.0 in folder: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WebServer 
+Using library DNSServer at version 1.1.1 in folder: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\DNSServer 
+Using library LittleFS at version 0.1.0 in folder: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\LittleFS 
+Using library ArduinoJson at version 7.0.4 in folder: E:\ChineseWallClock\temp\bundled\libraries\ArduinoJson 
+Using library ArduinoOTA at version 1.0 in folder: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ArduinoOTA 
+Using library SimpleSyslog at version 0.1.1 in folder: E:\ChineseWallClock\temp\bundled\libraries\SimpleSyslog 
+Using library AceWire at version 0.4.1 in folder: E:\ChineseWallClock\temp\bundled\libraries\AceWire 
+Using library Wire at version 1.0 in folder: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\Wire 
+Using library AceTimeClock at version 1.3.0 in folder: E:\ChineseWallClock\temp\bundled\libraries\AceTimeClock 
+Using library AceTime at version 2.3.1 in folder: E:\ChineseWallClock\temp\bundled\libraries\AceTime 
+Using library AceCommon at version 1.6.2 in folder: E:\ChineseWallClock\temp\bundled\libraries\AceCommon 
+Using library AceSorting at version 1.0.0 in folder: E:\ChineseWallClock\temp\bundled\libraries\AceSorting 
+Using library ESP8266mDNS at version 1.2 in folder: E:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266mDNS 
+
+[92mUsed library[0m     [92mVersion[0m [90mPath[0m
+[93mWiFiManager[0m      2.0.17  [90mE:\ChineseWallClock\temp\bundled\libraries\WiFiManager[0m
+[93mESP8266WiFi[0m      1.0     [90mE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WiFi[0m
+[93mESP8266WebServer[0m 1.0     [90mE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266WebServer[0m
+[93mDNSServer[0m        1.1.1   [90mE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\DNSServer[0m
+[93mLittleFS[0m         0.1.0   [90mE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\LittleFS[0m
+[93mArduinoJson[0m      7.0.4   [90mE:\ChineseWallClock\temp\bundled\libraries\ArduinoJson[0m
+[93mArduinoOTA[0m       1.0     [90mE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ArduinoOTA[0m
+[93mSimpleSyslog[0m     0.1.1   [90mE:\ChineseWallClock\temp\bundled\libraries\SimpleSyslog[0m
+[93mAceWire[0m          0.4.1   [90mE:\ChineseWallClock\temp\bundled\libraries\AceWire[0m
+[93mWire[0m             1.0     [90mE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\Wire[0m
+[93mAceTimeClock[0m     1.3.0   [90mE:\ChineseWallClock\temp\bundled\libraries\AceTimeClock[0m
+[93mAceTime[0m          2.3.1   [90mE:\ChineseWallClock\temp\bundled\libraries\AceTime[0m
+[93mAceCommon[0m        1.6.2   [90mE:\ChineseWallClock\temp\bundled\libraries\AceCommon[0m
+[93mAceSorting[0m       1.0.0   [90mE:\ChineseWallClock\temp\bundled\libraries\AceSorting[0m
+[93mESP8266mDNS[0m      1.2     [90mE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2\libraries\ESP8266mDNS[0m
+
+[92mUsed platform[0m   [92mVersion[0m [90mPath[0m
+[93mesp8266:esp8266[0m 3.1.2   [90mE:\ChineseWallClock\temp\arduino-data\packages\esp8266\hardware\esp8266\3.1.2[0m
