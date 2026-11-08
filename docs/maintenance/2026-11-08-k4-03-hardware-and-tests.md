@@ -45,7 +45,7 @@
 ## 5. Validation
 
 - **Links/anchors:** Python checker over tracked Markdown; **191 local links checked, 0 broken**.
-- **Capacity (LF source characters):** entry **7,995** (limit 8,000); design **3,960** (4,000); validation **3,996** (4,000); firmware overview **6,000** (6,000); display **5,952** (6,000); hardware **5,990** (6,000); factory firmware **5,993** (6,000); time **4,557**; logging **2,951**; configuration **9,558**, build-and-flash **8,754**, deployment **11,055**, fork operations **10,009**. The last four are detailed contract/runbook/history pages, not navigation indexes; they are linked from the module maps and not default full reads.
+- **Capacity (LF source characters):** entry **7,995** (limit 8,000); design **3,960** (4,000); validation **3,996** (4,000); firmware overview **6,000** (6,000); display **5,952** (6,000); hardware **5,989** (6,000); factory firmware **5,993** (6,000); time **4,557**; logging **2,951**; configuration **9,558**, build-and-flash **8,754**, deployment **11,055**, fork operations **10,009**. The last four are detailed contract/runbook/history pages, not navigation indexes; they are linked from the module maps and not default full reads.
 - **Static checks:** `git diff --check` run before delivery; no code or dependency changes.
 - **Evidence boundary:** the deployment software path and human-reported recovery are documented; detailed display segments, A0/PWM measurements and RTC-only fallback remain unverified. The agent did not access the clock or the private backup.
 - **Product qualification:** one K4-03 unit, not proof of K2-02/K4-03 equivalence.
