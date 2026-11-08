@@ -42,6 +42,8 @@ The firmware uses [AceTime](https://github.com/bxparks/AceTime) and `AceTimeCloc
 - The timezone lookup is repeated on every `getLocalTime()` call; the 3-entry cache is shared, but this is still more work than caching the `TimeZone` for a stable configuration.
 - Changing the timezone via the web UI saves the config and reboots; the new zone is used on the next boot.
 
+The actual K4-03 deployment saved `Pacific/Auckland` and `nz.pool.ntp.org`; the second boot loaded the zone, and AceTime's TZDB 2023d supplied the New Zealand DST rules. That is a snapshot of the timezone database at deployment time, not a permanent guarantee for future law changes. See [the deployment record](../../evidence/2026-07-23-k4-03-deployment.md).
+
 ## 4. Failure behaviour
 
 - NTP unreachable: `ntpClock.setup()` logs an error; `SystemClockLoop` is expected to use the DS3231 backup. The exact fallback timing is library behaviour and is **not verified on hardware** in this workspace.

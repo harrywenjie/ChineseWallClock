@@ -44,9 +44,10 @@ Warnings: 14 `-Wwrite-strings` warnings in project code; no errors. The log also
 | Image | Bytes | SHA-256 |
 |---|---|---|
 | v1.1 release (2024-04-01) | 485,248 | `1FB0CBA700ABF0A0E40269F0E3E318C88EC17D31ED82C11954014293D62129FC` |
-| This build | 485,280 | `4898BF9BCBC4A510E986CD5E6F3207AB56E3DFB6A18EE0DC090811BE784950C6` |
+| 2026-07-23 canonical (fixed epoch) | 485,280 | `5E4F281421DCE894FED3F03DD9599AF8A690218A85C70B6A5A5DB466748D3D1D` |
+| This build (no fixed epoch) | 485,280 | `4898BF9BCBC4A510E986CD5E6F3207AB56E3DFB6A18EE0DC090811BE784950C6` |
 
-The current source is code-identical to v1.1, but the image is 32 bytes larger. This is **not** a byte-identical rebuild; the cause is **UNKNOWN** (toolchain/library patch level, build flags or build-path effects). See [validation](../VALIDATION.md#release-rebuild).
+The current source is code-identical to v1.1, but the image is 32 bytes larger. This is **not** a byte-identical rebuild; the cause is **UNKNOWN** (toolchain/library patch level, build flags or build-path effects). The actual deployment build used `SOURCE_DATE_EPOCH=1711661163` and is recorded in [the K4-03 deployment record](2026-07-23-k4-03-deployment.md); this local build did not set that epoch, so its hash is not directly comparable.
 
 ## 5. Evidence files
 

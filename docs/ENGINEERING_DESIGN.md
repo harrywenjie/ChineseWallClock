@@ -4,7 +4,7 @@ This is a map; contracts are in `docs/modules/` and qualifications in `docs/VALI
 
 ## 1. System context
 
-An ESP-12F drives four 74HC595D shift registers (four digits + second LEDs), reads a DS3231 over I2C and a light sensor on `A0`, and uses WiFi for NTP, the portal, OTA and syslog. Hardware: [hardware](modules/hardware/README.md).
+An ESP-12F drives four 74HC595D shift registers (four digits + second LEDs), reads a DS3231 over I2C and a light sensor on `A0`, and uses WiFi for NTP, the portal, OTA and syslog. Actual fork unit: K4-03; hardware: [hardware](modules/hardware/README.md).
 
 ## 2. Runtime flow
 

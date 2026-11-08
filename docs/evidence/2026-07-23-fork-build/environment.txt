@@ -41,6 +41,9 @@ Build commands
 - Build directories: default, repro2, ide232-cli, canonical1, canonical2.
 - Logs: build-default.log, build-canonical-ide232-cli.log (copied).
 - 14 warnings (-Wwrite-strings), 0 errors; all full images 485,280 bytes.
+- Final deterministic build: SOURCE_DATE_EPOCH=1711661163, Arduino CLI 0.35.3.
+- canonical1 and canonical2 are byte-identical: 485,280 bytes, SHA-256 5e4f281421dce894fed3f03dd9599af8a690218a85c70b6a5a5db466748d3d1d.
+- canonical1 is the image flashed on the K4-03 (offset 0x000000).
 
 Not present
 - no esptool read/write log

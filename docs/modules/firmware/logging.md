@@ -29,6 +29,7 @@ Every message is formatted with `vasprintf()`, printed to Serial as `[LEVEL] mes
 - Messages use facility `FAC_LOCAL7` and the severity above.
 - The client is global and lazy: changing `syslog_server` requires a reboot to recreate it. The web save path already reboots.
 - The default server is a private LAN address defined in `myConfig.h`. With the default, the firmware will attempt syslog on the first log call even if no collector exists; UDP failures are not surfaced.
+- The actual K4-03 deployment left `syslog_server` empty, which disables the remote client. The transport is UDP 514; use a trusted collector and keep the address private.
 - Syslog is plain UDP, unauthenticated and unencrypted. Use it only on a trusted network.
 
 ## 4. Message conventions

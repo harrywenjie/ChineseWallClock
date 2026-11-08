@@ -72,4 +72,5 @@
 - **Next task:** `DEP-2026-11` — capture the fork's real deployment record and dry-run the runbook on a spare ESP8266/D1 mini; do not flash the clock until a full per-unit backup is verified. This is a record, not execution authorisation.
 - **Next review trigger:** a new deployment record, a capacity warning, a focus change, a firmware change, or a maintainer request. The entry is near its 8,000-character warning, so a new open item should replace or merge an existing row rather than append.
 - **Delivery:** documentation migration committed as `92772d1` and pushed to `origin/master` on 2026-11-08.
+- **Superseded deployment status:** the `待核实` deployment item in this migration was resolved on 2026-11-08; see the [K4-03 deployment record](2026-11-08-k4-03-deployment-record.md) and the [curated evidence](../evidence/2026-07-23-k4-03-deployment.md). The rest of this migration record is historical and is not rewritten.
 - **Notes:** documentation language is English; binary media stays at existing paths; the fork remains behind upstream; no code, libraries, releases or hardware were changed.

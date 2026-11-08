@@ -19,6 +19,8 @@ The fork's verified build (2026-07-23 and 2026-11-08) used:
 
 The target FQBN is `esp8266:esp8266:d1_mini`. The physical clock uses an ESP-12F module; the D1 mini target is the compatible development board used by the original author.
 
+The actual fork deployment was on a **K4-03** (ESP8266EX, 26 MHz, 4 MB), not the upstream K2-02. Its final build used Arduino CLI 0.35.3 with `SOURCE_DATE_EPOCH=1711661163`; two clean builds were byte-identical and produced the 485,280-byte image `5E4F2814…D3D1D`. See [the K4-03 deployment record](../../evidence/2026-07-23-k4-03-deployment.md).
+
 ## 2. Libraries
 
 `libraries/libraries.zip` is the author's pinned library snapshot (12,334,448 bytes, 18 libraries). It is a backup, not a package manifest. Extract it to a libraries folder and pass that folder to the build; do not install “latest” versions over it.
@@ -74,6 +76,8 @@ arduino-cli compile \
 
 The verified Windows command (2026-11-08) is recorded verbatim in [the local build evidence](../../evidence/2026-11-08-local-build.md). It used a local `temp/arduino-cli.yaml`, `temp/arduino-data`, `temp/bundled/libraries` and `temp/build/docs-verify`; those paths are workspace-local and are not committed.
 
+For a reproducible comparison with the deployed image, set `SOURCE_DATE_EPOCH=1711661163` in the build environment. The actual deployment build (2026-07-23) used that epoch and Arduino CLI 0.35.3; two independent clean builds produced byte-identical `canonical1`/`canonical2` images with SHA-256 `5E4F281421DCE894FED3F03DD9599AF8A690218A85C70B6A5A5DB466748D3D1D`. Without the fixed epoch the ESP8266 core embeds the current time and the hash changes, as the 2026-11-08 build shows.
+
 ### Output and size
 
 The successful build reports:
@@ -100,6 +104,7 @@ Do not mix the two. A full image written at `0x1000` or an app-only image writte
 ## 6. Flashing paths
 
 - **Serial (recommended for recovery):** connect a 3.3 V USB-TTL adapter to the 6-pin header, enter ESP8266 boot mode (typically `FLASH` low + pulse `RST`; verify on the board), and use the flash tool with the full image at `0x0000` or the app-only image at `0x1000`. Capture the complete serial log at 115200.
+- **Actual K4-03 setup:** CP210x on `COM3`; only GND/TX/RX connected; clock powered from its own USB-A supply; no RST/DTR/RTS. GPIO0 was held low and the clock repowered, so esptool used `--before no-reset --after no-reset` and 115200 baud. The write used `--flash-mode keep --flash-freq keep --flash-size keep`, no full-chip erase, then automatic and independent `verify-flash`. See [the K4-03 deployment record](../../evidence/2026-07-23-k4-03-deployment.md).
 - **Arduino OTA:** with `ENABLE_OTA` compiled in, the device appears as a network port; the password is the AP name (`halclock<chipid>`). The device must already be on the same network. OTA progress feeds the watchdog.
 - **Web UI firmware upload:** reported broken in the upstream README. Do not use it as a deployment path until it is reproduced and fixed.
 
@@ -108,9 +113,10 @@ The factory firmware is a **full-flash-style dump** (partial: 4,000,000 bytes), 
 ## 7. Reproducibility findings
 
 - The current source is code-identical to v1.1 (`git diff 7d18e68..HEAD` changes no `.ino`, `.cpp` or `.h`), but the verified build is **485,280 bytes**, while the v1.1 release is **485,248 bytes**.
+- The current source is reproducible with `SOURCE_DATE_EPOCH=1711661163` and Arduino CLI 0.35.3: two clean `canonical` builds were byte-identical (`5E4F…D3D1D`). This is the actual deployed image.
 - All 2026-07-23 variants (`default`, `repro2`, `ide232-cli`, `canonical1`, `canonical2`) produced 485,280-byte full images. The 32-byte difference from v1.1 is **UNKNOWN**; possible causes include core/library patch versions or build flags.
-- Build-path content/length can change the image hash while the size stays the same. Compare hashes only for the same path and toolchain; otherwise compare size, memory report and observed behaviour.
-- The prior session tried Arduino IDE 2.3.2 options with Arduino CLI 0.35.3; 1.5.1 was downloaded but not used. No variant matched the release byte-for-byte. See [2026-07-23 fork build](../../evidence/2026-07-23-fork-build/README.md).
+- Build-path content/length can change the image hash while the size stays the same. Compare hashes only for the same path/toolchain/epoch; otherwise compare size, memory report and observed behaviour.
+- The prior session tried Arduino IDE 2.3.2 options with Arduino CLI 0.35.3; 1.5.1 was downloaded but not used. No variant matched v1.1 byte-for-byte. See [2026-07-23 fork build](../../evidence/2026-07-23-fork-build/README.md).
 
 ## 8. Common failures
 

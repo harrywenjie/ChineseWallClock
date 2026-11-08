@@ -10,6 +10,7 @@ On 2026-07-23 the fork was cloned at upstream `d55188e`, an Arduino toolchain wa
 - Source: `d55188e` (2025-07-25), no fork code changes.
 - Build completed: exit 0; no compiler errors.
 - Full images: 485,280 bytes for every variant.
+- Final deterministic build: `SOURCE_DATE_EPOCH=1711661163`; `canonical1` and `canonical2` produced byte-identical images, SHA-256 `5E4F281421DCE894FED3F03DD9599AF8A690218A85C70B6A5A5DB466748D3D1D`. `canonical1` is the image that was flashed on the K4-03.
 - Release v1.1: 485,248 bytes (32 bytes smaller); exact cause **UNKNOWN**.
 
 ## 2. Environment
@@ -42,7 +43,7 @@ arduino-cli compile --fqbn esp8266:esp8266:d1_mini \
   <repo>
 ```
 
-For the canonical/IDE-like variants, the build options record `build.warn_data_percentage=75`. Do not treat the reconstructed command as an exact replay; use the recorded library versions and the current [build instructions](../../modules/build-and-flash/README.md).
+For the final deterministic build, `SOURCE_DATE_EPOCH=1711661163` was set for the build process. For the canonical/IDE-like variants, the build options record `build.warn_data_percentage=75`. Do not treat the reconstructed command as an exact replay; use the recorded library versions and the current [build instructions](../../modules/build-and-flash/README.md).
 
 ## 4. Variants
 
@@ -51,8 +52,8 @@ For the canonical/IDE-like variants, the build options record `build.warn_data_p
 | default | `temp/build/default` | none | 485,280 B / `e059dada…` | 481,184 B / `8afa2544…` |
 | repro2 | `temp/build/repro2` | none | 485,280 B / `52038606…` | 481,184 B / `06d42a0e…` |
 | ide232-cli | `temp/build/ide232-cli` | `build.warn_data_percentage=75` | 485,280 B / `c935403d…` | — |
-| canonical1 | `temp/build/canonical1` | `build.warn_data_percentage=75` | 485,280 B / `5e4f2814…` | — |
-| canonical2 | `temp/build/canonical2` | `build.warn_data_percentage=75` | 485,280 B / `5e4f2814…` | — |
+| canonical1 | `temp/build/canonical1` | `build.warn_data_percentage=75` | 485,280 B / `5e4f2814…` | Final deterministic build; flashed |
+| canonical2 | `temp/build/canonical2` | `build.warn_data_percentage=75` | 485,280 B / `5e4f2814…` | Repeat with a different build path |
 
 Full hashes and sizes are in [`build-options.tsv`](build-options.tsv) and [`artifacts.sha256`](artifacts.sha256). The app-only image is the full image minus its first 4,096 bytes; it is not a separate firmware.
 
@@ -94,7 +95,7 @@ If the original `temp/` tree is deleted, the build can be recreated from the ven
 
 - The exact commands and the reason for each variant name were not logged; the reconstruction is inferred from build options and logs.
 - The logs contain absolute paths and a Windows user temp path; they are preserved as evidence, not as a portable script.
-- No flash, boot, serial or deployment record is present. A build proves compilation only.
+- This build evidence contains no flash or boot log. The actual K4-03 deployment is recorded in [2026-07-23 K4-03 deployment](../2026-07-23-k4-03-deployment.md); a build alone proves compilation only.
 - No variant matched the v1.1 release. The difference is recorded as **UNKNOWN** in [validation](../../VALIDATION.md#release-rebuild); do not claim byte-identical reproduction.
 - The inherited releases and factory dump are included in the hash manifest for comparison; they are upstream artifacts, not fork outputs.
 

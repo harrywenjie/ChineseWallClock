@@ -6,7 +6,7 @@
 
 Open-source replacement firmware for the **Baiyangshu 1902 Wifi Clock K2 02** (“Chinese Wall Clock”). It replaces the factory firmware with an ESP8266/Arduino firmware that adds a web UI, NTP + DS3231 timekeeping with DST-aware time zones, automatic brightness, Arduino OTA and syslog.
 
-This repository is a fork of [`halacs/wallclock`](https://github.com/halacs/wallclock), maintained at [`harrywenjie/ChineseWallClock`](https://github.com/harrywenjie/ChineseWallClock). The tracked history is upstream history; fork-local operations are documented separately.
+This repository is a fork of [`halacs/wallclock`](https://github.com/halacs/wallclock), maintained at [`harrywenjie/ChineseWallClock`](https://github.com/harrywenjie/ChineseWallClock). The upstream target is the K2-02; this fork's actual unit is a **BAIYANGSHU K4-03**. The tracked source is upstream; fork-local operations and the actual deployment are documented separately.
 
 ![Device](docs/images/device_picture.png)
 
@@ -20,11 +20,12 @@ This repository is a fork of [`halacs/wallclock`](https://github.com/halacs/wall
 - **[Factory firmware](docs/modules/factory-firmware/README.md)** — original 4,000,000-byte dump, extraction command and the factory UI.
 - **[History and provenance](docs/history/README.md)** — upstream baseline vs fork-local operations and the preserved 2026 build evidence.
 - **[Validation](docs/VALIDATION.md)** — what is proven, what is not, and the evidence boundaries.
+- **[Actual K4-03 deployment](docs/evidence/2026-07-23-k4-03-deployment.md)** — the real flash, verification, first boot and configuration record (private identifiers redacted).
 
 ## Releases and hardware files
 
 - [Release binaries](releases/) — inherited v1.0 (2024-03-23) and v1.1 (2024-04-01).
-- [Factory firmware dump](factory_firmware/image4M.bin) — see the caveats in the [factory firmware page](docs/modules/factory-firmware/README.md) before restoring.
+- [Upstream K2-02 factory firmware dump](factory_firmware/image4M.bin) — not a K4-03 recovery image; see the caveats in the [factory firmware page](docs/modules/factory-firmware/README.md).
 - [KiCad schematic](KiCad/schematic.pdf).
 - [Pinned Arduino libraries](libraries/libraries.zip) — the author's backup; see [libraries/README.md](libraries/README.md).
 

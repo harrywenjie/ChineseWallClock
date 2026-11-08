@@ -2,6 +2,8 @@
 
 The firmware is a single Arduino sketch plus four small modules. This page is the reading map and cross-cutting contract; change-specific detail is in the linked topic pages.
 
+The actual fork unit is a K4-03. The software/deployment path (build, flash, verify, boot, config, Wi-Fi preservation) passed; detailed display/RTC/brightness checks are partial. See [the deployment record](../../evidence/2026-07-23-k4-03-deployment.md).
+
 ## 1. Source map
 
 | File | Role | Read when |

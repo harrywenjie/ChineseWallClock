@@ -100,7 +100,26 @@ When adding or changing a configuration field:
 4. Update this page and the entry's current snapshot if behaviour changes.
 5. Test: fresh boot defaults, save, power-cycle persistence, maximum-length values, corrupt JSON, and the relevant display/network effect.
 
-## 9. UI reference
+## 9. Observed K4-03 configuration
+
+The actual fork unit first booted with no `/halclock.conf`, so it used defaults: `Europe/Budapest`, `hu.pool.ntp.org`, device name `HalClock`, clever `1`, second blinking `0`, brightness `255`, leading zeros `1`, auto brightness `1`.
+
+The portal was then used to save:
+
+| Field | Value |
+|---|---|
+| NTP server | `nz.pool.ntp.org` |
+| Timezone | `Pacific/Auckland` |
+| Syslog server | empty (disabled) |
+| Second blinking | on |
+| Clever numbering | on |
+| Leading zeros | on |
+| Auto brightness | on |
+| Brightness | 255 |
+
+The serial echo showed `clever` missing from the JSON because of the defect in §6; the saved file still loaded correctly with the default `true`. Syslog is UDP 514; an empty server disables the client. Wi-Fi credentials are not in `/halclock.conf`; they live in the ESP8266 SDK flash region and were preserved by the sketch-only flash. See [the deployment record](../../evidence/2026-07-23-k4-03-deployment.md).
+
+## 10. UI reference
 
 These inherited upstream screenshots show the intended portal layout and a real deployment of the upstream firmware. They are reference media, not fork deployment evidence; values are examples, not defaults. Network identifiers are deliberately not transcribed.
 
@@ -108,7 +127,7 @@ These inherited upstream screenshots show the intended portal layout and a real 
 - [Setup page](../../images/setup_page.png) — the configuration fields and checkboxes.
 - [WiFi page](../../images/wifi.png) — SSID/password form, scan and refresh.
 
-## 10. Test checklist
+## 11. Test checklist
 
 - Fresh boot with no `/halclock.conf` shows the documented defaults.
 - Each field survives save + reboot; specifically test `clever` and `leading_zeros`.
