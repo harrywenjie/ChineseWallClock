@@ -58,4 +58,4 @@
 - Keep the private K4-03 backup offline; verify its hash before any restore.
 - Do not treat the upstream K2-02 factory image as a K4-03 restore image.
 - **Next task:** `VAL-2026-11` — hardware checklist on the deployed unit; this is a record, not execution authorisation.
-- **Delivery:** committed as `46e61c5` and pushed to `origin/master` on 2026-11-08.
+- **Delivery:** the deployment record was committed as `ec6507f` and pushed to `origin/master` on 2026-11-08; this delivery note was corrected in a follow-up commit.
