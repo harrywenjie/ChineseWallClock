@@ -2,7 +2,7 @@
 
 固件是一个 Arduino sketch 加四个小 module。本页是阅读导航和横切合同；具体改动看链接的专题页。
 
-本 fork 的实际机器是 K4-03。software/deployment 路径（build、flash、verify、boot、config、Wi-Fi 复用）已通过；display/RTC 细节和自动亮度根因仍为 partial。见 [deployment record](../../evidence/2026-07-23-k4-03-deployment.md)。
+本 fork 的实际机器是两台 K4-03。software/deployment 路径（build、flash、verify、boot、config、Wi-Fi 复用）已通过；第二台另有 flash/verify/boot/Web UI 和手动配置后的人工反馈。display/RTC 细节和自动亮度根因仍为 partial。见 [deployment record](../../evidence/2026-07-23-k4-03-deployment.md) 和 [第二台记录](../../evidence/2026-11-11-k4-03-second-unit-deployment.md)。
 
 ## 1. 源码映射
 

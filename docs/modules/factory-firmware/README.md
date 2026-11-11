@@ -1,6 +1,6 @@
 # 原厂固件与原厂 UI
 
-本页记录 inherited upstream factory-firmware backup、实际 K4-03 per-unit backup、upstream image 的提取方式，以及原厂固件 UI。upstream image **不是** K4-03 恢复镜像。
+本页记录 inherited upstream factory-firmware backup、两台 K4-03 per-unit backup、upstream image 的提取方式，以及原厂固件 UI。upstream image **不是** K4-03 恢复镜像。
 
 ## 1. 备份文件
 
@@ -15,29 +15,27 @@
 
 完整 4 MiB flash 是 `0x400000` = 4,194,304 bytes；这个文件少 194,304 bytes。不要恢复到另一台时钟。
 
-### 实际 K4-03 per-unit 备份（本 fork）
+### 两台 K4-03 per-unit 备份（本 fork）
 
-实际机器是 **K4-03**，不是 upstream K2-02。刷写前原厂 flash 被读取两次：
+两台实际机器都是 **K4-03**，不是 upstream K2-02。每台刷写前都把原厂 flash 完整读取两次：
 
-| 属性 | 值 |
-|---|---|
-| 大小（每个） | **4,194,304 bytes**（`0x400000`） |
-| SHA-256（两份） | `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E` |
-| 文件 | 历史 `_1`/`_2`；当前 `K4-03_FACTORY_VERIFIED.bin`（私有） |
-| 校验 | 两次读取一致，记录为 `BACKUP VERIFIED` |
+| 机器 | 大小（每个） | SHA-256（两份一致） | 私有 verified 文件 |
+|---|---:|---|---|
+| #1（2026-07-23） | **4,194,304 bytes** | `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E` | `K4-03_FACTORY_VERIFIED.bin` |
+| #2（2026-11-11） | **4,194,304 bytes** | `5F90B7900C5A60232E7E4CC85EA197451F6B05AAFA89588ECE4A7FD75CE2C01D` | `K4-03-new_FACTORY_VERIFIED.bin` |
 
-它包含已保存的 ESP8266 SDK Wi-Fi 配置（SSID 已在 SDK 区确认）。绝不能 commit、复制进 `temp/`、作为 issue 附件或公开分享。只能从这个 per-unit backup 恢复，不能用 `factory_firmware/image4M.bin`。见 [backup manifest](../../evidence/2026-07-23-k4-03-backup-manifest.md)。
+两份 backup 都包含已保存的 ESP8266 SDK Wi-Fi 配置，属于 unit-specific 数据。绝不能 commit、复制进 `temp/`、作为 issue 附件或公开分享。只能从**对应机器**的 per-unit backup 恢复，不能用 `factory_firmware/image4M.bin`，也不能用另一台 K4-03 的 image。见 [首台 manifest](../../evidence/2026-07-23-k4-03-backup-manifest.md) 和 [第二台记录](../../evidence/2026-11-11-k4-03-second-unit-deployment.md)。
 
-恢复命令（完整 4 MB 写到 `0x000000`）：
+恢复命令（完整 4 MB 写到 `0x000000`，只用于对应 unit）：
 
 ```powershell
 py -m esptool --chip esp8266 --port COM3 --baud 115200 `
   --before no-reset --after no-reset `
   write-flash 0x000000 `
-  <private-backup-dir>\K4-03_FACTORY_VERIFIED.bin
+  <private-backup-dir>\<unit-FACTORY_VERIFIED.bin>
 ```
 
-没有重新校验 hash 和明确批准，不要执行。见 [deployment record](../../evidence/2026-07-23-k4-03-deployment.md)。
+`#1` 用 `K4-03_FACTORY_VERIFIED.bin`，`#2` 用 `K4-03-new_FACTORY_VERIFIED.bin`；不要交叉。没有重新校验 hash 和明确批准，不要执行。见 [首台 deployment record](../../evidence/2026-07-23-k4-03-deployment.md) 和 [第二台 deployment record](../../evidence/2026-11-11-k4-03-second-unit-deployment.md)。
 
 ## 2. 它是怎么提取的
 
@@ -100,4 +98,4 @@ upstream README 的理由：
 
 ## 7. 来源
 
-Inherited upstream 资产加 K4-03 backup；没有 fork factory-firmware 修改。2024-03-14 截图是 upstream 提取，不是 fork 部署。实际 K4-03 部署见 [deployment](../../evidence/2026-07-23-k4-03-deployment.md)。
+Inherited upstream 资产加两台 K4-03 per-unit backup；没有 fork factory-firmware 修改。2024-03-14 截图是 upstream 提取，不是 fork 部署。实际 K4-03 部署见 [首台](../../evidence/2026-07-23-k4-03-deployment.md) 和 [第二台](../../evidence/2026-11-11-k4-03-second-unit-deployment.md)。

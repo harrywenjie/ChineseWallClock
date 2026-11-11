@@ -106,7 +106,7 @@ IRAM 是紧张资源。每次改动都重跑 size report；小功能也可能先
 ## 6. 刷写路径
 
 - **Serial（恢复首选）：** 3.3 V USB-TTL 接 6-pin header，进 ESP8266 boot mode（通常 `FLASH` low + pulse `RST`；以板子为准），完整 image 写 `0x0000` 或 app-only 写 `0x1000`。115200 捕获完整 serial log。
-- **实际 K4-03：** CP210x 在 `COM3`；只接 GND/TX/RX；时钟自己 USB-A 供电；没有 RST/DTR/RTS。GPIO0 拉低后重新上电，所以 esptool 用 `--before no-reset --after no-reset`、115200 baud。写入用 `--flash-mode keep --flash-freq keep --flash-size keep`，不做 full-chip erase，然后自动 + 独立 `verify-flash`。见 [K4-03 deployment](../../evidence/2026-07-23-k4-03-deployment.md)。
+- **首台 K4-03：** CP210x 在 `COM3`；只接 GND/TX/RX；时钟自己 USB-A 供电；没有 RST/DTR/RTS。GPIO0 拉低后重新上电，所以 esptool 用 `--before no-reset --after no-reset`、115200 baud。写入用 `--flash-mode keep --flash-freq keep --flash-size keep`，不做 full-chip erase，然后自动 + 独立 `verify-flash`。见 [K4-03 deployment](../../evidence/2026-07-23-k4-03-deployment.md)。
 - **Arduino OTA：** 定义 `ENABLE_OTA` 时，设备出现在 network port；password 是 AP 名（`halclock<chipid>`）。设备必须已在同一网络。OTA progress 会喂 watchdog。
 - **Web UI firmware upload：** upstream README 报告 broken。复现并修好前，不要作为部署路径。
 

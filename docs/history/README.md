@@ -16,15 +16,16 @@
 | Fork 提交 | 只有文档提交；没有固件源码变更 |
 | Upstream 分叉 | upstream 有 2026-09-05 push 的新提交，本 fork 未 merge |
 
-Tracked source 是 upstream 工作。`releases/`、`factory_firmware/`、`docs/images/`、`docs/display/`、`docs/datasheets/`、`KiCad/` 是 inherited 资产。fork 本地 build 工作原在 `temp/`，保留部分在 [`docs/evidence/2026-07-23-fork-build/`](../evidence/2026-07-23-fork-build/README.md)。`temp/` 可整体删除；重建见 [toolchain setup](../modules/build-and-flash/toolchain-setup.md)，脚本在 [`scripts/`](../../scripts/README.md)。实际 K4-03 部署单独记录在 [`docs/evidence/2026-07-23-k4-03-deployment.md`](../evidence/2026-07-23-k4-03-deployment.md)。
+Tracked source 是 upstream 工作。`releases/`、`factory_firmware/`、`docs/images/`、`docs/display/`、`docs/datasheets/`、`KiCad/` 是 inherited 资产。fork 本地 build 工作原在 `temp/`，保留部分在 [`docs/evidence/2026-07-23-fork-build/`](../evidence/2026-07-23-fork-build/README.md)。`temp/` 可整体删除；重建见 [toolchain setup](../modules/build-and-flash/toolchain-setup.md)，脚本在 [`scripts/`](../../scripts/README.md)。两台 K4-03 部署分别记录在 [`2026-07-23`](../evidence/2026-07-23-k4-03-deployment.md) 和 [`2026-11-11`](../evidence/2026-11-11-k4-03-second-unit-deployment.md)。
 
 ## 2. 索引
 
 | 页面 | 内容 | 何时读 |
 |---|---|---|
-| [Fork operations](fork-operations.md) | 2026-07-23 build/deployment 和 2026-11-08 文档轮 | 重建 fork 实际做过什么 |
+| [Fork operations](fork-operations.md) | 2026-07-23 build/首台部署、2026-11-08 文档轮、2026-11-11 第二台部署 | 重建 fork 实际做过什么 |
 | [2026-07-23 build evidence](../evidence/2026-07-23-fork-build/README.md) | tool 版本、build 变体、artifact、log | 审计 fork build |
 | [2026-07-23 K4-03 deployment](../evidence/2026-07-23-k4-03-deployment.md) | 实际 flash、verify、首次 boot、config、Wi-Fi 保留 | 复现或审计部署 |
+| [2026-11-11 第二台 K4-03 deployment](../evidence/2026-11-11-k4-03-second-unit-deployment.md) | 第二台 per-unit backup、flash、verify、boot/Web UI、manual feedback | 复现或审计第二台部署 |
 | [2026-07-23 hardware preparation](../evidence/2026-07-23-k4-03-hardware-preparation.md) | 焊接、串口/GND 排查、针脚确认、下载模式 | 准备另一台机器 |
 | [2026-07-23 backup manifest](../evidence/2026-07-23-k4-03-backup-manifest.md) | 私有 full-flash backup、内容检查、restore 预案 | 恢复或讨论 backup 前 |
 | [2026-11-08 local build](../evidence/2026-11-08-local-build.md) | 当前 compile 验证 | 检查最新 build |
@@ -35,8 +36,8 @@ Tracked source 是 upstream 工作。`releases/`、`factory_firmware/`、`docs/i
 
 - upstream 截图展示的是 upstream 固件的一次部署，**不是**本 fork 机器、image 或配置的证据。
 - 2024 release binaries 和 factory dump 早于 2026 fork；它们在 fork 里不代表 fork build 或部署过。
-- 2026-07-23 build 证明 fork 能编译 upstream 源码；flash、boot、部署由单独的 [K4-03 deployment](../evidence/2026-07-23-k4-03-deployment.md) 记录；两者都不证明完整 hardware compatibility。
-- 实际部署是一台 K4-03，不证明 K2-02/K4-03 等价，也不关闭 `docs/DEVELOPMENT.md` §5 中未测的 display/RTC/brightness 项。
+- 2026-07-23 build 证明 fork 能编译 upstream 源码；首台 flash/boot/部署由 [K4-03 deployment](../evidence/2026-07-23-k4-03-deployment.md) 记录，第二台由 [second-unit deployment](../evidence/2026-11-11-k4-03-second-unit-deployment.md) 记录；这些记录都不证明完整 hardware compatibility。
+- 实际部署是两台 K4-03；一台成功不证明所有 K4-03 revision 相同，也不关闭 `docs/DEVELOPMENT.md` §5 中未测的 display/RTC/brightness 项。第二台只有手动配置后的人工反馈。
 
 ## 4. 历史维护
 

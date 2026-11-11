@@ -70,3 +70,5 @@ py -m esptool --chip esp8266 --port COM3 --baud 115200 `
 - [K4-03 hardware preparation](2026-07-23-k4-03-hardware-preparation.md)
 - [Factory firmware](../modules/factory-firmware/README.md)
 - [Deployment runbook](../modules/deployment/README.md)
+
+第二台 K4-03 也有独立的 per-unit backup（SHA-256 `5F90…C01D`）；见 [2026-11-11 second-unit deployment](2026-11-11-k4-03-second-unit-deployment.md)。两台 backup 不能交叉使用。

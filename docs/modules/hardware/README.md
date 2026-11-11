@@ -1,10 +1,10 @@
 # 硬件
 
-本页记录时钟硬件和打开、编程、恢复所需的物理接口。upstream 目标是 **K2-02**；本 fork 实际机器是 **K4-03**。部署记录：[2026-07-23 K4-03](../../evidence/2026-07-23-k4-03-deployment.md)。
+本页记录时钟硬件和打开、编程、恢复所需的物理接口。upstream 目标是 **K2-02**；本 fork 实际机器是两台 **K4-03**。部署记录：[首台 2026-07-23](../../evidence/2026-07-23-k4-03-deployment.md)、[第二台 2026-11-11](../../evidence/2026-11-11-k4-03-second-unit-deployment.md)。
 
 ## 1. 设备差异
 
-upstream 板是 Baiyangshu 1902 Wifi Clock **K2-02**。实际 fork 机器是 **K4-03**：ESP8266EX、26 MHz crystal、**4 MB flash**、`COM3` 上的 CP210x USB-UART。两者都是四位 LED 时钟，都有 4 片 74HC595D 和 DS3231，但电气等价性**未证明**。upstream KiCad schematic [`KiCad/schematic.pdf`](../../../KiCad/schematic.pdf) 是 K2-02 参考，不是 K4-03 保证。
+upstream 板是 Baiyangshu 1902 Wifi Clock **K2-02**。实际 fork 机器是两台 **K4-03**：ESP8266EX、26 MHz crystal、**4 MB flash**、`COM3` 上的 CP210x USB-UART。两者都是四位 LED 时钟，都有 4 片 74HC595D 和 DS3231，但电气等价性**未证明**。upstream KiCad schematic [`KiCad/schematic.pdf`](../../../KiCad/schematic.pdf) 是 K2-02 参考，不是 K4-03 保证。
 
 ![设备](../../images/device_picture.png)
 
@@ -24,7 +24,7 @@ ESP 用四个 GPIO 控制 shift register chain，用 OE PWM 控制亮度；DS323
 
 ## 3. 编程 header 与 UART
 
-实际 K4-03 header：
+首台 K4-03 header：
 
 | Pin | Signal | 说明 |
 |---|---|---|
@@ -39,6 +39,8 @@ upstream README 的顺序相同（`RDX0` 是 `RXD0` 的笔误），并说第六�
 ![编程接口](../../images/programming_interface.jpg)
 
 实际接线：CP210x `GND` → board `GND`；clock TX → CP210x RXD；clock RX ← CP210x TXD；CP210x `+5V`/`3V3` 不接；时钟用自己的 USB-A 供电。CP210x `RST`/`DTR`/`RTS` 不接，所以没有自动 reset。Boot mode：GPIO0 → GND，然后重新上电；esptool 需要 `--before no-reset --after no-reset`。
+
+第二台同型号 K4-03 于 **2026-11-11** 完成刷写；操作按同一 pin 1 `FLASH`/pin 3 `GND` 和 4/5 serial pair，未重新做逐针通断表，4/5 的 TX/RX 方向仍未文字分配。该次实际使用 CP210x 5V 单电源，不是首台的自身 USB-A，见 [第二台记录](../../evidence/2026-11-11-k4-03-second-unit-deployment.md) 的 caveat。
 
 注意：
 
@@ -86,6 +88,6 @@ K4-03 初次 boot 和目视正常，但详细 segment/ghosting/秒点测试未�
 
 ## 7. 已知与未知
 
-- 已知：K4-03、ESP8266EX、26 MHz、4 MB、`COM3` 上的 CP210x；完整 4,194,304-byte per-unit backup，SHA-256 `59FC…E37E`，私有保存。它包含已保存的 Wi-Fi 配置，不得进入 Git。
+- 已知：两台 K4-03、ESP8266EX、26 MHz、4 MB、`COM3` 上的 CP210x；每台各有完整 4,194,304-byte per-unit backup：#1 SHA-256 `59FC…E37E`，#2 `5F90…C01D`。都私有保存，含已保存的 Wi-Fi 配置，不得进入 Git，也不得交叉使用。
 - upstream `factory_firmware/image4M.bin` 是 4,000,000-byte K2-02 dump，**不是** K4-03 恢复镜像。
 - 未知：K2-02 与 K4-03 电气差异、光敏 polarity/response、K4-03 display mapping 细节、DS3231 detection log、蓝灯行为（固件不控制）。

@@ -1,6 +1,6 @@
 # 部署 Runbook
 
-这是把固件装到类似 Baiyangshu 时钟上的可复现流程，加上实际 **K4-03** 于 2026-07-23 的部署记录。内容来自 inherited upstream 硬件证据、fork build 记录和 [脱敏部署记录](../../evidence/2026-07-23-k4-03-deployment.md)。
+这是把固件装到类似 Baiyangshu 时钟上的可复现流程，加上两台实际 **K4-03**（2026-07-23、2026-11-11）的部署记录。内容来自 inherited upstream 硬件证据、fork build 记录和脱敏部署记录。
 
 目标是可重复部署，带 per-unit backup 和完整记录。私有标识（MAC、SSID、LAN IP、AP suffix、backup path）不写入仓库；放在私有部署笔记里。
 
@@ -12,7 +12,7 @@
 - 准备 backup 和 log 存储。私有标识（SSID、LAN、MAC、AP suffix、syslog host、backup path）不要进公开仓库。
 - 不要一上来就 flash。先做 **read-only backup**，verify，再写。
 
-### 已记录部署（2026-07-23，K4-03）
+### 已记录部署：首台（2026-07-23）
 
 | 项目 | 实际值 |
 |---|---|
@@ -26,6 +26,8 @@
 | 结果 | `Hash of data verified`；独立 `verify-flash` 通过；boot、config、Wi-Fi 复用、AP 关闭、断网恢复通过；自动亮度偏暗，已用固定亮度 |
 
 完整记录（含脱敏 boot log 和确切命令）见 [2026-07-23 K4-03 deployment](../../evidence/2026-07-23-k4-03-deployment.md)。硬件准备和串口排障见 [hardware preparation](../../evidence/2026-07-23-k4-03-hardware-preparation.md)；私有 backup 政策见 [backup manifest](../../evidence/2026-07-23-k4-03-backup-manifest.md)。
+
+第二台同型号 K4-03 于 **2026-11-11** 用同一 image 刷写：两次完整 4 MiB backup SHA-256 `5F90…C01D`，write/verify PASS，boot/Web UI PASS，maintainer 手动配置后反馈正常。该次实际使用 CP210x 5V 单电源（见记录 caveat）。完整记录见 [2026-11-11 第二台 K4-03 deployment](../../evidence/2026-11-11-k4-03-second-unit-deployment.md)。
 
 <a id="record-template"></a>
 

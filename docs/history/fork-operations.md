@@ -1,8 +1,8 @@
 # Fork 操作记录
 
-本页记录 fork 在 clone 之后实际做了什么。Tracked source 没有 fork 改动；fork 提交只有文档。Fork 本地证据包括被忽略的 `temp/` build 记录和用户提供的 Codex 部署记录，整理后放 `docs/evidence/`。`temp/` 是一次性环境，删除后按 [toolchain setup](../modules/build-and-flash/toolchain-setup.md) 重建，仓库脚本在 [`scripts/`](../../scripts/README.md)。
+本页记录 fork 在 clone 之后实际做了什么。Tracked source 没有 fork 改动；fork 提交只有文档。Fork 本地证据包括被忽略的 `temp/` build 记录和用户提供的 Codex/现场部署记录，整理后放 `docs/evidence/`。2026-07-23 首台和 2026-11-11 第二台 K4-03 的部署记录都在 `docs/evidence/`。`temp/` 是一次性环境，删除后按 [toolchain setup](../modules/build-and-flash/toolchain-setup.md) 重建，仓库脚本在 [`scripts/`](../../scripts/README.md)。
 
-时间是 workspace local time（2026 年 7 月为 UTC+12），根据 clone reflog、文件 mtime 和聊天片段重建。不是正式 session log；部署日期由 maintainer 确认为 **2026-07-23**。
+时间是 workspace local time（2026 年 7 月 UTC+12，2026 年 11 月 UTC+13），根据 clone reflog、文件 mtime 和聊天片段重建。不是正式 session log；两次部署日期由 maintainer 确认为 **2026-07-23** 和 **2026-11-11**。
 
 ## 1. 时间线
 
@@ -18,13 +18,14 @@
 | 2026-07-23 14:34 | `canonical1`、`canonical2` deterministic build | `temp/build/canonical1/`、`temp/build/canonical2/`、`temp/logs/build-canonical-ide232-cli.log` |
 | 2026-07-23 ~14:34–14:52 | 刷前 hash 检查和批准；`0x000000` flash；自动 + 独立 verify；首次 boot；改配置；第二次 boot（chat 只显示 14:52，精确时间未记录） | [K4-03 deployment](../evidence/2026-07-23-k4-03-deployment.md) |
 | 2026-11-08 | 文档迁移、部署记录和本地 compile 验证 | `docs/`、`docs/evidence/` |
+| 2026-11-11 | 第二台 K4-03：两次完整 4 MiB factory backup；`0x000000` flash；自动 + 独立 verify；boot/Web UI；maintainer 手动配置后反馈正常 | [第二台 deployment](../evidence/2026-11-11-k4-03-second-unit-deployment.md) |
 
 ## 2. Fork 本地变更与 setup
 
 Tracked firmware source 没有 fork 改动：build 时复制的 `.cpp` 在去掉生成的 `#line` 后与 upstream 一致，tracked source 仍是 `d55188e`。fork 本地工作是文档，加 `temp/` build 环境和实际部署。下面列出的 `temp/` 路径是 2026-07-23 现场；已确认可由仓库脚本和记录的 URL/hash 重建。
 
-- **实际机器：** BAIYANGSHU **K4-03**，不是 upstream K2-02。ESP8266EX、26 MHz、4 MB。K2-02 schematic 只作接线参考，电气等价性未证明。物理准备和 pin 确认见 [hardware preparation](../evidence/2026-07-23-k4-03-hardware-preparation.md)。
-- **Factory backup：** 完整 4 MiB 读取两次；两份 4,194,304-byte 文件 SHA-256 均为 `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E`。Backup 私有，含已保存的 Wi-Fi 配置（不只是固件），绝不进入 Git。[Backup manifest](../evidence/2026-07-23-k4-03-backup-manifest.md)。
+- **实际机器：** 两台 BAIYANGSHU **K4-03**，不是 upstream K2-02。ESP8266EX、26 MHz、4 MB。K2-02 schematic 只作接线参考，电气等价性未证明。首台物理准备和 pin 确认见 [hardware preparation](../evidence/2026-07-23-k4-03-hardware-preparation.md)。
+- **Factory backup：** 每台单独做完整 4 MiB 读取；#1 两份 4,194,304-byte 文件 SHA-256 均为 `59FC45E91B37DCAD5C4E60E90416E3351D303A7CB8739B791CBD999FDC0CA37E`；#2 两份 SHA-256 均为 `5F90B7900C5A60232E7E4CC85EA197451F6B05AAFA89588ECE4A7FD75CE2C01D`。Backup 私有，含已保存的 Wi-Fi 配置，绝不进入 Git；两台 backup 不得交叉使用。[首台 manifest](../evidence/2026-07-23-k4-03-backup-manifest.md)、[第二台记录](../evidence/2026-11-11-k4-03-second-unit-deployment.md)。
 - **Arduino CLI：** 使用 0.35.3；1.5.1 也下载了。Windows 64-bit archive 在 `temp/downloads/`。
 - **Arduino IDE：** 下载 2.3.2 source archive（`arduino-ide-2.3.2-source.zip`，3,326,414 bytes），用于核对/复现 IDE build options。
 - **ESP8266 core：** `esp8266:esp8266` **3.1.2**，安装在 `temp/arduino-data/packages/esp8266/hardware/esp8266/3.1.2`。
@@ -66,23 +67,26 @@ Size report 对所有 logged variant 相同：RAM 37,404 / 80,192（46 %），IR
 - 只写 `0x000000–0x076FFF`，SDK Wi-Fi 参数区保留。
 - 人工反馈：Wi-Fi 复用、配置 AP 关闭、断网后能自动恢复。自动亮度偏暗；maintainer 改用固定 manual brightness。
 
-这是 **software/deployment pass**，不是完整 hardware compatibility。Display 细节和 auto-brightness 根因仍 partial。
+第二台（2026-11-11）：同一 image；两次完整 4 MiB backup SHA-256 `5F90…C01D`；`0x000000` 写入后自动 + 独立 verify 通过；boot/Web UI PASS；maintainer 手动配置后反馈正常。实际使用 CP210x 5V 单电源，见 [第二台记录](../evidence/2026-11-11-k4-03-second-unit-deployment.md) 的 caveat。
+
+两台都是 **software/deployment pass**，不是完整 hardware compatibility。Display 细节和 auto-brightness 根因仍 partial。
 
 ## 5. 仍缺什么
 
-- 详细 display segment/ghosting、秒点 LED 结果。Maintainer 说设备看起来正常，但没有详细测试记录。
+- 详细 display segment/ghosting、秒点 LED 结果。Maintainer 说设备看起来正常，但没有详细测试记录；第二台也只有手动配置后的人工反馈。
 - Auto-brightness 根因和 A0/PWM 测量。断网恢复是人工报告，RTC-only 路径未分离。
 - 原始 Codex chat log 未提交；公开来源是整理后的记录。私有值（MAC、SSID、LAN IP、AP suffix、backup path）刻意省略。
-- OTA upload、Web UI firmware upload、断网 watchdog、power-cycle persistence、corrupt-config recovery、长期 Wi-Fi 稳定性未验证。
-- K2-02 与 K4-03 电气差异没有文档化；只有 K2-02 schematic 和实际 K4-03 boot 行为。
+- OTA upload、Web UI firmware upload、断网 watchdog、power-cycle persistence、corrupt-config recovery、长期 Wi-Fi 稳定性、第二台 restore 未验证。
+- K2-02 与 K4-03 电气差异没有文档化；只有 K2-02 schematic 和两台 K4-03 的实际 boot 行为。
 
 ## 6. 与 upstream 的关系
 
-Fork tracked source 是 upstream `d55188e`；文档提交不改 firmware。upstream 有 2026-09-05 push 的新 commit，未 merge。2024 release、factory dump、截图是 upstream 资产，不是 fork 操作。实际机器是 K4-03，所以 upstream K2-02 factory image 不是它的恢复镜像。不要把 2026-07-23 K4-03 部署说成 upstream release，也不要把 upstream 截图当作本机证据。
+Fork tracked source 是 upstream `d55188e`；文档提交不改 firmware。upstream 有 2026-09-05 push 的新 commit，未 merge。2024 release、factory dump、截图是 upstream 资产，不是 fork 操作。两台实际机器都是 K4-03，所以 upstream K2-02 factory image 不是它们的恢复镜像。不要把 2026-07-23 或 2026-11-11 的 K4-03 部署说成 upstream release，也不要把 upstream 截图当作本机证据。
 
 ## 7. 保留证据
 
 - [2026-07-23 K4-03 deployment](../evidence/2026-07-23-k4-03-deployment.md) — build、backup、flash、verify、boot log、config。
+- [2026-11-11 第二台 K4-03 deployment](../evidence/2026-11-11-k4-03-second-unit-deployment.md) — per-unit backup、flash、verify、boot/Web UI、manual feedback。
 - [2026-07-23 hardware preparation](../evidence/2026-07-23-k4-03-hardware-preparation.md) — 焊接、串口/GND、pin 确认、auto-brightness 发现。
 - [2026-07-23 backup manifest](../evidence/2026-07-23-k4-03-backup-manifest.md) — 私有 full-flash backup 和 restore plan（原始 image 不在仓库）。
 - [2026-07-23 fork build](../evidence/2026-07-23-fork-build/README.md) — tool 版本、build variant、log、config/script、artifact hash。

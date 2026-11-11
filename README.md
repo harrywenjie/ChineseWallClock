@@ -20,7 +20,8 @@
 - **[原厂固件](docs/modules/factory-firmware/README.md)** — upstream 的 4,000,000-byte dump、提取命令和原厂 UI。
 - **[历史与来源](docs/history/README.md)** — upstream baseline、fork 本地操作和保留的 2026 构建证据。
 - **[验证](docs/VALIDATION.md)** — 已证明什么、未证明什么，以及证据边界。
-- **[实际 K4-03 部署](docs/evidence/2026-07-23-k4-03-deployment.md)** — 真实刷写、校验、首次启动和配置记录（私有标识已脱敏）。
+- **[实际 K4-03 部署](docs/evidence/2026-07-23-k4-03-deployment.md)** — 首台真实刷写、校验、首次启动和配置记录（私有标识已脱敏）。
+- **[第二台 K4-03 部署](docs/evidence/2026-11-11-k4-03-second-unit-deployment.md)** — 2026-11-11 per-unit backup、flash、verify、boot/Web UI（私有标识已脱敏）。
 - **[K4-03 硬件准备](docs/evidence/2026-07-23-k4-03-hardware-preparation.md)** — 焊接、串口/GND 排查、针脚确认和下载模式。
 - **[K4-03 备份清单](docs/evidence/2026-07-23-k4-03-backup-manifest.md)** — 私有 full-flash backup 和恢复预案（原始 image 不在仓库内）。
 
